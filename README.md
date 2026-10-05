@@ -1,15 +1,16 @@
 # Uphill Topology Explorer
 
-**Latest published interface: 1.12.1.** This is the author's newer local release, with a basic three-vertex path at the start of the introduction and shorter explanations. The independently reviewed paper supplement remains the separate, unchanged **1.11.2**.
+**Current published simulator: 1.12.1.** This version starts the introduction with a basic three-vertex path and uses shorter explanations. The earlier independently reviewed **1.11.2** remains available unchanged.
 
 **Author:** Shir Sivroni  
-**Affiliation:** Department of Mathematics and Computer Science, The Open University of Israel  
-**Contact:** shirsivroni@gmail.com  
+**Affiliation:** The Open University of Israel, Raanana, Israel  
+**Correspondence:** shirsi@openu.ac.il  
+**ORCID:** [0009-0000-2597-2824](https://orcid.org/0009-0000-2597-2824)  
 **Associated paper:** Uphill graph topologies and degree-constrained realizations of posets
 
 [Open latest version 1.12.1](https://shir-openu.github.io/uphill-topology-simulator/v1.12.1/) · [Download release v1.12.1](https://github.com/shir-openu/uphill-topology-simulator/releases/tag/v1.12.1)
 
-[Open independently reviewed supplement 1.11.2](https://shir-openu.github.io/uphill-topology-simulator/v1.11.2/) · [Frozen release v1.11.2](https://github.com/shir-openu/uphill-topology-simulator/releases/tag/v1.11.2)
+[Open earlier independently reviewed version 1.11.2](https://shir-openu.github.io/uphill-topology-simulator/v1.11.2/) · [Frozen release v1.11.2](https://github.com/shir-openu/uphill-topology-simulator/releases/tag/v1.11.2)
 
 The root Pages address follows the latest published interface. Use a version-specific link when citing an exact artifact. Version 1.12.1 has not received the independent manuscript-side review of 1.11.2; that earlier signoff does not transfer to this release. The simulator is a separate finite illustration, and its computations and drawings do not prove manuscript theorems. This repository does not contain the manuscript or a journal submission.
 
@@ -33,7 +34,7 @@ SHA256  1481cfc02eef2db0797068707d1286fde649c14868da4eb83148f421f3a57ff0
 Bytes   484229
 ```
 
-The frozen paper-supplement page `v1.11.2/index.html` remains unchanged:
+The earlier frozen page `v1.11.2/index.html` remains unchanged:
 
 ```text
 Version 1.11.2
@@ -42,6 +43,10 @@ Bytes   470984
 ```
 
 ## Reproduce
+
+[Download the current reproducible source package](https://github.com/shir-openu/uphill-topology-simulator/releases/download/v1.12.1/uphill-topology-explorer-v1.12.1-source-publication1.zip) · [Package checksums](https://github.com/shir-openu/uphill-topology-simulator/releases/download/v1.12.1/SHA256SUMS-publication1.txt) · [Publication tag](https://github.com/shir-openu/uphill-topology-simulator/tree/v1.12.1-publication.1)
+
+The `publication1` package updates author/contact information and publication documentation only. The software version remains **1.12.1**; executable HTML, runtime source, build inputs and tests are unchanged. The original v1.12.1 tag and its downloads, and all v1.11.2 artifacts, remain available unchanged.
 
 Node.js is the only build/Node-test requirement; there are no npm dependencies. Node v24.12.0 was used for the fresh publication check.
 
@@ -73,6 +78,6 @@ The public source ZIP is a minimal repackaging of the delivered 1.12.1 archive, 
 
 > Sivroni, Shir. Uphill Topology Explorer, version 1.12.1. 2026. Associated with “Uphill graph topologies and degree-constrained realizations of posets.”
 
-For the independently reviewed paper supplement, cite version 1.11.2 and its version-specific link instead. [CITATION.cff](CITATION.cff) describes the current 1.12.1 software. No DOI is assigned by this repository.
+Cite the exact version used and its version-specific link. [CITATION.cff](CITATION.cff) describes the current 1.12.1 software. The earlier independent review of 1.11.2 applies only to that frozen artifact. No DOI is assigned by this repository.
 
 No software license was documented in either packaged release, and this publication introduces no new license grant. **All rights reserved; licensing awaits the author's choice.** See [RIGHTS.md](RIGHTS.md).

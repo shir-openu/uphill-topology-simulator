@@ -18,6 +18,10 @@ The later **Cancel reading** introductory-tour demonstration can stall in this r
 
 Other browsers, physical touch and screen readers remain unvalidated. Dense layouts and many concentric memberships may need zoom. Open-set listing is bounded and can report an incomplete list; timing-dependent enumeration/download observations are possible. The symbolic infinite gallery has separate explanatory examples, not a proof by finite computation. Finite checks do not prove manuscript theorems. The original v12 manuscript marker remains unchanged provenance.
 
-## Independently reviewed paper supplement remains 1.11.2
+## Earlier independently reviewed version 1.11.2
 
 The separate frozen `v1.11.2/index.html` and existing v1.11.2 tag/release keep SHA256 `5c715e7fad50fbb491e75c2ea01ec39b604f5eec367d6a2efcb8de93e6d43282`. Its independent review is described in `historical-1.11.2/REVIEW_SCOPE.md`. That earlier signoff applies only to 1.11.2, not the current 1.12.1. No manuscript, assessment or journal-submission material is changed by this simulator publication.
+
+## Publication metadata revision
+
+The `v1.12.1-publication.1` package changes author/contact metadata and publication documentation only. All executable HTML, runtime source, build inputs, tests and historical review evidence remain byte-identical to the original v1.12.1 publication. Existing validation applies to the same executable; this metadata revision does not claim a new Node/browser test run or additional independent signoff.
