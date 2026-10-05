@@ -6,7 +6,7 @@ import { countUpsets, Budget, DEFAULT_LIMITS } from './enumeration.js';
 import { recheckRealization, validatePoset } from './poset.js';
 
 export const EXPERIMENT_SCHEMA = 'uphill-experiment/2';
-export const APP_VERSION = '1.11.2';
+export const APP_VERSION = '1.12.1';
 export const KERNEL_VERSION = '1.1.0';
 export const MANUSCRIPT_VERSION = 'UPHILL_MATHEMATICAL_MANUSCRIPT_v12_EDITABLE.html';
 export const MANUSCRIPT_DATE = '2026-09-30';

@@ -65,7 +65,7 @@ test('three through six starts keep every set, overlaps and an isolated start', 
     const selected = ['a', 'b', 'd', 'e', 'island', 'c'].slice(0, count);
     const result = compare(star, mode, 'incident-edges', selected);
     assert.equal(result.anchors.length, count);
-    assert.equal(result.colours[2], '#c2185b'); // User's report61 pink.
+    assert.equal(result.colours[2], '#2563eb'); // Third start stays distinct from wine/pink.
     assert.deepEqual(result.memberships[0], mode === 'weak-patch' ? count === 6 ? [5] : [] : selected.flatMap((id, i) => id === 'island' ? [] : [i]));
   }
 });

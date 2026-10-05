@@ -1,18 +1,23 @@
 {
   "schemaVersion": 1,
-  "dateUtc": "2026-10-05T05:27:25.737911+00:00",
-  "scope": "Fresh reproducibility checks of the minimal public staging tree; no application source or HTML changes. Browser results are documented separately and are not claimed by this report.",
-  "version": "1.11.2",
+  "dateUtc": "2026-10-05T06:14:37.352890+00:00",
+  "scope": "Fresh isolated minimal public staging Node/build checks only. Exact original release preserved; browser validation and independent paper-supplement review have separate scopes.",
+  "version": "1.12.1",
   "nodeVersion": "v24.12.0",
   "platform": "win32",
-  "originalReviewedSourceArchiveSha256": "25c82791ece0ba17de830c63564bf9f5fbf866ad76a5a1a33653d8c2e4b4a3db",
-  "htmlSha256": "5c715e7fad50fbb491e75c2ea01ec39b604f5eec367d6a2efcb8de93e6d43282",
-  "htmlBytes": 470984,
+  "originalDeliveredSourceArchiveSha256": "b72a72cea5a147d250313f5d75c0a2f78fc65a334c1fa0c658a19ced68ce211e",
+  "htmlSha256": "1481cfc02eef2db0797068707d1286fde649c14868da4eb83148f421f3a57ff0",
+  "htmlBytes": 484229,
   "htmlCopies": [
     "dist/index.html",
     "index.html",
-    "v1.11.2/index.html"
+    "v1.12.1/index.html"
   ],
+  "preservedPaperSupplement": {
+    "version": "1.11.2",
+    "path": "v1.11.2/index.html",
+    "sha256": "5c715e7fad50fbb491e75c2ea01ec39b604f5eec367d6a2efcb8de93e6d43282"
+  },
   "build": {
     "command": "node build.mjs",
     "exitCode": 0,
@@ -22,21 +27,21 @@
   "nodeTests": {
     "command": "node --test --test-reporter=tap tests/*.test.mjs",
     "exitCode": 0,
-    "passed": 83,
+    "passed": 88,
     "failed": 0,
-    "total": 83,
+    "total": 88,
     "output": "node-tests.tap"
   },
   "exactArchiveFiles": [
     {
       "path": "build.mjs",
-      "sha256": "25fc79ebd7bf674a6a5b2315e7069ac1ce815a3304b5b2159979449da0d39246",
-      "bytes": 2876
+      "sha256": "3eab9ffd99936ff8d184348d16e9f8da99ec5b7f9b2c8141a7e382aeb79eb14c",
+      "bytes": 2923
     },
     {
       "path": "dist/index.html",
-      "sha256": "5c715e7fad50fbb491e75c2ea01ec39b604f5eec367d6a2efcb8de93e6d43282",
-      "bytes": 470984
+      "sha256": "1481cfc02eef2db0797068707d1286fde649c14868da4eb83148f421f3a57ff0",
+      "bytes": 484229
     },
     {
       "path": "fixtures/acceptance_fixtures_spec_v1.json",
@@ -45,7 +50,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "573338d81afbc24ba9a83bd089aee9fae11ecd4496c5e14dac78369a91d7f5b7",
+      "sha256": "49f3a649849be2eea338728f8c09671854a0bc8aa549517de0ed82c39b5717c3",
       "bytes": 207
     },
     {
@@ -65,7 +70,7 @@
     },
     {
       "path": "src/kernel/serialization.js",
-      "sha256": "fdb81a9ab9b9fae13033bb95d53b5d530cf09841d027bfc9e51b41b58a922915",
+      "sha256": "4c6f2ba367dca1905b7007eeec15127030888d177f9689b777e5abd6755532a3",
       "bytes": 21429
     },
     {
@@ -80,18 +85,23 @@
     },
     {
       "path": "src/ui/app.js",
-      "sha256": "97a5c79ce63879e83edb7e7f69f0e2d60a92182b6b950ff165b99c6562105356",
-      "bytes": 110337
+      "sha256": "717ae53b0149c520287c550bd8750a4fea9e83bb1a83bfbc8c54d87841a1e478",
+      "bytes": 111657
     },
     {
       "path": "src/ui/control-help.js",
-      "sha256": "de4236ab1e59a4de5df8e8ef623fb2f8c013e26a51d15d640d9526e850bdff46",
-      "bytes": 36413
+      "sha256": "8deabafab02150e4c7747dbc4939e2137bbb971200399236b6dc1373de87f7d1",
+      "bytes": 36759
     },
     {
       "path": "src/ui/control-menus.js",
       "sha256": "04c292c2b3f4fb2bed35563b0db2a1c6c39b7a7c63ca629faa0f33cb82076389",
       "bytes": 12876
+    },
+    {
+      "path": "src/ui/degree-layout.js",
+      "sha256": "3ad998bb8ba81b69ddbbe432ad675c3f8f4ac4b209ce8fd94ceb0760c0e4f3c6",
+      "bytes": 2114
     },
     {
       "path": "src/ui/drawing-layout.js",
@@ -115,7 +125,7 @@
     },
     {
       "path": "src/ui/index.template.html",
-      "sha256": "15f287b64ac100c28041b53c1f6a8f5301179caf649b590387aac40e160e917b",
+      "sha256": "f98a2dcf0d8fc3447fd4de270bb1e9f69ac4f6b6e169ef0a618154b429940fa2",
       "bytes": 8431
     },
     {
@@ -125,13 +135,13 @@
     },
     {
       "path": "src/ui/live-tour.js",
-      "sha256": "b31c054e2146c41a8c4171b6f9515a6317b05609ba8d094186438220f418f26d",
-      "bytes": 60633
+      "sha256": "1d644eb7becb5be94d520eefc2f271e530305f27230acb8fb3bdcf2469903107",
+      "bytes": 66173
     },
     {
       "path": "src/ui/neighbourhood-colours.js",
-      "sha256": "564467bda7282ba1fca46b6f369e017ebbda041e8f594b454299e6baf80d6a64",
-      "bytes": 2278
+      "sha256": "b65b3909d864d6705163b24f150851702d19d1fb4306c5325a2dcc17afb68b38",
+      "bytes": 2280
     },
     {
       "path": "src/ui/preset-fan.js",
@@ -145,18 +155,23 @@
     },
     {
       "path": "src/ui/styles.css",
-      "sha256": "5306e237d37970ee0b9515899cdacce2ac180d31bbd7cf50ea0fe4db22923ea3",
-      "bytes": 41049
+      "sha256": "5a7898820ad57cdf3254543333f93283c3aaaceb7e46b0940d65d6540751ad9a",
+      "bytes": 41888
     },
     {
       "path": "src/ui/tour-adapter.js",
-      "sha256": "ce7a7f84e279a7fa273692c603dabe50acf4d78de5090487d9b98081d6603441",
-      "bytes": 12333
+      "sha256": "762e13136c3c60d5ab8c8355ec5311ece8a9d2d72b69d23ae5082379ef94ff2f",
+      "bytes": 13131
     },
     {
       "path": "src/ui/visual-explainer.js",
-      "sha256": "24498a2b894aa883a8e9730116c08d55a83ab2d0f1931763d7e9fb5828038e94",
-      "bytes": 32520
+      "sha256": "d8df6582b3d2bf933a61f4f3e76a15498996eb5577326ba11bed48a44b94a2eb",
+      "bytes": 34915
+    },
+    {
+      "path": "tests/degree_layout.test.mjs",
+      "sha256": "8d898aa7ccca2a55d1d2a0f3dee180d4957cb2d895680165e385f4d81f0aa9b1",
+      "bytes": 6472
     },
     {
       "path": "tests/e2e_acceptance.py",
@@ -190,8 +205,8 @@
     },
     {
       "path": "tests/neighbourhood_multisets.test.mjs",
-      "sha256": "4fb62e08c5e5f39144855adfbb934cb592733e448bf0a1290bf92449b996221d",
-      "bytes": 6190
+      "sha256": "ed468feaa330405ed8c92e14206780a5b127980b509a20f6cc1ce2e8da8b15d3",
+      "bytes": 6211
     },
     {
       "path": "tests/oracle.test.mjs",
@@ -229,15 +244,10 @@
       "bytes": 1871
     }
   ],
-  "publicFixtureChange": "Only unrelated metadata removed from tests/manuscript_reference_evidence.json; complete karate34 golden object retained exactly.",
-  "dependencies": {
-    "runtime": "None",
-    "nodeTests": "Node.js built-in test runner only",
-    "optionalBrowserTests": "Python 3, installed Chromium-based browser, websocket-client==1.9.0"
-  },
+  "publicFixtureChange": "Only unrelated metadata removed; complete karate34 object unchanged.",
   "limitations": [
-    "These finite tests do not prove the manuscript theorems.",
-    "No new browser, physical touch or accessibility validation is implied by this Node/build report.",
-    "Public staging intentionally omits old checkpoints, private monitor captures, conversations, local coordination and the full historical validation archive."
+    "Known later Cancel-reading introduction stall remains in this release; Stop intro exits the tour.",
+    "Independent manuscript-side 1.11.2 signoff does not apply to 1.12.1.",
+    "Finite tests do not prove manuscript theorems; no complete-tour, physical-touch, screen-reader or other-browser validation claimed."
   ]
 }

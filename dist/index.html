@@ -109,7 +109,7 @@ body[data-workspace="explore"] .graph-heading{margin-bottom:10px}
 .eyebrow{display:none}
 .playground-stage{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px;align-items:start}
 .graph-display{position:relative;min-width:0}
-body[data-workspace="explore"] .graph-display{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"tools" "hint" "reading" "drawing"}
+body[data-workspace="explore"] .graph-display{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"tools" "hint" "drawing" "reading"}
 body[data-workspace="explore"] .graph-display>.interaction-row{grid-area:tools}
 body[data-workspace="explore"] .graph-display>#toolhint{grid-area:hint}
 body[data-workspace="explore"] .graph-display>#canvas-reading{grid-area:reading}
@@ -126,7 +126,7 @@ body[data-workspace="explore"] .graph-display>#graph{grid-area:drawing}
 .hint{font-size:17px;color:var(--ink);margin:8px 0 12px;padding:10px 13px;background:var(--aqua);border-radius:9px}
 body[data-workspace="explore"] #toolhint{display:none}
 body[data-workspace="explore"] .graph-display:has([data-tool="add-edge"][aria-pressed="true"]) #toolhint,body[data-workspace="explore"] .graph-display:has([data-tool="add-vertex"][aria-pressed="true"]) #toolhint{display:block}
-.canvas-reading{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 15px;margin-bottom:10px;font-size:18px;line-height:1.5;color:var(--ink)}
+.canvas-reading{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 15px;margin:10px 0 0;font-size:18px;line-height:1.5;color:var(--ink)}
 .canvas-reading:empty{display:none}
 .canvas-reading p{margin:0 0 9px}.canvas-reading p:last-child{margin-bottom:0}
 .canvas-reading strong{font-weight:750}
@@ -449,6 +449,12 @@ body[data-workspace="explore"] .graph-pane.viewport-expanded .graph-display>.vie
 @media print{.control-menu-list,#preset-gallery.preset-fan{display:none!important}}
 .control-menu-group{display:flex;flex-direction:column;gap:4px}.control-menu-group+.control-menu-group{margin-top:7px;padding-top:7px;border-top:1px solid var(--line)}
 .control-menu-group-label{padding:6px 13px 4px;font-size:14px;line-height:1.25;font-weight:750;color:var(--violet);letter-spacing:.025em}
+
+/* Each overlap key repeats the original neighbourhood colours. */
+.story-region-key .region-rings{display:inline-block;flex:0 0 20px;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#332338 0 29%,#147f87 30% 48%,#332338 49% 54%,#86264f 55% 82%,transparent 83%)}
+.story-region-key .region-exterior::before,.story-region-key .region-boundary::before{content:"";display:inline-block;width:18px;height:18px;border:1px solid #b6a9b5;border-radius:5px}
+.story-region-key .region-exterior::before{background:#faf3f8}.story-region-key .region-boundary::before{background:repeating-linear-gradient(45deg,#c44591 0 2px,#fbe3f7 2px 6px)}
+body[data-theme="dark"] .story-region-key .region-exterior::before{background:#26324b;border-color:#91a2c0}
 </style>
 </head>
 <body data-workspace="explore" data-theme="dark">
@@ -482,8 +488,8 @@ body[data-workspace="explore"] .graph-pane.viewport-expanded .graph-display>.vie
       <div class="pane graph-display">
         <div class="interaction-row"><div class="tools primary-tools" role="toolbar" aria-label="graph tools"><button data-tool="select" aria-pressed="true">Select vertices</button><button data-tool="neighbourhood" aria-pressed="false">Explore neighbourhoods</button><button data-tool="add-vertex" aria-pressed="false">Add vertex</button><button data-tool="add-edge" aria-pressed="false">Add edge</button></div><button class="clear-action" data-act="clearA">Clear selection</button></div>
         <div id="toolhint" class="hint" role="note"></div>
-        <div id="canvas-reading" class="canvas-reading" role="status" aria-live="polite"></div>
         <div id="graph" class="canvas"></div>
+        <div id="canvas-reading" class="canvas-reading" role="status" aria-live="polite"></div>
       </div>
       <section id="graph-story" class="graph-story" aria-label="Visual explanation">
         <div class="story-heading"><h3>Point &amp; neighbourhood</h3><button id="story-replay" class="story-action" aria-pressed="false">Show construction steps</button><p class="construction-hint">Optional. The full open sets are already shown.</p></div>
@@ -507,7 +513,7 @@ body[data-workspace="explore"] .graph-pane.viewport-expanded .graph-display>.vie
   <section class="pane insp-pane workbench-only" aria-labelledby="ih"><div class="pane-heading"><h2 id="ih">Inspector</h2><span class="pane-kicker">Selected set A</span></div><div id="insp"></div></section>
 </main>
 <section class="lower workbench-only" aria-label="details"><div id="tabs" role="tablist"></div><div id="tabbody" role="tabpanel"></div></section>
-<footer class="muted"><span>Uphill Topology Explorer <span id="app-version">1.11.2</span></span><span>Works offline · Your graph stays here</span><span class="workbench-only">Kernel verified against specification fixtures and an independent oracle (see TEST_REPORT.md).</span></footer>
+<footer class="muted"><span>Uphill Topology Explorer <span id="app-version">1.12.1</span></span><span>Works offline · Your graph stays here</span><span class="workbench-only">Kernel verified against specification fixtures and an independent oracle (see TEST_REPORT.md).</span></footer>
 <script id="kernel-src">// ---- src/kernel/graph.js
 // Uphill Topology Explorer - graph input, validation and degree statistics.
 // Spec: UPHILL_CLAUDE_CODE_SIMULATOR_SPEC_v1_2026-09-30, sections 03, 07, 11.
@@ -1332,7 +1338,7 @@ function components(g) {
 
 
 const EXPERIMENT_SCHEMA = 'uphill-experiment/2';
-const APP_VERSION = '1.11.2';
+const APP_VERSION = '1.12.1';
 const KERNEL_VERSION = '1.1.0';
 const MANUSCRIPT_VERSION = 'UPHILL_MATHEMATICAL_MANUSCRIPT_v12_EDITABLE.html';
 const MANUSCRIPT_DATE = '2026-09-30';
@@ -2616,6 +2622,46 @@ function installGraphDetails(getState, root = document) {
   return installation.controls;
 }
 
+
+// A drawing-only arrangement for the finite introductory examples. The caller
+// supplies the current model's recomputed degree statistic, indexed by node.
+// Edges, neighbourhoods, selection and the old positions remain untouched.
+// Equal degrees share a row; preserve their previous left-to-right order so
+// the transition remains easy to follow. This does not promise uncrossed edges.
+function degreeRowLayout(graph, degree, previousLayout = graph.layout) {
+  if (degree.length !== graph.nodes.length || [...degree].some(value => !Number.isInteger(value) || value < 0)) {
+    throw new TypeError('Degree rows require one non-negative integer statistic per vertex.');
+  }
+  if (!graph.nodes.length) return {};
+
+  const groups = new Map();
+  graph.nodes.forEach((node, index) => {
+    if (!groups.has(degree[index])) groups.set(degree[index], []);
+    groups.get(degree[index]).push(node);
+  });
+  const rows = [...groups.entries()].sort((left, right) => right[0] - left[0]);
+  const oldX = node => Number.isFinite(previousLayout?.[node.id]?.x) ? previousLayout[node.id].x : Infinity;
+  for (const [, row] of rows) {
+    row.sort((a, b) => {
+      const left = oldX(a), right = oldX(b);
+      return (left < right ? -1 : left > right ? 1 : 0) || compareIds(a.id, b.id);
+    });
+  }
+
+  // Spacing is in SVG units, independent of the current viewport. The existing
+  // camera fits these positions without changing the graph's mathematical data.
+  const columnGap = 120, rowGap = 130, margin = 80;
+  const width = Math.max(600, (Math.max(...rows.map(([, row]) => row.length)) - 1) * columnGap + 2 * margin);
+  const height = Math.max(360, (rows.length - 1) * rowGap + 2 * margin);
+  const positions = [];
+  rows.forEach(([, row], rank) => {
+    const y = rows.length === 1 ? height / 2 : margin + rank * (height - 2 * margin) / (rows.length - 1);
+    const left = (width - (row.length - 1) * columnGap) / 2;
+    row.forEach((node, column) => positions.push([node.id, { x: left + column * columnGap, y }]));
+  });
+  return Object.fromEntries(positions);
+}
+
 // Presentation only: use the active kernel's least open neighbourhoods.
 // Every selected vertex is an origin; selection order determines its key colour.
 function neighbourhoodComparison(graph, topology, selectedIds) {
@@ -2640,9 +2686,9 @@ function neighbourhoodComparison(graph, topology, selectedIds) {
     first, second, intersection, firstOnly, secondOnly, regions };
 }
 
-// Keep the familiar wine/turquoise pair; additional starts use shades from
-// the user's report61 palette, including its purple, pink and cyan families.
-const START_COLOURS = ['#86264f', '#147f87', '#c2185b', '#7b1fa2', '#e151a9', '#00acc1',
+// Keep the familiar wine/turquoise pair. The third start uses bright blue
+// to stay distinct from wine/pink; later starts retain report61 palette shades.
+const START_COLOURS = ['#86264f', '#147f87', '#2563eb', '#7b1fa2', '#e151a9', '#00acc1',
   '#ae96d8', '#9d1b6b', '#bb7be6', '#6a1b9a', '#0aeaff', '#b5179e'];
 
 function neighbourhoodColour(index) {
@@ -2746,7 +2792,7 @@ function installVisualExplorer(api) {
   }
   function blinkSelection(id) {
     // The mathematical state is complete immediately, but the drawing first
-    // isolates the NEW neighbourhood in its own colour. Purple/sector fills
+    // isolates the NEW neighbourhood in its own colour. Membership-ring fills
     // underneath are hidden for both the ON and OFF portions of all 3 blinks.
     stop();
     const state = api.getState(), origin = state.graph.index.get(id);
@@ -2799,13 +2845,16 @@ function installVisualExplorer(api) {
   }
   function keyHTML(state) {
     const measure = state.statistic === 'distinct-neighbours' ? 'neighbours' : 'edges';
-    return `<div class="meaning-key"><span><i class="key-ring" aria-hidden="true"></i> Pink ring = you clicked</span><span><i class="key-fill" aria-hidden="true"></i> Fill = belongs to a selected neighbourhood</span><span>Edges = undirected</span><span><i class="key-arrow" aria-hidden="true">→</i> ${state.mode === 'weak-patch' ? 'Equal-degree group only' : 'Arrow = allowed step overlay'}</span><span>${state.statistic === 'distinct-neighbours' ? 'Neighbours = distinct neighbours' : `Degree = attached ${measure}`}</span></div>`;
+    return `<div class="meaning-key"><span><i class="key-ring" aria-hidden="true"></i> Pink ring = you clicked</span><span><i class="key-fill" aria-hidden="true"></i> Fill or coloured rings = neighbourhood membership</span><span>Edges = undirected</span><span><i class="key-arrow" aria-hidden="true">→</i> ${state.mode === 'weak-patch' ? 'Equal-degree group only' : 'Arrow = allowed step overlay'}</span><span>${state.statistic === 'distinct-neighbours' ? 'Neighbours = distinct neighbours' : `Degree = attached ${measure}`}</span></div>`;
   }
   function setReading(text, phase = '') {
     if (!reading) return;
     const state = api.getState();
     if (state.colourMode === 'analysis') {
-      reading.innerHTML = '<strong class="reading-caption">Graph fills show the interior, boundary and exterior of A.</strong><div class="meaning-key">Purple: interior · Pink hatch: boundary · Pale: exterior · Thick ring: selected in A. Switch Graph colours to compare neighbourhoods.</div>';
+      const isolated = state.graph.nodes.length > 0 && state.model.degree.every(value => value === 0);
+      reading.innerHTML = isolated
+        ? '<strong class="reading-caption">All degrees are 0. Each vertex is isolated.</strong><div class="meaning-key">Purple: selected vertices A. Neutral fill: unselected vertices. These colours describe A, not degree.</div><span class="reading-phase">Each one-vertex set is open, so every selected vertex is an interior point of A.</span>'
+        : '<strong class="reading-caption">Selection colours: interior, boundary and exterior of A.</strong><div class="meaning-key">Purple: interior · Pink hatch: boundary · Neutral fill: exterior · Thick ring: selected in A. These colours describe A, not vertex degrees.</div>';
       return;
     }
     const editHint = state.tool === 'add-edge' ? (state.pendingConnect ? `First vertex: ${state.pendingConnect}. Now click the second vertex to connect them.` : 'Add edge: click the first vertex, then the second. Or drag between them.')
@@ -2818,7 +2867,7 @@ function installVisualExplorer(api) {
       const origin = state.graph.index.get(canvas.dataset.blinkOrigin);
       if (origin !== undefined) {
         setReading(`N(${nodeName(state, origin)}) = ${setText(state, members(state.model.topo.N[origin]))}`,
-          `Whole neighbourhood · blink ${Math.min(3, Number(canvas.dataset.blinkCount) + 1)} of 3 in its own colour. Intersection colours appear afterwards.`);
+          `Whole neighbourhood · blink ${Math.min(3, Number(canvas.dataset.blinkCount) + 1)} of 3 in its own colour. Membership rings appear afterwards.`);
         return;
       }
     }
@@ -2826,8 +2875,12 @@ function installVisualExplorer(api) {
       if (!playing) document.getElementById('story-progress')?.replaceChildren();
       setReading('Click a vertex to see its smallest open neighbourhood.'); return;
     }
+    if (state.graph.nodes.length && state.model.degree.every(value => value === 0)) {
+      setReading('Every vertex is isolated: N(v) = {v}.', 'Equal degrees do not connect separate vertices. Each selected vertex has its own neighbourhood colour; no neighbourhoods overlap.');
+      return;
+    }
     if (c.anchors.length > 2) {
-      setReading(`${c.anchors.length} full open neighbourhoods are coloured.`, 'Every start has a colour. Shared vertices show all their set colours as sectors. Click a selected start again to remove its set.');
+      setReading(`${c.anchors.length} full open neighbourhoods are coloured.`, 'Every start has a colour. Shared vertices have one coloured ring per containing neighbourhood. Click a selected start again to remove its set.');
       return;
     }
     const sets = c.anchors.map((v, i) => `N(${nodeName(state, v)}) = ${setText(state, members(c.masks[i]))}`).join(' · ');
@@ -2839,7 +2892,7 @@ function installVisualExplorer(api) {
       }
     }
     setReading(sets, c.anchors.length === 1 ? 'Colours stay. Click the same vertex again to remove this selection.'
-      : `Purple = reachable from both starts: ${setText(state, members(c.intersection))}. Click a start again to remove it.`);
+      : `Wine + turquoise rings = belongs to both neighbourhoods: ${setText(state, members(c.intersection))}. Click a start again to remove it.`);
   }
   function clearStyles() {
     canvas.querySelectorAll('.reach-pending,.reach-arrived,.reach-edge').forEach(el => el.classList.remove('reach-pending', 'reach-arrived', 'reach-edge'));
@@ -3087,22 +3140,35 @@ function installVisualExplorer(api) {
     stop(); latestKey = key;
     const names = c.anchors.map(v => nodeName(state, v));
     let content = `<strong class="story-caption">${visualEscape(names.length ? 'You clicked ' + names.join(' and ') + '.' : 'What will a click show?')}</strong>`;
+    if (state.colourMode === 'analysis') {
+      const isolated = state.graph.nodes.length > 0 && state.model.degree.every(value => value === 0);
+      content = '<strong class="story-caption" data-analysis-colour-note>Selection colours (A)</strong>'
+        + `<p>${isolated ? 'All degrees are 0. Each vertex is isolated, and every one-vertex set is open.' : 'This view shows the interior, boundary and exterior of your selected set A.'}</p>`
+        + '<div class="story-region-key" data-analysis-colour-key>'
+        + `<div><i class="region-purple" aria-hidden="true"></i><span>${isolated ? 'Purple: selected vertices A' : 'Purple: interior of A'}</span></div>`
+        + (isolated ? '' : '<div><i class="region-boundary" aria-hidden="true"></i><span>Pink hatch: boundary of A</span></div>')
+        + `<div><i class="region-exterior" aria-hidden="true"></i><span>${isolated ? 'Neutral fill: unselected vertices' : 'Neutral fill: exterior of A'}</span></div></div>`
+        + '<p>These colours describe A, not vertex degrees.</p><button type="button" class="story-action" id="story-neighbourhood-colours">Show neighbourhood colours</button>';
+      story.innerHTML = content;
+      document.getElementById('story-neighbourhood-colours').addEventListener('click', api.showNeighbourhoodColours);
+      finalReading();return;
+    }
     if (!names.length) content += '<p class="selection-vs-set">Click a vertex. Its pink ring marks your choice. Its full neighbourhood appears immediately and stays coloured. Click that vertex again to return to the unselected view.</p>';
     else {
       content += `<div class="story-selected"><i class="key-ring" aria-hidden="true"></i> Clicked vertices A = ${visualEscape(setText(state, [...state.selected].map(id => state.graph.index.get(id))))}</div>`;
       if (names.length <= 2) {
         content += setCard(state, c.first, 'first', `Start 1: ${names[0]} → neighbourhood N(${names[0]})`, why(state, c.anchors[0]));
         if (names.length > 1) content += setCard(state, c.second, 'second', `Start 2: ${names[1]} → neighbourhood N(${names[1]})`, why(state, c.anchors[1]));
-        if (names.length > 1) content += setCard(state, c.intersection, 'intersection', 'Purple: reached from both starts', members(c.intersection).length ? 'These vertices belong to BOTH full neighbourhoods above.' : 'The two neighbourhoods have no vertex in common.');
+        if (names.length > 1) content += setCard(state, c.intersection, 'intersection', 'Two coloured rings: belongs to both', members(c.intersection).length ? 'These vertices belong to BOTH full neighbourhoods above.' : 'The two neighbourhoods have no vertex in common.');
         const regions = [ ['first-only', c.firstOnly, names.length > 1 ? `Wine: from ${names[0]} only` : `Wine: all of N(${names[0]})`, 'wine'],
-          ...(names.length > 1 ? [['second-only', c.secondOnly, `Turquoise: from ${names[1]} only`, 'turquoise'], ['intersection', c.intersection, 'Purple: from both', 'purple']] : []),
+          ...(names.length > 1 ? [['second-only', c.secondOnly, `Turquoise: from ${names[1]} only`, 'turquoise'], ['intersection', c.intersection, 'Wine + turquoise rings: both', 'rings']] : []),
           ['outside', c.union.map(bit => Number(!bit)), 'Grey: not reached', 'outside'] ];
         content += '<div class="story-region-key">' + regions.map(([role, mask, text, colour]) => `<div data-story-region="${role}" data-member-ids="${visualEscape(JSON.stringify(memberIds(state, mask)))}"><i class="region-${colour}" aria-hidden="true"></i><span>${visualEscape(text)} <b>${visualEscape(setText(state, members(mask), 8))}</b></span></div>`).join('') + '</div>';
       } else {
         content += '<div class="story-region-key">' + c.anchors.map((origin, start) => {
           const ids = memberIds(state, c.masks[start]);
           return `<div data-story-region="start-${start + 1}" data-neighbourhood-start-id="${visualEscape(state.graph.nodes[origin].id)}" data-neighbourhood-colour="${c.colours[start]}" data-member-ids="${visualEscape(JSON.stringify(ids))}"><i aria-hidden="true" style="display:inline-block;flex:0 0 18px;width:18px;height:18px;border:1px solid #d5c6e577;border-radius:5px;background:${c.colours[start]}"></i><details style="flex:1;min-width:0"><summary>Start ${start + 1}: N(${visualEscape(names[start])}) · ${ids.length} ${ids.length === 1 ? 'vertex' : 'vertices'}</summary><span class="set-members">{ ${members(c.masks[start]).map(i => chip(state, i)).join(' ')} }</span></details></div>`;
-        }).join('') + '<div><span>Coloured sectors = belongs to every shown set colour. Grey = outside all selected neighbourhoods.</span></div></div>';
+        }).join('') + '<div><span>One ring per containing neighbourhood: two memberships, two rings; three memberships, three rings. Grey = outside all selected neighbourhoods.</span></div></div>';
       }
       content += `<p class="selection-vs-set">Each full neighbourhood is open: ${state.mode === 'weak-patch' ? 'it is a whole equal-degree group.' : 'follow any allowed arrow inside it and you stay inside.'}</p>`;
       const missing = members(state.analysis.enlarge).filter(i => !state.A[i]);
@@ -3464,7 +3530,8 @@ function installIntroGuide({ getState, onTry } = {}) {
 }
 
 // Temporary demonstrations use a separate graph and history. The original
-// experiment is restored before a real user gesture is allowed through.
+// experiment is restored when the user explicitly stops the introduction.
+
 
 
 
@@ -3524,7 +3591,11 @@ function createTourAdapter(env) {
     env.fields.clear();
     env.setWorkspace('explore'); env.setTheme(saved.theme, false);
     env.recompute(); env.render(); env.setTool('select');
+    // Every introduction starts with a readable three-vertex example, even
+    // when it was opened from a larger or custom experiment.
     restoreGraphViewports(saved.cameras.map(camera => ({ ...camera, expanded: false, pan: false })));
+    env.loadPreset('path3', { mode: 'uphill', statistic: 'incident-edges' });
+    S.undo = []; S.redo = [];
     settle();
   }
   function begin() {
@@ -3649,6 +3720,15 @@ function createTourAdapter(env) {
     $('#graph').innerHTML = env.graphSVG({ legend: true });
     refreshGraphViewports(); if (camera) previewGraphViewport('set', { box: camera });
   }
+  function drawPositions(positions) {
+    if (!saved) return;
+    const camera = previewGraphViewport('capture');
+    for (const [id, point] of Object.entries(positions)) {
+      if (S.graph.index.has(id)) S.graph.layout[id] = { x: point.x, y: point.y };
+    }
+    $('#graph').innerHTML = env.graphSVG({ legend: true });
+    refreshGraphViewports(); if (camera) previewGraphViewport('set', { box: camera });
+  }
   function demoAnchors() {
     return tourDemoAnchorIds(S.graph, S.model);
   }
@@ -3667,6 +3747,7 @@ function createTourAdapter(env) {
     },
     fan: operation => env.fan?.()?.[operation]?.(),
     getState: () => S, select, setTool: env.setTool, stopWave: settle, demoAnchors,
+    drawPositions, degreePositions: () => degreeRowLayout(S.graph, S.model.degree),
     pauseWave: () => env.explorer().pause(), resumeWave: () => env.explorer().resume(),
     openLessons: () => env.guide().open({preview:true}), closeLessons: () => env.guide().close() };
 }
@@ -3674,7 +3755,11 @@ function createTourAdapter(env) {
 // A continuous introduction on the real interface with reversible preview edits.
 function installLiveTour(api) {
   const defaultSpeed = 1;
-  const helpReadingDuration = 4000;
+  const manualHelpReadingDuration = 4000;
+  // Short tour sentences get a short reading beat; explicit question help keeps
+  // its complete explanation and four-second interval.
+  const automaticReadingTime = item => item.helpMs ?? (item.key === 'welcome' ? 2400 : item.menuBrowse ? 450
+    : Math.max(1200,Math.min(2200,(item.text||'').trim().split(/\s+/).length*140)));
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const style = document.createElement('style');
   style.id = 'live-tour-style';
@@ -3725,7 +3810,7 @@ function installLiveTour(api) {
   Object.assign(root.dataset, { active:'false', playing:'false', step:'-1', target:'', chapter:'', speed:String(defaultSpeed), covered:'[]', skipped:'[]' });
   root.innerHTML = `<svg class="live-tour-layer" aria-hidden="true"><defs><marker id="live-tour-arrowhead" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 L10 6 L1 11" fill="none" stroke="#c6a2ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs><rect class="live-tour-halo" rx="11"/><path class="live-tour-arrow"/><circle class="live-tour-click"/></svg>
     <svg class="live-tour-cursor" viewBox="0 0 33 43" aria-hidden="true"><path d="M4 2 L4 31 L12 24 L19 39 L26 35 L18 21 L30 20 Z" fill="#d4b3ff" stroke="#24162f" stroke-width="2"/></svg>
-    <section class="live-tour-bar" aria-label="Automatic introduction"><div class="live-tour-heading"><span>Watch the real controls</span><span class="live-tour-count"></span></div><nav class="live-tour-chapters" aria-label="Introduction chapters">${['Basics','Edit','View','Workbench'].map(name=>`<button type="button" data-live-chapter="${name.toLowerCase()}">${name}</button>`).join('')}</nav><p class="live-tour-caption" role="status" aria-live="polite"></p><div class="live-tour-actions"><button id="live-tour-back" type="button" aria-label="Previous demonstration">‹</button><button id="live-tour-pause" type="button">Ⅱ Pause</button><button id="live-tour-next" type="button" aria-label="Next demonstration">›</button><label class="live-tour-speed">Speed<select id="live-tour-speed" aria-label="Introduction speed"><option value="0.25">0.25×</option><option value="0.4">0.4× slow</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label><button id="live-tour-replay" type="button" aria-label="Replay introduction">↻</button><button id="live-tour-skip" type="button" class="live-tour-skip">Explore</button></div><div class="live-tour-progress" aria-hidden="true"><span></span></div></section>`;
+    <section class="live-tour-bar" aria-label="Automatic introduction"><div class="live-tour-heading"><span>Watch the real controls</span><span class="live-tour-count"></span></div><nav class="live-tour-chapters" aria-label="Introduction chapters">${['Basics','Edit','View','Workbench'].map(name=>`<button type="button" data-live-chapter="${name.toLowerCase()}">${name}</button>`).join('')}</nav><p class="live-tour-caption" role="status" aria-live="polite"></p><div class="live-tour-actions"><button id="live-tour-back" type="button" aria-label="Previous demonstration">‹</button><button id="live-tour-pause" type="button">Ⅱ Pause</button><button id="live-tour-next" type="button" aria-label="Next demonstration">›</button><label class="live-tour-speed">Speed<select id="live-tour-speed" aria-label="Introduction speed"><option value="0.25">0.25×</option><option value="0.4">0.4× slow</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label><button id="live-tour-replay" type="button" aria-label="Replay introduction">↻</button><button id="live-tour-skip" type="button" class="live-tour-skip">■ Stop intro</button></div><div class="live-tour-progress" aria-hidden="true"><span></span></div></section>`;
   document.body.append(root);
   const $=selector=>root.querySelector(selector);
   const bar=$('.live-tour-bar'),halo=$('.live-tour-halo'),arrow=$('.live-tour-arrow');
@@ -3744,6 +3829,8 @@ function installLiveTour(api) {
   let steps=[],index=-1,segment=-1,elapsed=0,segmentStart=0,previousTime=0,clockTime=0;
   let activeCue=null,cursorAt=null,cursorFrom=null,scrollTrack=null,innerScrollTracks=[],scrollDirty=false,focusElement=null;
   let helpReadingRemaining=0,helpReadingDone=false,helpReadingIdentity=null;
+  let readHelpKeys=new Set();
+  let manualHelpRemaining=0,manualHelpIdentity=null;
   let originalScroll=null,coverage=new Set(),skipped=[],context={},motionData=null,actionDone=false,visibleActionFrames=0,visibleActionSince=null,actionAt=null,segmentReplaying=false;
   function cue(key,target,text,duration=1400,action=null,enter=null,motion=null){return{key,target:typeof target==='string'?query(target):target,text,duration,action,enter,motion};}
   function group(key,text,duration,targets,enter=null){return{key,text,duration,targets,enter};}
@@ -3753,7 +3840,7 @@ function installLiveTour(api) {
   function edgePoint(){const positions=Object.values(api.getState().graph.layout),xs=positions.map(p=>p.x),ys=positions.map(p=>p.y);return{x:(Math.min(...xs)+Math.max(...xs))/2,y:Math.max(...ys)+115};}
   function buildSteps() {
     context={extra:'d',addPoint:null};
-    const initial=[...new Set(api.demoAnchors?.()||[])].filter(id=>vertex(id)).slice(0,3),a=initial[0],b=initial[1],third=initial[2];
+    const initial=[...new Set(api.demoAnchors?.()||[])].filter(id=>vertex(id)).slice(0,2),a=initial[0],b=initial[1];
     const chapters={basics:[],edit:[],view:[],workbench:[]};
     const add=(chapter,...items)=>chapters[chapter].push(...items);
     const normal=(name,args)=>()=>act(name,args);
@@ -3761,40 +3848,58 @@ function installLiveTour(api) {
     const family=(key,selector,text,action=null,enter=null)=>cue(key,selector,text,0,action,enter);
     const setField=(selector,value,event='input')=>()=>{const el=document.querySelector(selector);if(el){el.value=value;el.dispatchEvent(new Event(event,{bubbles:true}));}};
     const seedPath=()=>{act('preset',{id:'path3'});act('mode',{value:'strict'});};
-    const primaryPreset=api.getState().presetId;
+    const primaryPreset='hard19';
     const primaryCard=primaryPreset?document.querySelector(`[data-playground="${CSS.escape(primaryPreset)}"]`):null;
-    const pictureSelector=primaryCard?`[data-playground="${CSS.escape(primaryPreset)}"]`:'#preset-fan-list .preset-card';
     const primaryName=primaryCard?.querySelector('.preset-name')?.textContent||'your current graph';
+    const picturePick=(key,id,text)=>({...cue(key,`[data-playground="${id}"]`,text,1200,
+      clickDemo(`[data-playground="${id}"]`)),requireVisible:true,helpMs:1000});
+    const pictureResult=(key,text)=>({...cue(key,'#graph',text,2200,null,()=>{api.fan('close');api.viewport('fit');}),
+      requireVisible:true,pictureResult:true,helpMs:0});
     const pairOverlaps=b!==undefined&&api.getState().model.topo.N[api.getState().graph.index.get(a)]
       .some((bit,index)=>bit&&api.getState().model.topo.N[api.getState().graph.index.get(b)][index]);
     const blinkCue=(...args)=>({...cue(...args),waitForBlink:true});
-    add('basics',cue('welcome','#watch-guide','Watch a short demonstration. Touch to take over.',1300),
-      cue('picture-presets','#preset-fan-toggle','Hover to open the picture presets.',2000,()=>api.fan('open')),
-      cue('picture-presets-preview',pictureSelector,'Move over a picture to see its graph and explanation.',1600),
-      cue('picture-presets-close','#graph','Move away and the picture fan closes.',1600,()=>api.fan('close')),
-      cue('picture-presets-reopen','#preset-fan-toggle','Return to the stack to open the pictures again.',1600,()=>api.fan('open')),
-      primaryCard
-        ? cue('picture-preset-current',pictureSelector,`Choose ${primaryName}. We will explore this graph together.`,1800,clickDemo(pictureSelector))
-        : cue('picture-preset-current','#graph','We will keep your current graph for the demonstration.',1800,()=>api.fan('close')),
-      cue('preset-chooser','#preset','Choose a graph.',1500),
-      cue('topology','#mode','Choose the topology.',1500),
+    const degreeCue=(key)=>cue(key,'#graph','Higher degree goes higher on the screen. Watch the same coloured sets move.',4400,null,()=>{
+      context.degreeFrom=capturePositions();context.degreeTo=api.degreePositions();context.degreeCameraFrom=api.viewport('capture');
+      // Ask the normal fit controller for its toolbar-aware final camera, then
+      // restore the initial drawing synchronously before the first visible frame.
+      api.drawPositions(context.degreeTo);api.viewport('fit');context.degreeCameraTo=api.viewport('capture');
+      api.drawPositions(context.degreeFrom);api.viewport('set',{box:context.degreeCameraFrom});
+    },'degree-layout');
+    add('basics',cue('welcome','#watch-guide','Stop intro ends this tour. Other taps leave it running.',1400),
+      cue('simple-example','#graph','Start with just three vertices: a—b—c.',2400),
       cue('undirected-edges','#graph','Edges are undirected. Arrows show allowed uphill steps.',3000),
       cue('select','[data-tool="select"]','Click a vertex to show its set.',1500,()=>api.setTool('select')));
     if(a!==undefined){
       add('basics',blinkCue(`vertex:${a}`,vertexTarget(a),`Click ${label(a)}. Its complete neighbourhood blinks three times, then stays coloured.`,3800,()=>{act('details',{id:a});api.select([a]);},()=>api.select([])));
-      if(b!==undefined)add('basics',blinkCue(`vertex:${b}`,vertexTarget(b),`Click ${label(b)} too. Its new neighbourhood blinks. ${pairOverlaps?'Purple marks their overlap.':'These two sets are disjoint.'}`,3800,()=>{act('details',{id:b});api.select([a,b]);}),
-        cue('colour-key','.story-region-key',pairOverlaps?'One colour per set; purple means both.':'One colour per set. There is no overlap in this pair.',3000));
-      if(third!==undefined)add('basics',
-        blinkCue(`vertex:${third}:third`,vertexTarget(third),`Click ${label(third)} too. Its neighbourhood blinks, then shared colours show every overlap.`,3800,()=>{act('details',{id:third});api.select([a,b,third]);}),
-        cue('many-set-key','.story-region-key','Divided vertices belong to several sets.',2600),
-        cue(`vertex:${third}:remove`,vertexTarget(third),`Click ${label(third)} again to remove only its set.`,2200,()=>api.select([a,b])));
+      if(b!==undefined)add('basics',blinkCue(`vertex:${b}`,vertexTarget(b),`Click ${label(b)} too. Its new neighbourhood blinks. ${pairOverlaps?'Wine and turquoise rings mark their overlap.':'These two sets are disjoint.'}`,3800,()=>{act('details',{id:b});api.select([a,b]);}),
+        cue('colour-key','.story-region-key',pairOverlaps?'One colour per set. Two rings mean this vertex belongs to both.':'One colour per set. There is no overlap in this pair.',3000));
+      add('basics',degreeCue('degree-layout-simple'),
+        cue('degree-result-simple','#graph','Degree 2 is above degree 1. The edges, open sets and their membership rings are unchanged.',3000));
       if(b!==undefined)add('basics',cue(`vertex:${b}`,vertexTarget(b),`Click ${label(b)} again. Only that choice is removed.`,2000,()=>api.select([a])));
       add('basics',cue('vertex-details','#vertex-detail-panel','Vertex details appear here, outside the graph.',1900,normal('details',{id:a})),
         cue('story-replay','#story-replay','Optional: press Show construction steps to illustrate this finite example. The complete open set is already shown.',4800,clickDemo('#story-replay')),
         cue('exact-sets','#sets-drawer > summary','Open this drawer to read the exact sets.',1400,normal('drawer',{id:'sets-drawer',open:true})),
         cue('complete','#story-complete','Complete selects every point required to make A open.',1900,normal('complete')));
     }
-    add('basics',cue('clear-selection','[data-act="clearA"]','Clear selection removes your choices, keeping the graph.',1400,()=>act('clear')));
+    add('basics',cue('clear-simple-selection','[data-act="clearA"]','Clear selection removes your choices, keeping the graph.',1400,()=>act('clear')),
+      cue('picture-presets','#preset-fan-toggle','Now try a richer graph. Hover to open the picture presets.',2000,()=>api.fan('open')),
+      picturePick('picture-presets-preview','cycle4','Choose Equal degrees. Its graph appears in the main view.'),
+      pictureResult('picture-presets-close','Equal degrees: the chosen four-cycle is now in the main view. The fan closes to reveal it.'),
+      cue('picture-presets-reopen','#preset-fan-toggle','Return to the stack to open the pictures again.',1600,()=>api.fan('open')),
+      picturePick('picture-preset-cube11','cube11','Choose Cube + 3 vertices. Watch the main graph change.'),
+      pictureResult('picture-result-cube11','The cube and its three added vertices are now loaded.'),
+      cue('picture-presets-final-open','#preset-fan-toggle','Open the pictures once more.',1200,()=>api.fan('open')),
+      picturePick('picture-preset-current',primaryPreset,`Choose ${primaryName}.`),
+      pictureResult('picture-result-hard19','Cube, branches & islands is now loaded. Compare three neighbourhoods here.'),
+      blinkCue('large-vertex:i',vertexTarget('i'),'Select i. Its whole neighbourhood blinks three times in wine.',3800,()=>{act('details',{id:'i'});api.select(['i']);}),
+      blinkCue('large-vertex:a',vertexTarget('a'),'Add a. Its complete neighbourhood blinks turquoise before the shared vertices show both colour rings.',3800,()=>{act('details',{id:'a'});api.select(['i','a']);}),
+      blinkCue('large-vertex:n:third',vertexTarget('n'),'Add n. Its whole set blinks bright blue first; shared colours then show every overlap.',3800,()=>{act('details',{id:'n'});api.select(['i','a','n']);}),
+      cue('many-set-key','.story-region-key','Count the coloured rings: one per neighbourhood containing the vertex.',2600),
+      degreeCue('degree-layout-large'),
+      cue('degree-result-large','#graph','Higher degrees are higher; equal degrees share a row. This is the same graph with the same coloured open sets.',3000),
+      cue('preset-chooser','#preset','Choose a graph.',1500),
+      cue('topology','#mode','Choose the topology.',1500),
+      cue('clear-selection','[data-act="clearA"]','Clear selection removes your choices, keeping the graph.',1400,()=>act('clear')));
     add('edit',cue('preset-menu','#preset','The menu contains more graphs. Keep this one while we try the editing controls.',1600),
       cue('add-vertex','[data-tool="add-vertex"]','Add vertex: choose the tool, then an empty place.',1400,normal('tool',{value:'add-vertex'})),
       cue('new-vertex',pointTarget(()=>context.addPoint),'A click here creates a new isolated vertex.',2000,()=>{context.extra=act('add-vertex',{id:'d',...context.addPoint})||'d';},()=>{context.addPoint=edgePoint();}),
@@ -3928,12 +4033,12 @@ function installLiveTour(api) {
       cue('lesson-reopen','#open-lessons','Reopen the lessons and jump directly to a scene.',1300,()=>api.openLessons()),
       group('lesson-scenes','Each dot jumps to its illustrated scene.',6000,Array.from({length:6},(_,i)=>family(`lesson-scene-${i+1}`,`.intro-progress button:nth-child(${i+1})`,`Open illustrated scene ${i+1}.`,clickDemo(`.intro-progress button:nth-child(${i+1})`)))),
       cue('lesson-try','#intro-try','Try this graph loads the illustrated example into the main view.',1700,clickDemo('#intro-try')),
-      cue('ready','#watch-guide','Your original graph returns now. Replay any chapter whenever you like.',1700));
+      cue('ready','#watch-guide','Your original graph returns when the demonstration finishes. Replay the intro whenever you like.',1700));
     // Match the Direction Field demonstration: briefly identify a control,
     // act, then move on. Only an actual graph demonstration gets a longer beat.
     const demonstrations=new Set(['undirected-edges','colour-key','many-set-key','vertex-details',
-      'story-replay','complete','new-vertex','edge-second:new','delete-vertex','picture-presets','picture-preset-current','workbench-example','generated-result']);
-    const values={'preset-menu':primaryPreset||'',strict:'strict','weak-patch':'weak-patch',uphill:'uphill',statistic:'distinct-neighbours','colour-mode':'analysis','quotient-view':'condensation',layout:'circle'};
+      'welcome','simple-example','degree-result-simple','degree-result-large','story-replay','complete','new-vertex','edge-second:new','delete-vertex','picture-presets','picture-preset-current','workbench-example','generated-result']);
+    const values={'preset-menu':primaryPreset,'preset-chooser':primaryPreset,strict:'strict','weak-patch':'weak-patch',uphill:'uphill',statistic:'distinct-neighbours','colour-mode':'analysis','quotient-view':'condensation',layout:'circle'};
     const menuNames={preset:'graph',mode:'topology',stat:'degree statistic','layout-choice':'layout','colour-mode':'colour meaning',qview:'quotient view'};
     const browsedMenus=new Set();
     const menuSteps=step=>{
@@ -3943,7 +4048,7 @@ function installLiveTour(api) {
       const target=()=>{const option=api.menu('option',id,value);return option?.getClientRects().length&&!option.closest('[hidden]')?option:api.menu('button',id);};
       target.selector=()=>target()?.id?`#${target().id}`:`#${id}-menu-button`;
       const open={...cue(`${step.key}:menu-open`,button,`Open the ${menuNames[id]} list.`,1500,()=>api.menu('open',id),()=>{api.menu('close');api.fan('close');}),menuOpen:true};
-      const choose={...step,target,action:()=>{step.action?.();api.menu('close');}};
+      const choose={...step,target,action:()=>{if(id==='preset')api.menu('option',id,value)?.click();else step.action?.();api.menu('close');}};
       // Walk down the real opened list rather than parking on its button.
       // Do the complete preset catalogue in Edit, after the first vertex demo.
       const shouldBrowse=!browsedMenus.has(id)&&(id!=='preset'||step.key==='preset-menu');
@@ -3954,7 +4059,7 @@ function installLiveTour(api) {
         for(const option of options){
           const optionTarget=()=>api.menu('option',id,option.value);
           optionTarget.selector=()=>optionTarget()?.id?`#${optionTarget().id}`:'';
-          browse.push({...cue(`${step.key}:menu-option:${option.value}`,optionTarget,option.textContent.trim(),1400,null,()=>{
+          browse.push({...cue(`${step.key}:menu-option:${option.value}`,optionTarget,`Browse: ${option.textContent.trim()}`,1000,null,()=>{
             const element=optionTarget();element?.dispatchEvent(new PointerEvent('pointermove',{bubbles:true,pointerType:'mouse'}));
           }),menuBrowse:true});
         }
@@ -3962,11 +4067,11 @@ function installLiveTour(api) {
       return[open,...browse,choose];
     };
     return Object.entries(chapters).flatMap(([chapter,list])=>list.flatMap(menuSteps).map(step=>{
-      const duration=step.targets ? step.targets.length*(['set-operations','files'].includes(step.key)?2300:1500)
-        : step.menuOpen ? 1500
-        : step.menuBrowse ? 1400
-        : step.motion || demonstrations.has(step.key) || step.key.startsWith('vertex:') ? step.duration
-        : Math.max(1300,Math.min(1700,step.duration));
+      const duration=step.targets ? step.targets.length*(['set-operations','files'].includes(step.key)?1600:1000)
+        : step.menuOpen ? 900
+        : step.menuBrowse ? 850
+        : step.motion || step.waitForBlink || step.pictureResult || demonstrations.has(step.key) || step.key.startsWith('vertex:') ? step.duration
+        : Math.max(900,Math.min(1200,step.duration));
       return{...step,chapter,duration};
     }));
   }
@@ -3994,6 +4099,8 @@ function installLiveTour(api) {
     root.dataset.playing=String(playing);root.dataset.speed=String(speed);
     pauseButton.textContent=playing?'Ⅱ Pause':'▶ Continue';pauseButton.setAttribute('aria-label',playing?'Pause introduction':'Continue introduction');
     $('#live-tour-back').disabled=index<=0;$('#live-tour-next').disabled=index>=steps.length-1;
+    const introButton=document.getElementById('watch-guide');
+    if(introButton){introButton.textContent=running?'■ Stop intro':'▶ Replay intro';introButton.dataset.introActive=String(running);introButton.setAttribute('aria-pressed',String(running));}
   }
   function geometry(element,point=null){
     if(!element||!element.isConnected||!element.getClientRects().length)return null;
@@ -4072,7 +4179,7 @@ function installLiveTour(api) {
     segmentStart=step.duration/entries.length*next;actionDone=false;visibleActionFrames=0;visibleActionSince=null;actionAt=null;segmentReplaying=replaying;motionData=null;cursorFrom=cursorAt;blinkSettledAt=null;clearFocus();
     root.dataset.target=activeCue.key;root.dataset.targetSelector=selectorOf(activeCue);root.dataset.segment=String(segment);root.dataset.targetVisible='false';
     clearFilePreview();api.help?.('hide');
-    helpReadingRemaining=0;helpReadingDone=false;helpReadingIdentity=null;syncReading();
+    helpReadingRemaining=0;helpReadingDone=false;helpReadingIdentity=null;manualHelpRemaining=0;manualHelpIdentity=null;syncReading();
     caption.textContent=activeCue.text||step.text;activeCue.enter?.();
     const motion=activeCue.motion?.replace('quot-','');
     if(motion?.startsWith('zoom')||motion==='pan'){
@@ -4086,7 +4193,11 @@ function installLiveTour(api) {
     if(!replaying)scrollDirty=true;
   }
   function sampleMotion(item,fraction){
-    if(item.motion==='vertex-drag'&&context.dragFrom){const p=pointMix(context.dragFrom,context.dragTo,fraction);api.dragVertex(context.extra,p.x,p.y);api.viewport('set',{box:context.dragBox});}
+    if(item.motion==='degree-layout'&&context.degreeFrom){
+      api.drawPositions(Object.fromEntries(Object.entries(context.degreeFrom).map(([id,from])=>[id,pointMix(from,context.degreeTo[id]||from,fraction)])));
+      if(context.degreeCameraFrom&&context.degreeCameraTo)api.viewport('set',{box:Object.fromEntries(['x','y','width','height'].map(key=>[key,mix(context.degreeCameraFrom[key],context.degreeCameraTo[key],fraction)]))});
+    }
+    else if(item.motion==='vertex-drag'&&context.dragFrom){const p=pointMix(context.dragFrom,context.dragTo,fraction);api.dragVertex(context.extra,p.x,p.y);api.viewport('set',{box:context.dragBox});}
     else if(item.motion==='layout'&&context.layoutFrom){
       for(const[id,from]of Object.entries(context.layoutFrom)){const to=context.layoutTo[id];if(!to)continue;const p=pointMix(from,to,fraction);api.dragVertex(id,p.x,p.y);}api.viewport('set',{box:context.layoutBox});
     }else if(motionData?.from){const box=Object.fromEntries(['x','y','width','height'].map(key=>[key,mix(motionData.from[key],motionData.to[key],fraction)]));api.viewport('set',{id:motionData.id,box});}
@@ -4111,7 +4222,7 @@ function installLiveTour(api) {
     if(!running)return;const wanted=clamp(next,0,steps.length-1),priorPlaying=playing;
     api.stopWave();clearFocus();scrollTrack=null;innerScrollTracks=[];api.resetDemo();context={extra:'d',addPoint:null};
     // Reconstruct only the temporary preview. The original capture is retained
-    // by the adapter until completion or the user's first real gesture.
+    // by the adapter until completion or an explicit Stop intro.
     for(let n=0;n<wanted;n++){enterStep(n,true);finishCurrent();}
     enterStep(wanted);playing=priorPlaying;previousTime=performance.now();syncPlayback();
   }
@@ -4121,7 +4232,7 @@ function installLiveTour(api) {
     root.dataset.progress=String(progress);
     // Duration is an upper estimate in speed-scaled milliseconds. Reading
     // pauses use real foreground time, including when playback is faster.
-    const readingBudget=steps.reduce((sum,item)=>sum+(item.targets?.length||1),0)*helpReadingDuration;
+    const readingBudget=steps.reduce((sum,item)=>sum+(item.targets||[item]).reduce((value,target)=>value+automaticReadingTime(target),0),0);
     root.dataset.duration=String(total+readingBudget*speed);root.dataset.readingBudgetMs=String(readingBudget);
     $('.live-tour-progress span').style.width=`${progress*100}%`;
     const box=currentBox();
@@ -4135,12 +4246,12 @@ function installLiveTour(api) {
     halo.style.display=box.vertex?'none':'';arrow.style.display='';cursor.style.display='';const pad=6;
     // Point once, then let the viewer watch the result. Keep a held cursor
     // visible during real drag/zoom/layout motion; never fake movement to fill time.
-    if(age>=approach&&element&&!box.vertex&&root.dataset.targetVisible==='true'){
-      api.help?.('show',element);
+    if(!manualHelpRemaining&&age>=approach&&element&&!box.vertex&&root.dataset.targetVisible==='true'){
+      api.help?.('show',element,element.dataset.controlHelp?activeCue.text:undefined);
       const popup=readingPopup();
       if(popup&&!helpReadingDone&&!segmentReplaying){
         const identity=popup.dataset.helpKey+'\n'+popup.textContent;
-        if(identity!==helpReadingIdentity){helpReadingIdentity=identity;helpReadingRemaining=helpReadingDuration;syncReading();}
+        if(identity!==helpReadingIdentity){helpReadingIdentity=identity;helpReadingRemaining=readHelpKeys.has(popup.dataset.helpKey)?0:automaticReadingTime(activeCue);helpReadingDone=helpReadingRemaining===0;syncReading();}
       }
     }
     const pointerAge=activeCue.requireVisible&&actionAt!==null?age-actionAt+700:age;
@@ -4186,17 +4297,36 @@ function installLiveTour(api) {
     return rect.width>0&&rect.height>0&&root.dataset.targetVisible==='true'?popup:null;
   }
   function syncReading(){
-    root.dataset.reading=String(helpReadingRemaining>0);
-    root.dataset.readingRemainingMs=String(helpReadingRemaining);
+    root.dataset.reading=String(helpReadingRemaining>0||manualHelpRemaining>0);
+    root.dataset.readingRemainingMs=String(manualHelpRemaining||helpReadingRemaining);
+    root.dataset.manualHelp=String(manualHelpRemaining>0);
   }
   function tick(now,token){
     if(!running||token!==generation)return;
     const foregroundDelta=playing&&!document.hidden?Math.min(80,Math.max(0,now-previousTime)):0;previousTime=now;
-    const reading=helpReadingRemaining>0;
+    // Observe the actual popup after its event handlers run. This covers mouse,
+    // touch, keyboard focus and F1 without relying on event-listener ordering.
+    const shownHelp=document.getElementById('control-help-popover');
+    if(shownHelp&&!shownHelp.hidden&&shownHelp.dataset.source==='question'){
+      const identity=shownHelp.dataset.helpFor+'\n'+shownHelp.textContent;
+      if(!manualHelpRemaining||manualHelpIdentity!==identity){manualHelpIdentity=identity;manualHelpRemaining=manualHelpReadingDuration;api.pauseWave?.();syncReading();}
+    }
+    const manualReading=manualHelpRemaining>0;
+    if(manualReading){
+      const popup=document.getElementById('control-help-popover');
+      if(!popup||popup.hidden||popup.dataset.source!=='question')manualHelpRemaining=0;
+      else manualHelpRemaining=Math.max(0,manualHelpRemaining-foregroundDelta);
+      if(!manualHelpRemaining){api.help?.('hide');if(playing)api.resumeWave?.();}
+      syncReading();
+    }
+    const reading=helpReadingRemaining>0||manualReading;
+    // Browser scrollbar/focus scrolling can bypass pointer and wheel guards.
+    // Recover a displaced explained control instead of waiting offscreen.
+    if(reading&&!manualReading&&!readingPopup()&&!scrollTrack&&!innerScrollTracks.length&&currentBox())scrollDirty=true;
     const repositioning=reading&&(scrollDirty||scrollTrack||innerScrollTracks.length>0);
-    if(reading&&!repositioning&&readingPopup()){
+    if(reading&&!manualReading&&!repositioning&&readingPopup()){
       helpReadingRemaining=Math.max(0,helpReadingRemaining-foregroundDelta);
-      if(helpReadingRemaining===0)helpReadingDone=true;
+      if(helpReadingRemaining===0){helpReadingDone=true;const popup=readingPopup();if(popup)readHelpKeys.add(popup.dataset.helpKey);}
       syncReading();
     }
     // Freeze the cue, camera, cursor, action and grouped-control transitions
@@ -4225,43 +4355,40 @@ function installLiveTour(api) {
   function stop(reason='skip'){
     clearTimeout(autoStart);autoStart=null;if(!running)return;
     running=playing=false;generation++;cancelAnimationFrame(frame);frame=null;clearFocus();clearFilePreview();api.help?.('hide');api.closeLessons?.();scrollTrack=null;innerScrollTracks=[];
-    helpReadingRemaining=0;helpReadingDone=false;helpReadingIdentity=null;syncReading();
+    helpReadingRemaining=0;helpReadingDone=false;helpReadingIdentity=null;manualHelpRemaining=0;manualHelpIdentity=null;syncReading();syncPlayback();
     root.hidden=true;root.dataset.active='false';root.dataset.playing='false';root.dataset.stopReason=reason;root.dataset.target='';
     api.stopWave();api.restore();
     if(originalScroll&&reason!=='user-input'&&reason!=='escape')window.scrollTo({left:originalScroll.x,top:originalScroll.y,behavior:'instant'});originalScroll=null;
   }
   function start(){
     stop('replay');clearTimeout(autoStart);originalScroll={x:window.scrollX,y:window.scrollY};api.begin();
-    running=playing=true;generation++;coverage=new Set();skipped=[];root.dataset.covered='[]';root.dataset.skipped='[]';steps=buildSteps();
+    running=playing=true;generation++;coverage=new Set();readHelpKeys=new Set();skipped=[];root.dataset.covered='[]';root.dataset.skipped='[]';steps=buildSteps();
     cursorAt=cursorFrom=null;scrollTrack=null;innerScrollTracks=[];clockTime=0;bar.dataset.dock='bottom';root.hidden=false;root.dataset.active='true';delete root.dataset.stopReason;
     enterStep(0);previousTime=performance.now();draw(0);const token=generation;frame=requestAnimationFrame(time=>tick(time,token));
   }
   function interrupt(event){
+    if(!event.isTrusted)return; // Scripted demonstrations use the same real controls.
     const targetElement=event.target instanceof Element?event.target:null;
-    if(targetElement?.closest('[data-control-help-trigger],#control-help-popover')){
-      const question=targetElement.closest('[data-control-help-trigger]');
-      const asking=event.isTrusted&&question&&(event.type==='pointerdown'||event.type==='keydown'&&['Enter',' '].includes(event.key));
-      // A real request for help needs reading time. Freeze the same preview
-      // just as Pause does; Continue resumes this cue without restarting it.
-      if(asking&&running&&playing){
-        playing=false;if(api.pauseWave)api.pauseWave();else api.stopWave();
-        previousTime=performance.now();syncPlayback();
-      }
+    if(!running){
+      // A deliberate interaction before autoplay begins keeps the idle app usable.
+      if(['pointerdown','keydown','wheel','touchstart'].includes(event.type)){clearTimeout(autoStart);autoStart=null;}
       return;
     }
-    if(targetElement?.closest('#live-tour .live-tour-bar')){if(event.type==='keydown'&&event.key==='Escape')stop('escape');return;}
-    // Window capture runs before viewport document handlers, including Pan and
-    // expanded-view Escape handlers that stop event propagation.
-    const button=targetElement?.closest('button');
-    if(running&&event.type==='pointerdown'&&button&&event.button===0){try{button.setPointerCapture(event.pointerId);}catch{/* Unsupported capture still permits interruption. */}}
-    const menuId=event.type==='pointerdown'?targetElement?.closest('[data-menu-id][data-menu-value]')?.dataset.menuId:null;
-    clearTimeout(autoStart);autoStart=null;if(running){stop(event.type==='keydown'&&event.key==='Escape'?'escape':'user-input');if(menuId)api.menu('open',menuId);}
+    if(targetElement?.closest('#watch-guide,#live-tour .live-tour-bar'))return;
+    if(targetElement?.closest('[data-control-help-trigger],#control-help-popover')){
+      return;
+    }
+    if(event.type==='keydown'||event.type==='keyup'){
+      if(event.key==='Tab'||event.key==='F5'||(event.key==='F1'&&targetElement?.closest('[data-control-help]'))||((event.ctrlKey||event.metaKey)&&['l','r','t','w','n','f'].includes(event.key.toLowerCase())))return;
+    }
+    // Accidental gestures do not end or edit the temporary demonstration.
+    // Stop intro is always available, along with playback and question help.
+    if(event.cancelable)event.preventDefault();event.stopImmediatePropagation();
   }
-  window.addEventListener('pointerdown',interrupt,true);window.addEventListener('keydown',interrupt,true);
-  window.addEventListener('wheel',interrupt,{capture:true,passive:true});window.addEventListener('touchstart',interrupt,{capture:true,passive:true});
+  for(const type of ['pointerdown','pointerup','pointermove','pointerover','pointerout','pointerenter','pointerleave','click','dblclick','contextmenu','keydown','keyup','wheel','touchstart','touchmove','touchend','beforeinput','paste','drop'])window.addEventListener(type,interrupt,{capture:true,passive:false});
   pauseButton.addEventListener('click',()=>{
     if(!running)return;playing=!playing;
-    if(playing&&document.getElementById('control-help-popover')?.dataset.source==='question')api.help?.('hide');
+    if(playing&&document.getElementById('control-help-popover')?.dataset.source==='question'){manualHelpRemaining=0;api.help?.('hide');syncReading();}
     if(playing)api.resumeWave?.();else if(api.pauseWave)api.pauseWave();else api.stopWave();
     previousTime=performance.now();syncPlayback();
   });
@@ -4269,7 +4396,7 @@ function installLiveTour(api) {
   $('#live-tour-speed').addEventListener('change',event=>{speed=Number(event.target.value)||defaultSpeed;previousTime=performance.now();syncPlayback();});
   $('#live-tour-replay').addEventListener('click',start);$('#live-tour-skip').addEventListener('click',()=>stop('skip'));
   for(const button of chapterButtons)button.addEventListener('click',()=>seek(steps.findIndex(step=>step.chapter===button.dataset.liveChapter)));
-  document.querySelector('#watch-guide')?.addEventListener('click',start);window.addEventListener('resize',()=>{if(running)scrollDirty=true;});
+  document.querySelector('#watch-guide')?.addEventListener('click',()=>running?stop('intro-button'):start());window.addEventListener('resize',()=>{if(running)scrollDirty=true;});
   autoStart=window.setTimeout(start,700);return{start,stop,isRunning:()=>running};
 }
 
@@ -4644,7 +4771,7 @@ const HELP_CONTROL_SELECTOR = 'button,input:not([type="hidden"]),select,textarea
 const HELP_CHROME_SELECTOR = '[data-control-help-trigger],#control-help-popover,#control-help-triggers';
 
 const HELP_IDS = {
-  'watch-guide': ['Replay intro', 'Watch the real controls in action. Pause, change speed, or choose Explore whenever you are ready.'],
+  'watch-guide': ['Replay intro', 'Begin with a simple three-vertex graph, then explore richer examples. During the demonstration this button becomes Stop intro.'],
   'open-lessons': ['Visual lessons', 'Open six illustrated lessons about degrees, neighbourhoods and overlaps.'],
   'workspace-toggle': ['Full workbench', 'Show or hide the quotient, inspector, tables and graph editor. Your graph and selection stay the same.'],
   'theme-toggle': ['Bright or dark view', 'Switch the colour theme. The graph and all its sets stay the same.'],
@@ -4681,7 +4808,7 @@ const HELP_IDS = {
   'live-tour-pause': ['Pause or resume', 'Pause the introduction so you can read the help and inspect the example. Press again to continue.'],
   'live-tour-speed': ['Introduction speed', 'Choose a slower or faster pace. All the same controls and examples are demonstrated.'],
   'live-tour-replay': ['Replay introduction', 'Restart the introduction from the beginning.'],
-  'live-tour-skip': ['Explore', 'Finish the introduction and return to your own graph and selection.'],
+  'live-tour-skip': ['Stop intro', 'End the demonstration and return to your own graph and selection. Touching other app controls does not end it.'],
   'intro-close': ['Close visual lessons', 'Return to your graph without changing it.'],
   'intro-play': ['Pause or resume lesson', 'Pause the illustrated lesson, or resume its animation.'],
   'intro-replay': ['Replay lessons', 'Start the illustrated lessons again from the first scene.'],
@@ -4819,6 +4946,7 @@ const helpRecord = (key, pair) => pair ? { key, title: pair[0], text: pair[1] } 
 function describeControlHelp(el) {
   if (!el?.matches || el.closest(HELP_CHROME_SELECTOR) || el.matches('.control-menu-native')) return null;
   const d = el.dataset, id = el.id || '', label = helpPlainLabel(el);
+  if (id === 'watch-guide' && d.introActive === 'true') return helpRecord(id, ['Stop intro', 'Press this button to end the introduction and use your graph. Other app touches do not stop or edit the demonstration. Pause, Next and the chapter buttons remain available.']);
   if (d.menuId && d.menuValue !== undefined) {
     const text = d.menuId === 'preset' ? HELP_PRESETS[d.menuValue] : HELP_MENU_CHOICES[d.menuId]?.[d.menuValue];
     return text ? { key: `menu:${d.menuId}:${d.menuValue}`, title: label, text } : null;
@@ -5272,6 +5400,14 @@ function applyDrawingLayout(choice) {
 // ------------------------------------------------------------ graph SVG
 const COL = { interior: '#7544a4', boundary: '#c44591', exterior: '#faf3f8', teal: '#147f87', wine: '#76234b', ink: '#332338', grey: '#b6a9b5' };
 
+// A shared vertex keeps one complete circumference per containing set.
+// Reserve its centre for the label and its outside edge for the selection ring.
+function neighbourhoodRingMarkup(starts, colours) {
+  const band = (0.86 - 0.45) / starts.length;
+  return '<circle cx="0" cy="0" r="1" fill="#332338"/>'
+    + starts.map((start, part) => `<circle data-neighbourhood-ring="${start}" cx="0" cy="0" r="${0.86 - (part + 0.5) * band}" fill="none" stroke="${colours[start]}" stroke-width="${band * 0.9}"/>`).join('');
+}
+
 function graphSVG(opts = {}) {
   const g = S.graph, M = S.model, T = M.topo, a = S.analysis;
   const comparison = S.neighbourhoods, showNeighbourhoods = S.colourMode === 'neighbourhoods';
@@ -5279,9 +5415,9 @@ function graphSVG(opts = {}) {
   const simple = !opts.static && S.workspace === 'explore';
   const fillDescription = showNeighbourhoods
     ? manyNeighbourhoods
-      ? 'Every selected start has its own neighbourhood colour. A solid vertex belongs to one selected neighbourhood; coloured sectors show every selected neighbourhood containing a shared vertex. Numbered starts match the colour key. Light vertices are outside all selected neighbourhoods. Interior, boundary and exterior of A are reported separately in the inspector.'
-      : 'Fill: wine is N(v1) only, turquoise is N(v2) only, purple is their intersection, light is outside both. Numbered badges identify the selected starts. With one selection its entire least open neighbourhood is wine. Interior, boundary and exterior of A are reported separately in the inspector.'
-    : 'Fill: interior of A purple, boundary pink (hatched), exterior light.';
+      ? 'Every selected start has its own neighbourhood colour. A solid vertex belongs to one selected neighbourhood; a shared vertex has one concentric coloured ring for every selected neighbourhood containing it, earliest selected on the outside. Its dark centre is a label background, not another set. Numbered starts match the colour key. Light vertices are outside all selected neighbourhoods. Interior, boundary and exterior of A are reported separately in the inspector.'
+      : 'Fill: wine is N(v1) only, turquoise is N(v2) only, wine and turquoise concentric rings show their intersection, light is outside both. The dark centre of a shared vertex is a label background, not another set. Numbered badges identify the selected starts. With one selection its entire least open neighbourhood is wine. Interior, boundary and exterior of A are reported separately in the inspector.'
+    : 'Fill: interior of A purple, boundary pink (hatched), exterior neutral.';
   const trace = !opts.static && S.trace;
   const showArcs = S.showArcs && (opts.static || S.workspace === 'workbench' || S.mode !== 'weak-patch');
   const traceArcs = new Set(trace ? trace.arcs.map(([u, v]) => `${u}>${v}`) : []);
@@ -5310,12 +5446,9 @@ function graphSVG(opts = {}) {
     + '<path d="M0,0 L10,5 L0,10 z" fill="#776575"/></marker>'
     + `<marker id="trace-arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${COL.teal}"/></marker>`
     + `<pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fbe3f7"/><line x1="0" y1="0" x2="0" y2="6" stroke="${COL.boundary}" stroke-width="2.5"/></pattern>`
-    + (showNeighbourhoods && manyNeighbourhoods ? comparison.memberships.map((starts, vertex) => starts.length < 2 ? ''
-      : `<pattern id="neighbourhood-sectors-${vertex}" patternUnits="objectBoundingBox" width="1" height="1" viewBox="-1 -1 2 2">`
-        + starts.map((start, part) => {
-          const from = -Math.PI / 2 + 2 * Math.PI * part / starts.length, to = from + 2 * Math.PI / starts.length;
-          return `<path data-neighbourhood-sector="${start}" d="M0,0 L${Math.cos(from)},${Math.sin(from)} A1,1 0 ${starts.length === 2 ? 1 : 0},1 ${Math.cos(to)},${Math.sin(to)} Z" fill="${comparison.colours[start]}"/>`;
-        }).join('') + '</pattern>').join('') : '') + '</defs>'];
+    + (showNeighbourhoods ? comparison.memberships.map((starts, vertex) => starts.length < 2 ? ''
+      : `<pattern id="neighbourhood-rings-${vertex}" patternUnits="objectBoundingBox" width="1" height="1" viewBox="-1 -1 2 2">`
+        + neighbourhoodRingMarkup(starts, comparison.colours) + '</pattern>').join('') : '') + '</defs>'];
   // edges, parallel instances offset
   const groups = new Map();
   g.edges.forEach(e => { const k = e.u < e.v ? `${e.u}|${e.v}` : `${e.v}|${e.u}`; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(e); });
@@ -5353,24 +5486,24 @@ function graphSVG(opts = {}) {
     const q = pos[i];
     const region = comparison.regions[i], anchor = comparison.anchors.indexOf(i) + 1;
     const memberships = comparison.memberships[i];
-    const neighbourhoodFill = manyNeighbourhoods && memberships.length
-      ? memberships.length > 1 ? `url(#neighbourhood-sectors-${i})` : comparison.colours[memberships[0]]
-      : NEIGHBOURHOOD_COLOURS[region];
+    const neighbourhoodFill = memberships.length > 1 ? `url(#neighbourhood-rings-${i})`
+      : memberships.length ? comparison.colours[memberships[0]] : NEIGHBOURHOOD_COLOURS.outside;
     const fill = showNeighbourhoods ? neighbourhoodFill : a.interior[i] ? COL.interior : a.boundary[i] ? 'url(#hatch)' : COL.exterior;
     const inA = S.A[i], inPrev = !opts.static && S.preview && S.preview[i];
     const marked = trace && trace.mask[i], origin = marked && trace.origin === i;
     const focusRing = !opts.static && !simple && !trace && ((focusCls !== null && focusCls !== undefined && T.pointToClass[i] === focusCls) || hlNodes.has(i));
     const txt = (showNeighbourhoods ? region !== 'outside' : a.interior[i]) ? '#fff' : COL.ink;
-    const regionDescription = manyNeighbourhoods
-      ? memberships.length ? 'in ' + memberships.map(start => `N(${label(comparison.anchors[start])}), Start ${start + 1}`).join('; ') : 'outside all selected neighbourhoods'
-      : { first: 'in N(v1) only', second: 'in N(v2) only', intersection: 'in both neighbourhoods', outside: 'outside the compared neighbourhoods' }[region];
+    const regionDescription = memberships.length
+      ? 'in ' + memberships.map(start => `N(${label(comparison.anchors[start])}), Start ${start + 1}`).join('; ')
+        + (memberships.length > 1 ? `; ${memberships.length} concentric membership rings, earliest selected on the outside` : '; solid neighbourhood colour')
+      : 'outside all selected neighbourhoods';
     out.push(`<g class="vtx${marked ? ' trace-node' : ''}${origin ? ' trace-origin' : ''}" data-v="${esc(p.id)}" data-neighbourhood-region="${region}" data-neighbourhood-memberships="${esc(JSON.stringify(memberships))}" data-neighbourhood-start-ids="${esc(JSON.stringify(memberships.map(start => g.nodes[comparison.anchors[start]].id)))}"${anchor ? ` data-neighbourhood-anchor="${anchor}"` : ''} tabindex="0" role="button" aria-pressed="${Boolean(inA)}" aria-label="vertex ${esc(p.label)}, ${S.statistic === 'incident-edges' ? 'degree' : 'neighbours'} ${M.degree[i]}${inA ? ', in A' : ''}${a.interior[i] ? ', interior of A' : a.boundary[i] ? ', boundary of A' : ', exterior of A'}${showNeighbourhoods ? ', ' + esc(regionDescription) : ''}${anchor ? ', comparison vertex ' + anchor : ''}${marked ? origin ? ', exploration origin' : ', highlighted in exploration' : ''}">`);
     if (marked) out.push(`<circle class="trace-ring" cx="${q.x}" cy="${q.y}" r="28" fill="${origin ? '#76234b12' : '#147f8714'}" stroke="${origin ? COL.wine : COL.teal}" stroke-width="${origin ? 4 : 3}"${origin ? '' : ' stroke-dasharray="5 3"'}/>`);
     if (focusRing) out.push(`<circle cx="${q.x}" cy="${q.y}" r="27" fill="none" stroke="${COL.teal}" stroke-width="4"/>`);
     if (!opts.static && S.pendingConnect === p.id) out.push(`<circle cx="${q.x}" cy="${q.y}" r="30" fill="none" stroke="${COL.wine}" stroke-width="3"/>`);
     if (inPrev) out.push(`<circle cx="${q.x}" cy="${q.y}" r="24" fill="none" stroke="${COL.wine}" stroke-width="3" stroke-dasharray="4 3"/>`);
     out.push(`<circle class="vertex-fill" data-selected="${Boolean(inA)}" cx="${q.x}" cy="${q.y}" r="${simple ? 22 : 19}" fill="${fill}" stroke="${inA ? simple ? '#f2bddb' : COL.ink : '#888'}" stroke-width="${inA ? 4.5 : 1.2}"/>`);
-    out.push(`<text x="${q.x}" y="${q.y + 4}" text-anchor="middle" class="vl" fill="${txt}"${showNeighbourhoods && manyNeighbourhoods && memberships.length > 1 ? ' stroke="#38253f" stroke-width="2" stroke-linejoin="round" paint-order="stroke"' : ''}>${esc(p.label)}</text>`);
+    out.push(`<text x="${q.x}" y="${q.y + 4}" text-anchor="middle" class="vl" fill="${txt}"${showNeighbourhoods && memberships.length > 1 ? ' stroke="#332338" stroke-width="2" stroke-linejoin="round" paint-order="stroke"' : ''}>${esc(p.label)}</text>`);
     if (showNeighbourhoods && anchor) out.push(simple
       ? `<g class="neighbourhood-anchor named-anchor"><rect x="${q.x - 38}" y="${q.y - 52}" width="76" height="24" rx="9" fill="${comparison.colours[anchor - 1]}"/><text x="${q.x}" y="${q.y - 35}" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">Start ${anchor}</text></g>`
       : `<g class="neighbourhood-anchor"><circle cx="${q.x + 18}" cy="${q.y - 19}" r="8" fill="#fff" stroke="${comparison.colours[anchor - 1]}" stroke-width="2"/><text x="${q.x + 18}" y="${q.y - 16}" text-anchor="middle" fill="${COL.ink}" font-size="9" font-weight="bold">${anchor}</text></g>`);
@@ -5380,14 +5513,17 @@ function graphSVG(opts = {}) {
   if (opts.legend && showNeighbourhoods) {
     const entries = manyNeighbourhoods ? comparison.anchors.map((origin, start) => [comparison.colours[start], `Start ${start + 1}: ${label(origin)}`]).concat([[NEIGHBOURHOOD_COLOURS.outside, 'Outside all']]) : (comparison.anchors.length > 1
       ? [['first', 'N(v1) only'], ['second', 'N(v2) only'], ['intersection', 'Intersection'], ['outside', 'Outside']]
-      : [['first', 'N(v1)'], ['outside', 'Outside']]).map(([key, name]) => [NEIGHBOURHOOD_COLOURS[key], name]);
+      : [['first', 'N(v1)'], ['outside', 'Outside']]).map(([key, name]) => [NEIGHBOURHOOD_COLOURS[key], name, key]);
     out.push(`<g transform="translate(${minX + 8},${maxY - 30 - (legendRows - 1) * 20})" class="leg neighbourhood-legend">`
-      + entries.map(([colour, name], i) => {
+      + entries.map(([colour, name, key], i) => {
         const x = manyNeighbourhoods ? i % legendColumns * 125 : i * 95, y = manyNeighbourhoods ? Math.floor(i / legendColumns) * 20 : 0;
         const shown = name.length > 19 ? name.slice(0, 17) + '…' : name;
-        return `<g transform="translate(${x},${y})"><title>${esc(name)}</title><rect width="12" height="12" fill="${colour}" stroke="#888"/><text x="16" y="10">${esc(shown)}</text></g>`;
+        const glyph = key === 'intersection'
+          ? `<g transform="translate(6,6) scale(7)">${neighbourhoodRingMarkup([0, 1], comparison.colours)}</g>`
+          : `<rect width="12" height="12" fill="${colour}" stroke="#888"/>`;
+        return `<g transform="translate(${x},${y})"><title>${esc(name)}${key === 'intersection' ? ': wine and turquoise rings' : ''}</title>${glyph}<text x="16" y="10">${esc(shown)}</text></g>`;
       }).join('')
-      + `<text x="0" y="-8">${manyNeighbourhoods ? 'Coloured sectors show membership in every matching set' : 'Smallest open neighbourhoods · badges identify the starts'}</text>`
+      + `<text x="0" y="-8">${comparison.anchors.length > 1 ? 'Shared vertex: one coloured ring per neighbourhood' : 'Smallest open neighbourhoods · badges identify the starts'}</text>`
       + `<text x="0" y="${legendRows * 20 + 7}">${comparison.anchors.length ? 'Thick outline: in A' : 'Select vertices to colour their neighbourhoods'}${S.mode === 'weak-patch' && showArcs ? ' · Arrows: reference only' : ''}</text></g>`);
   } else if (opts.legend) {
     out.push(`<g transform="translate(${minX + 8},${maxY - 30})" class="leg"><rect width="12" height="12" fill="${COL.interior}"/><text x="16" y="10">interior</text>`
@@ -5649,14 +5785,18 @@ function renderSelectionSummary() {
 function neighbourhoodSummaryHTML() {
   const c = S.neighbourhoods, T = S.model.topo;
   if (!c.anchors.length) return '<p class="neighbourhood-instruction">Click vertices to add their smallest open neighbourhoods. Every selected start keeps its full set coloured; click it again to remove that set.</p>';
-  if (c.anchors.length > 2) return '<p class="neighbourhood-instruction">Each start has its own colour. A shared vertex shows a sector for every neighbourhood containing it. Expand a row for its complete set.</p>'
+  if (c.anchors.length > 2) return '<p class="neighbourhood-instruction">Each start has its own colour. A shared vertex shows one concentric ring for every neighbourhood containing it, earliest selected on the outside. Expand a row for its complete set.</p>'
     + c.anchors.map((origin, start) => `<details class="neighbourhood-set" data-neighbourhood-set="start-${start + 1}" data-neighbourhood-start-id="${esc(S.graph.nodes[origin].id)}" data-neighbourhood-colour="${c.colours[start]}" data-member-ids="${esc(JSON.stringify(setIds(c.masks[start])))}" style="border-color:${c.colours[start]}"><summary><i aria-hidden="true" style="display:inline-block;width:14px;height:14px;border-radius:3px;background:${c.colours[start]}"></i> Start ${start + 1}: N(${esc(label(origin))}) · ${c.masks[start].reduce((n, bit) => n + bit, 0)} vertices</summary><span class="neighbourhood-members">${fmtSet(T, c.masks[start])}</span></details>`).join('');
-  const card = (key, title, mask, detail) => `<div class="neighbourhood-set" data-neighbourhood-set="${key}" data-member-ids="${esc(JSON.stringify(setIds(mask)))}" style="border-color:${NEIGHBOURHOOD_COLOURS[key]}"><strong style="color:${NEIGHBOURHOOD_COLOURS[key]}">${title}</strong><span class="neighbourhood-members">${fmtSet(T, mask)}</span>${detail ? `<small>${detail}</small>` : ''}</div>`;
+  const card = (key, title, mask, detail) => {
+    const shared = key === 'intersection';
+    const glyph = shared ? `<svg aria-hidden="true" width="26" height="26" viewBox="-1 -1 2 2" style="display:inline-block;vertical-align:middle;margin:0 6px 0 0">${neighbourhoodRingMarkup([0, 1], c.colours)}</svg>` : '';
+    return `<div class="neighbourhood-set" data-neighbourhood-set="${key}" data-member-ids="${esc(JSON.stringify(setIds(mask)))}" style="border-color:${shared ? '#888' : NEIGHBOURHOOD_COLOURS[key]}"><strong style="color:${shared ? 'inherit' : NEIGHBOURHOOD_COLOURS[key]}">${glyph}${title}</strong><span class="neighbourhood-members">${fmtSet(T, mask)}</span>${detail ? `<small>${detail}</small>` : ''}</div>`;
+  };
   let html = card('first', `v1 = ${esc(label(c.anchors[0]))} · N(v1)`, c.first,
     c.anchors.length > 1 ? `Wine only: ${fmtSet(T, c.firstOnly)}` : 'Wine: the entire neighbourhood');
   if (c.anchors.length > 1) {
     html += card('second', `v2 = ${esc(label(c.anchors[1]))} · N(v2)`, c.second, `Turquoise only: ${fmtSet(T, c.secondOnly)}`)
-      + card('intersection', 'N(v1) ∩ N(v2)', c.intersection, 'Purple: belongs to both neighbourhoods');
+      + card('intersection', 'N(v1) ∩ N(v2)', c.intersection, 'Wine and turquoise rings: belongs to both neighbourhoods');
   }
   return html;
 }
@@ -5669,8 +5809,8 @@ function renderNeighbourhoodSummary() {
   $('#neighbourhood-summary').innerHTML = neighbourhoodSummaryHTML();
   $('#neighbourhood-display-note').textContent = S.colourMode === 'neighbourhoods'
     ? S.neighbourhoods.anchors.length > 2
-      ? 'Every selected start has a colour. Shared vertices contain coloured sectors for every set they belong to; the numbered starts match the key.'
-      : 'Colours show set membership. With two starts the shared part is purple; numbered badges identify the starts.'
+      ? 'Every selected start has a colour. A shared vertex has one concentric ring per containing neighbourhood; the numbered starts match the key.'
+      : 'Colours show set membership. With two starts a shared vertex has wine and turquoise rings; numbered badges identify the starts.'
     : 'Graph colours show interior / boundary / exterior of A. The neighbourhood sets below are still current.';
 }
 
@@ -5823,7 +5963,7 @@ function galleryHTML() {
 }
 
 function helpHTML() {
-  return '<div class="rules"><p><b>Neighbourhood colours.</b> Every selected vertex adds its full smallest open neighbourhood. Click a selected start again to remove its set. With one start its set is wine; with two, wine and turquoise mark the exclusive parts and purple marks their intersection. With three or more starts each has a distinct colour, and a shared vertex has one coloured sector for every containing neighbourhood. The key and expandable exact-set rows identify all starts. Colours follow the current selection order. N(v) is the smallest open set containing v; the largest is always the whole vertex set. Graph colours can also show interior / boundary / exterior of A. The quotient always keeps its A-analysis colours. Colour mode is a drawing preference, not a saved mathematical input.</p>'
+  return '<div class="rules"><p><b>Neighbourhood colours.</b> Every selected vertex adds its full smallest open neighbourhood. Click a selected start again to remove its set. With one start its set is wine; with two, wine and turquoise mark the exclusive parts, and shared vertices have both wine and turquoise rings. The third start is bright blue. A shared vertex has one complete coloured circumference for every containing neighbourhood, in selection order from outside to inside. Its dark centre is a label background, not another set. With many overlaps the rings become finer; zoom in or inspect the exact-set rows. The key and expandable exact-set rows identify all starts. Colours follow the current selection order. N(v) is the smallest open set containing v; the largest is always the whole vertex set. Graph colours can also show interior / boundary / exterior of A. The quotient always keeps its A-analysis colours. Colour mode is a drawing preference, not a saved mathematical input.</p>'
     + '<p><b>Undirected graph and step arrows.</b> Input edges are undirected. The arrowheads are a derived overlay showing which direction permits a step under the active topology and degree statistic. They do not turn the input into a directed graph. Weak-patch reference arrows are described below.</p>'
     + '<p><b>Linked exploration.</b> Select a neighbourhood, quotient up-set, cover, arc or matrix cell to see it in the drawings. Explore neighbourhoods lets you start from a graph vertex; clicking a quotient point explores its up-set. Wine rings mark the origin and turquoise rings mark the exploration; fills follow Graph colours. These highlights do not change A. A direct graph step may appear as several covers in the Hasse drawing.</p>'
     + '<p><b>Drawing controls.</b> Use +/− or Ctrl + wheel to zoom, Pan or middle drag to move the view, Fit to show the whole drawing, and Expand for more room (Escape closes). Hover or focus a node for its details. Relaxed network, Degree levels and Circle arrange vertex positions only. JSON retains positions; live zoom, pan, tooltips, table-exploration rings and witness highlights are not exported. Graph SVG and HTML reports retain the chosen neighbourhood colours and numbered origins.</p>'
@@ -5999,7 +6139,7 @@ function reportHTML() {
     + `<h2>Assumptions</h2><p>Finite ${esc(g.kind)} graph; mode <b>${esc(t(S.mode))}</b>; statistic <b>${esc(t(S.statistic))}</b>; primary carrier: ambient vertices V. ${assumptions}</p>`
     + '<p>These are finite calculations. They do not prove the manuscript’s general or infinite theorems.</p>'
     + `<h2>Selected set on V</h2>${inspectorHTML().replace(/<button[^>]*>.*?<\/button>/g, '')}`
-    + `<h2>Smallest open neighbourhoods</h2><p>The largest open set containing any vertex is V. The sets below are the smallest open neighbourhoods, using the active topology. Graph fills: ${S.colourMode === 'neighbourhoods' ? S.neighbourhoods.anchors.length > 2 ? 'one colour per selected start; shared vertices show every containing set as coloured sectors' : 'wine N(v1) only, turquoise N(v2) only, purple intersection' : 'interior / boundary / exterior of A'}.</p><div class="neighbourhood-summary">${neighbourhoodSummaryHTML()}</div>`
+    + `<h2>Smallest open neighbourhoods</h2><p>The largest open set containing any vertex is V. The sets below are the smallest open neighbourhoods, using the active topology. Graph fills: ${S.colourMode === 'neighbourhoods' ? S.neighbourhoods.anchors.length > 2 ? 'one colour per selected start; a shared vertex has one concentric coloured ring for every containing set, earliest selected on the outside' : 'wine N(v1) only, turquoise N(v2) only, wine and turquoise rings at the intersection' : 'interior / boundary / exterior of A'}.</p><div class="neighbourhood-summary">${neighbourhoodSummaryHTML()}</div>`
     + `<h2>Figures</h2><div class="figures"><div>${staticSVG(graphSVG({ legend: true, static: true }))}</div><div>${staticSVG(quotientSVG({ static: true }), true)}</div></div>`
     + '<h2>Subspace comparison</h2>' + subspaceReport(ex)
     + '<h2>Loaded open sets on V</h2>' + loadedSetsReport(ex)
@@ -6190,7 +6330,7 @@ function vertexKey(id) {
 }
 
 const TOOL_HINT = {
-  select: 'Click one vertex for its smallest open neighbourhood; click a second for wine / turquoise / purple overlap. Click again to deselect. Selected vertices also form A. Drag a vertex to move it; drag empty space to add a box to A (Alt removes).',
+  select: 'Click vertices to show their smallest open neighbourhoods. Wine, turquoise and bright blue identify the first three starts; a shared vertex has one concentric coloured ring per containing set. Click again to deselect. Selected vertices also form A. Drag a vertex to move it; drag empty space to add a box to A (Alt removes).',
   'add-vertex': 'Click on empty space to add a vertex there. Drag from one vertex to another to add an edge.',
   'add-edge': 'Drag from one vertex to another, or click the first vertex and then the second, to add an edge.',
   move: 'Drag a vertex to move it. Moving changes the drawing only, never the topology.',
@@ -6498,8 +6638,8 @@ function boot() {
   let theme = 'dark';
   try { if (localStorage.getItem('uphill-theme') === 'light') theme = 'light'; } catch { /* No persistence required. */ }
   setTheme(theme);
-  // The user's saved example invites exploration without preselected vertices.
-  loadPreset('hard19');
+  // Begin with three vertices; the introduction brings in richer graphs later.
+  loadPreset('path3');
   S.undo = [];
   render(); setTool('select');
   installGraphViewports();

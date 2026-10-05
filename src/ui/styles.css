@@ -103,7 +103,7 @@ body[data-workspace="explore"] .graph-heading{margin-bottom:10px}
 .eyebrow{display:none}
 .playground-stage{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px;align-items:start}
 .graph-display{position:relative;min-width:0}
-body[data-workspace="explore"] .graph-display{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"tools" "hint" "reading" "drawing"}
+body[data-workspace="explore"] .graph-display{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"tools" "hint" "drawing" "reading"}
 body[data-workspace="explore"] .graph-display>.interaction-row{grid-area:tools}
 body[data-workspace="explore"] .graph-display>#toolhint{grid-area:hint}
 body[data-workspace="explore"] .graph-display>#canvas-reading{grid-area:reading}
@@ -120,7 +120,7 @@ body[data-workspace="explore"] .graph-display>#graph{grid-area:drawing}
 .hint{font-size:17px;color:var(--ink);margin:8px 0 12px;padding:10px 13px;background:var(--aqua);border-radius:9px}
 body[data-workspace="explore"] #toolhint{display:none}
 body[data-workspace="explore"] .graph-display:has([data-tool="add-edge"][aria-pressed="true"]) #toolhint,body[data-workspace="explore"] .graph-display:has([data-tool="add-vertex"][aria-pressed="true"]) #toolhint{display:block}
-.canvas-reading{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 15px;margin-bottom:10px;font-size:18px;line-height:1.5;color:var(--ink)}
+.canvas-reading{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 15px;margin:10px 0 0;font-size:18px;line-height:1.5;color:var(--ink)}
 .canvas-reading:empty{display:none}
 .canvas-reading p{margin:0 0 9px}.canvas-reading p:last-child{margin-bottom:0}
 .canvas-reading strong{font-weight:750}
@@ -443,3 +443,9 @@ body[data-workspace="explore"] .graph-pane.viewport-expanded .graph-display>.vie
 @media print{.control-menu-list,#preset-gallery.preset-fan{display:none!important}}
 .control-menu-group{display:flex;flex-direction:column;gap:4px}.control-menu-group+.control-menu-group{margin-top:7px;padding-top:7px;border-top:1px solid var(--line)}
 .control-menu-group-label{padding:6px 13px 4px;font-size:14px;line-height:1.25;font-weight:750;color:var(--violet);letter-spacing:.025em}
+
+/* Each overlap key repeats the original neighbourhood colours. */
+.story-region-key .region-rings{display:inline-block;flex:0 0 20px;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#332338 0 29%,#147f87 30% 48%,#332338 49% 54%,#86264f 55% 82%,transparent 83%)}
+.story-region-key .region-exterior::before,.story-region-key .region-boundary::before{content:"";display:inline-block;width:18px;height:18px;border:1px solid #b6a9b5;border-radius:5px}
+.story-region-key .region-exterior::before{background:#faf3f8}.story-region-key .region-boundary::before{background:repeating-linear-gradient(45deg,#c44591 0 2px,#fbe3f7 2px 6px)}
+body[data-theme="dark"] .story-region-key .region-exterior::before{background:#26324b;border-color:#91a2c0}

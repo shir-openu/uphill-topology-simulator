@@ -1,8 +1,9 @@
 // Temporary demonstrations use a separate graph and history. The original
-// experiment is restored before a real user gesture is allowed through.
+// experiment is restored when the user explicitly stops the introduction.
 import { graphToJSON, validateGraph } from '../kernel/graph.js';
 import { exportExperiment } from '../kernel/serialization.js';
 import { neighbourhoodTrace } from './exploration.js';
+import { degreeRowLayout } from './degree-layout.js';
 import { captureGraphViewports, restoreGraphViewports, previewGraphViewport, refreshGraphViewports } from './graph-viewport.js';
 
 // Prefer useful contrasts without inventing overlaps in topologies whose
@@ -60,7 +61,11 @@ export function createTourAdapter(env) {
     env.fields.clear();
     env.setWorkspace('explore'); env.setTheme(saved.theme, false);
     env.recompute(); env.render(); env.setTool('select');
+    // Every introduction starts with a readable three-vertex example, even
+    // when it was opened from a larger or custom experiment.
     restoreGraphViewports(saved.cameras.map(camera => ({ ...camera, expanded: false, pan: false })));
+    env.loadPreset('path3', { mode: 'uphill', statistic: 'incident-edges' });
+    S.undo = []; S.redo = [];
     settle();
   }
   function begin() {
@@ -185,6 +190,15 @@ export function createTourAdapter(env) {
     $('#graph').innerHTML = env.graphSVG({ legend: true });
     refreshGraphViewports(); if (camera) previewGraphViewport('set', { box: camera });
   }
+  function drawPositions(positions) {
+    if (!saved) return;
+    const camera = previewGraphViewport('capture');
+    for (const [id, point] of Object.entries(positions)) {
+      if (S.graph.index.has(id)) S.graph.layout[id] = { x: point.x, y: point.y };
+    }
+    $('#graph').innerHTML = env.graphSVG({ legend: true });
+    refreshGraphViewports(); if (camera) previewGraphViewport('set', { box: camera });
+  }
   function demoAnchors() {
     return tourDemoAnchorIds(S.graph, S.model);
   }
@@ -203,6 +217,7 @@ export function createTourAdapter(env) {
     },
     fan: operation => env.fan?.()?.[operation]?.(),
     getState: () => S, select, setTool: env.setTool, stopWave: settle, demoAnchors,
+    drawPositions, degreePositions: () => degreeRowLayout(S.graph, S.model.degree),
     pauseWave: () => env.explorer().pause(), resumeWave: () => env.explorer().resume(),
     openLessons: () => env.guide().open({preview:true}), closeLessons: () => env.guide().close() };
 }

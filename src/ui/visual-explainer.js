@@ -91,7 +91,7 @@ export function installVisualExplorer(api) {
   }
   function blinkSelection(id) {
     // The mathematical state is complete immediately, but the drawing first
-    // isolates the NEW neighbourhood in its own colour. Purple/sector fills
+    // isolates the NEW neighbourhood in its own colour. Membership-ring fills
     // underneath are hidden for both the ON and OFF portions of all 3 blinks.
     stop();
     const state = api.getState(), origin = state.graph.index.get(id);
@@ -144,13 +144,16 @@ export function installVisualExplorer(api) {
   }
   function keyHTML(state) {
     const measure = state.statistic === 'distinct-neighbours' ? 'neighbours' : 'edges';
-    return `<div class="meaning-key"><span><i class="key-ring" aria-hidden="true"></i> Pink ring = you clicked</span><span><i class="key-fill" aria-hidden="true"></i> Fill = belongs to a selected neighbourhood</span><span>Edges = undirected</span><span><i class="key-arrow" aria-hidden="true">→</i> ${state.mode === 'weak-patch' ? 'Equal-degree group only' : 'Arrow = allowed step overlay'}</span><span>${state.statistic === 'distinct-neighbours' ? 'Neighbours = distinct neighbours' : `Degree = attached ${measure}`}</span></div>`;
+    return `<div class="meaning-key"><span><i class="key-ring" aria-hidden="true"></i> Pink ring = you clicked</span><span><i class="key-fill" aria-hidden="true"></i> Fill or coloured rings = neighbourhood membership</span><span>Edges = undirected</span><span><i class="key-arrow" aria-hidden="true">→</i> ${state.mode === 'weak-patch' ? 'Equal-degree group only' : 'Arrow = allowed step overlay'}</span><span>${state.statistic === 'distinct-neighbours' ? 'Neighbours = distinct neighbours' : `Degree = attached ${measure}`}</span></div>`;
   }
   function setReading(text, phase = '') {
     if (!reading) return;
     const state = api.getState();
     if (state.colourMode === 'analysis') {
-      reading.innerHTML = '<strong class="reading-caption">Graph fills show the interior, boundary and exterior of A.</strong><div class="meaning-key">Purple: interior · Pink hatch: boundary · Pale: exterior · Thick ring: selected in A. Switch Graph colours to compare neighbourhoods.</div>';
+      const isolated = state.graph.nodes.length > 0 && state.model.degree.every(value => value === 0);
+      reading.innerHTML = isolated
+        ? '<strong class="reading-caption">All degrees are 0. Each vertex is isolated.</strong><div class="meaning-key">Purple: selected vertices A. Neutral fill: unselected vertices. These colours describe A, not degree.</div><span class="reading-phase">Each one-vertex set is open, so every selected vertex is an interior point of A.</span>'
+        : '<strong class="reading-caption">Selection colours: interior, boundary and exterior of A.</strong><div class="meaning-key">Purple: interior · Pink hatch: boundary · Neutral fill: exterior · Thick ring: selected in A. These colours describe A, not vertex degrees.</div>';
       return;
     }
     const editHint = state.tool === 'add-edge' ? (state.pendingConnect ? `First vertex: ${state.pendingConnect}. Now click the second vertex to connect them.` : 'Add edge: click the first vertex, then the second. Or drag between them.')
@@ -163,7 +166,7 @@ export function installVisualExplorer(api) {
       const origin = state.graph.index.get(canvas.dataset.blinkOrigin);
       if (origin !== undefined) {
         setReading(`N(${nodeName(state, origin)}) = ${setText(state, members(state.model.topo.N[origin]))}`,
-          `Whole neighbourhood · blink ${Math.min(3, Number(canvas.dataset.blinkCount) + 1)} of 3 in its own colour. Intersection colours appear afterwards.`);
+          `Whole neighbourhood · blink ${Math.min(3, Number(canvas.dataset.blinkCount) + 1)} of 3 in its own colour. Membership rings appear afterwards.`);
         return;
       }
     }
@@ -171,8 +174,12 @@ export function installVisualExplorer(api) {
       if (!playing) document.getElementById('story-progress')?.replaceChildren();
       setReading('Click a vertex to see its smallest open neighbourhood.'); return;
     }
+    if (state.graph.nodes.length && state.model.degree.every(value => value === 0)) {
+      setReading('Every vertex is isolated: N(v) = {v}.', 'Equal degrees do not connect separate vertices. Each selected vertex has its own neighbourhood colour; no neighbourhoods overlap.');
+      return;
+    }
     if (c.anchors.length > 2) {
-      setReading(`${c.anchors.length} full open neighbourhoods are coloured.`, 'Every start has a colour. Shared vertices show all their set colours as sectors. Click a selected start again to remove its set.');
+      setReading(`${c.anchors.length} full open neighbourhoods are coloured.`, 'Every start has a colour. Shared vertices have one coloured ring per containing neighbourhood. Click a selected start again to remove its set.');
       return;
     }
     const sets = c.anchors.map((v, i) => `N(${nodeName(state, v)}) = ${setText(state, members(c.masks[i]))}`).join(' · ');
@@ -184,7 +191,7 @@ export function installVisualExplorer(api) {
       }
     }
     setReading(sets, c.anchors.length === 1 ? 'Colours stay. Click the same vertex again to remove this selection.'
-      : `Purple = reachable from both starts: ${setText(state, members(c.intersection))}. Click a start again to remove it.`);
+      : `Wine + turquoise rings = belongs to both neighbourhoods: ${setText(state, members(c.intersection))}. Click a start again to remove it.`);
   }
   function clearStyles() {
     canvas.querySelectorAll('.reach-pending,.reach-arrived,.reach-edge').forEach(el => el.classList.remove('reach-pending', 'reach-arrived', 'reach-edge'));
@@ -432,22 +439,35 @@ export function installVisualExplorer(api) {
     stop(); latestKey = key;
     const names = c.anchors.map(v => nodeName(state, v));
     let content = `<strong class="story-caption">${visualEscape(names.length ? 'You clicked ' + names.join(' and ') + '.' : 'What will a click show?')}</strong>`;
+    if (state.colourMode === 'analysis') {
+      const isolated = state.graph.nodes.length > 0 && state.model.degree.every(value => value === 0);
+      content = '<strong class="story-caption" data-analysis-colour-note>Selection colours (A)</strong>'
+        + `<p>${isolated ? 'All degrees are 0. Each vertex is isolated, and every one-vertex set is open.' : 'This view shows the interior, boundary and exterior of your selected set A.'}</p>`
+        + '<div class="story-region-key" data-analysis-colour-key>'
+        + `<div><i class="region-purple" aria-hidden="true"></i><span>${isolated ? 'Purple: selected vertices A' : 'Purple: interior of A'}</span></div>`
+        + (isolated ? '' : '<div><i class="region-boundary" aria-hidden="true"></i><span>Pink hatch: boundary of A</span></div>')
+        + `<div><i class="region-exterior" aria-hidden="true"></i><span>${isolated ? 'Neutral fill: unselected vertices' : 'Neutral fill: exterior of A'}</span></div></div>`
+        + '<p>These colours describe A, not vertex degrees.</p><button type="button" class="story-action" id="story-neighbourhood-colours">Show neighbourhood colours</button>';
+      story.innerHTML = content;
+      document.getElementById('story-neighbourhood-colours').addEventListener('click', api.showNeighbourhoodColours);
+      finalReading();return;
+    }
     if (!names.length) content += '<p class="selection-vs-set">Click a vertex. Its pink ring marks your choice. Its full neighbourhood appears immediately and stays coloured. Click that vertex again to return to the unselected view.</p>';
     else {
       content += `<div class="story-selected"><i class="key-ring" aria-hidden="true"></i> Clicked vertices A = ${visualEscape(setText(state, [...state.selected].map(id => state.graph.index.get(id))))}</div>`;
       if (names.length <= 2) {
         content += setCard(state, c.first, 'first', `Start 1: ${names[0]} → neighbourhood N(${names[0]})`, why(state, c.anchors[0]));
         if (names.length > 1) content += setCard(state, c.second, 'second', `Start 2: ${names[1]} → neighbourhood N(${names[1]})`, why(state, c.anchors[1]));
-        if (names.length > 1) content += setCard(state, c.intersection, 'intersection', 'Purple: reached from both starts', members(c.intersection).length ? 'These vertices belong to BOTH full neighbourhoods above.' : 'The two neighbourhoods have no vertex in common.');
+        if (names.length > 1) content += setCard(state, c.intersection, 'intersection', 'Two coloured rings: belongs to both', members(c.intersection).length ? 'These vertices belong to BOTH full neighbourhoods above.' : 'The two neighbourhoods have no vertex in common.');
         const regions = [ ['first-only', c.firstOnly, names.length > 1 ? `Wine: from ${names[0]} only` : `Wine: all of N(${names[0]})`, 'wine'],
-          ...(names.length > 1 ? [['second-only', c.secondOnly, `Turquoise: from ${names[1]} only`, 'turquoise'], ['intersection', c.intersection, 'Purple: from both', 'purple']] : []),
+          ...(names.length > 1 ? [['second-only', c.secondOnly, `Turquoise: from ${names[1]} only`, 'turquoise'], ['intersection', c.intersection, 'Wine + turquoise rings: both', 'rings']] : []),
           ['outside', c.union.map(bit => Number(!bit)), 'Grey: not reached', 'outside'] ];
         content += '<div class="story-region-key">' + regions.map(([role, mask, text, colour]) => `<div data-story-region="${role}" data-member-ids="${visualEscape(JSON.stringify(memberIds(state, mask)))}"><i class="region-${colour}" aria-hidden="true"></i><span>${visualEscape(text)} <b>${visualEscape(setText(state, members(mask), 8))}</b></span></div>`).join('') + '</div>';
       } else {
         content += '<div class="story-region-key">' + c.anchors.map((origin, start) => {
           const ids = memberIds(state, c.masks[start]);
           return `<div data-story-region="start-${start + 1}" data-neighbourhood-start-id="${visualEscape(state.graph.nodes[origin].id)}" data-neighbourhood-colour="${c.colours[start]}" data-member-ids="${visualEscape(JSON.stringify(ids))}"><i aria-hidden="true" style="display:inline-block;flex:0 0 18px;width:18px;height:18px;border:1px solid #d5c6e577;border-radius:5px;background:${c.colours[start]}"></i><details style="flex:1;min-width:0"><summary>Start ${start + 1}: N(${visualEscape(names[start])}) · ${ids.length} ${ids.length === 1 ? 'vertex' : 'vertices'}</summary><span class="set-members">{ ${members(c.masks[start]).map(i => chip(state, i)).join(' ')} }</span></details></div>`;
-        }).join('') + '<div><span>Coloured sectors = belongs to every shown set colour. Grey = outside all selected neighbourhoods.</span></div></div>';
+        }).join('') + '<div><span>One ring per containing neighbourhood: two memberships, two rings; three memberships, three rings. Grey = outside all selected neighbourhoods.</span></div></div>';
       }
       content += `<p class="selection-vs-set">Each full neighbourhood is open: ${state.mode === 'weak-patch' ? 'it is a whole equal-degree group.' : 'follow any allowed arrow inside it and you stay inside.'}</p>`;
       const missing = members(state.analysis.enlarge).filter(i => !state.A[i]);

@@ -1,29 +1,45 @@
-# Uphill Topology Explorer — Supplement S1
+# Uphill Topology Explorer
 
-**Version 1.11.2** is the frozen, independently reviewed finite simulator accompanying the manuscript **Uphill graph topologies and degree-constrained realizations of posets**.
+**Latest published interface: 1.12.1.** This is the author's newer local release, with a basic three-vertex path at the start of the introduction and shorter explanations. The independently reviewed paper supplement remains the separate, unchanged **1.11.2**.
 
 **Author:** Shir Sivroni  
 **Affiliation:** Department of Mathematics and Computer Science, The Open University of Israel  
-**Contact:** shirsivroni@gmail.com
+**Contact:** shirsivroni@gmail.com  
+**Associated paper:** Uphill graph topologies and degree-constrained realizations of posets
 
-[Open the version-specific simulator](https://shir-openu.github.io/uphill-topology-simulator/v1.11.2/) · [Download release v1.11.2](https://github.com/shir-openu/uphill-topology-simulator/releases/tag/v1.11.2) · [Validation scope](validation/REVIEW_SCOPE.md)
+[Open latest version 1.12.1](https://shir-openu.github.io/uphill-topology-simulator/v1.12.1/) · [Download release v1.12.1](https://github.com/shir-openu/uphill-topology-simulator/releases/tag/v1.12.1)
 
-The simulator is a separate supplementary illustration. Its finite computations and drawings do not prove the manuscript's theorems. This repository does not contain the manuscript or a journal submission.
+[Open independently reviewed supplement 1.11.2](https://shir-openu.github.io/uphill-topology-simulator/v1.11.2/) · [Frozen release v1.11.2](https://github.com/shir-openu/uphill-topology-simulator/releases/tag/v1.11.2)
+
+The root Pages address follows the latest published interface. Use a version-specific link when citing an exact artifact. Version 1.12.1 has not received the independent manuscript-side review of 1.11.2; that earlier signoff does not transfer to this release. The simulator is a separate finite illustration, and its computations and drawings do not prove manuscript theorems. This repository does not contain the manuscript or a journal submission.
+
+## What changed in 1.12.1
+
+The introduction begins with the basic path a—b—c, uses shorter reading pauses, and actually loads the demonstrated preset cards in the main view. The neighbourhood summary and visual key are below the graph. The third neighbourhood uses bright blue; vertices belonging to several selected neighbourhoods show concentric rings in their original colours after three whole-neighbourhood blinks. Degree rows change drawing positions without changing the graph or topology.
+
+**Known limitation:** a later introductory-tour demonstration of **Cancel reading** can stall in this release. Use **Stop intro** to leave the demonstration and explore the graph. The complete later tour is not represented as passing natural-completion testing. This publication preserves the exact delivered 1.12.1 executable.
 
 ## Run
 
-Open the link above, or download `uphill-topology-explorer-v1.11.2.html` from the release and open it in a current desktop browser. The downloaded HTML works offline and includes its styles, scripts and computation worker; no server is required. If Blob workers are unavailable, computation has a bounded main-thread fallback.
+Open the latest link above, or download `uphill-topology-explorer-v1.12.1.html` from its release and open it in a desktop browser. The standalone HTML works offline and includes styles, scripts and a computation worker. If Blob workers are unavailable, computation has a bounded main-thread fallback.
 
-Select vertices in the main graph to compare their smallest open neighbourhoods. The topology selector changes the allowed-step rule. The original graph is undirected; any arrowheads are a derived step overlay. In the full workbench, **Edit this graph & drawing → Layout → Degree levels** arranges the drawing by degree without changing the graph or topology.
+Select vertices in the main graph to compare their smallest open neighbourhoods. The topology selector changes the allowed-step rule. The original graph is undirected; arrowheads are a derived step overlay. In the full workbench, **Edit this graph & drawing → Layout → Degree levels** rearranges the drawing by degree.
 
-The version-specific page, root page and `dist/index.html` are identical copies of the exact reviewed HTML:
+The root page, `dist/index.html` and `v1.12.1/index.html` are exact copies of the accepted local executable:
 
 ```text
+Version 1.12.1
+SHA256  1481cfc02eef2db0797068707d1286fde649c14868da4eb83148f421f3a57ff0
+Bytes   484229
+```
+
+The frozen paper-supplement page `v1.11.2/index.html` remains unchanged:
+
+```text
+Version 1.11.2
 SHA256  5c715e7fad50fbb491e75c2ea01ec39b604f5eec367d6a2efcb8de93e6d43282
 Bytes   470984
 ```
-
-This publication preserves version 1.11.2 exactly. Later development versions are not included or represented as having this review.
 
 ## Reproduce
 
@@ -34,9 +50,9 @@ node --test tests/*.test.mjs
 node build.mjs
 ```
 
-The 83 Node tests pass, and rebuilding produces the HTML hash above. Preserve the original source line endings: `.gitattributes` disables Git line-ending conversion because changing them can change the byte-level build output.
+All 88 Node tests pass, and rebuilding reproduces the 1.12.1 HTML hash above. `.gitattributes` preserves the original source line endings, which are needed for byte-identical output. The build's preservation helper archives a differing existing `dist/index.html` before replacing it.
 
-Optional browser checks use Python, Chrome/Chromium and the dependency in `requirements-browser.txt`:
+Optional browser harnesses require Python, Chrome/Chromium and `requirements-browser.txt`:
 
 ```sh
 python -m pip install -r requirements-browser.txt
@@ -45,22 +61,18 @@ python tests/e2e_acceptance.py --force-fallback
 python tests/e2e_regressions.py
 ```
 
-Set `UPHILL_CHROME` to the browser executable if automatic discovery cannot find it. These scripts create local reports and screenshots; generated reports can contain local paths and are not part of this public package.
+Set `UPHILL_CHROME` to the browser executable if automatic discovery cannot find it. These retained harnesses generate local reports/screenshots and are not claimed as freshly passing by the Node/build report. Earlier presentation assertions can describe superseded interfaces; the [validation scope](validation/REVIEW_SCOPE.md) distinguishes retained scripts, previous release evidence and fresh checks. Do not publish generated reports without checking for local paths.
 
-## Review and provenance
+## Validation and provenance
 
-The independent review of this exact artifact covered 83 Node tests, an independent oracle over 48 models and 666 subset analyses, and 36 logical targeted browser checks. The browser evidence combines 30 retained passing groups and six complete recovery groups, with original observer/setup failures retained in the review history. It was **not one uninterrupted 36/36 run**. See [review scope and limitations](validation/REVIEW_SCOPE.md) and the fresh [publication build evidence](validation/reproducibility.json).
+[Current validation scope](validation/REVIEW_SCOPE.md) and [fresh build/Node evidence](validation/reproducibility.json) apply to 1.12.1. The earlier independent [1.11.2 review summary](validation/historical-1.11.2/REVIEW_SCOPE.md) is retained as historical evidence only. The original reviewed tag and downloadable artifacts remain available unchanged.
 
-The minimal public source ZIP is repackaged from the reviewed source archive; it has a different ZIP hash because private metadata and historical artifacts are excluded. Runtime source, build inputs, executable HTML and test logic are preserved. The only test-fixture adjustment removes private manuscript/palette metadata; its mathematical graph data is unchanged. [Repackaging details](validation/REPACKAGING.md) distinguish original bytes from new publication wrappers.
-
-The exported application's historical manuscript-version marker remains v12. It is preserved provenance of the tested software and is not a claim that the accompanying manuscript is still v12.
+The public source ZIP is a minimal repackaging of the delivered 1.12.1 archive, with private metadata and historical bulk excluded. Runtime source, build inputs, executable HTML and test logic are unchanged. The test fixture retains its complete `karate34` graph object while removing private manuscript/palette paths. [Repackaging details](validation/REPACKAGING.md) list these distinctions. The application's historical v12 manuscript marker is retained provenance, not the current paper's version.
 
 ## Citation and rights
 
-Use the software version when citing:
+> Sivroni, Shir. Uphill Topology Explorer, version 1.12.1. 2026. Associated with “Uphill graph topologies and degree-constrained realizations of posets.”
 
-> Sivroni, Shir. Uphill Topology Explorer, version 1.11.2. Supplement S1 to “Uphill graph topologies and degree-constrained realizations of posets.” 2026.
+For the independently reviewed paper supplement, cite version 1.11.2 and its version-specific link instead. [CITATION.cff](CITATION.cff) describes the current 1.12.1 software. No DOI is assigned by this repository.
 
-Machine-readable citation metadata is in [CITATION.cff](CITATION.cff). No DOI is assigned by this repository.
-
-No software license was documented in the reviewed package, and this publication introduces no new license grant. **All rights reserved; licensing awaits the author's choice.** See [RIGHTS.md](RIGHTS.md).
+No software license was documented in either packaged release, and this publication introduces no new license grant. **All rights reserved; licensing awaits the author's choice.** See [RIGHTS.md](RIGHTS.md).

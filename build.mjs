@@ -23,6 +23,7 @@ const presets = `const FIXTURE_GRAPHS = ${JSON.stringify(graphs)};\n` + strip(rd
 const app = '(function(){\n' + presets + '\n' + strip(rd('src/ui/static-export.js'))
   + '\n' + strip(rd('src/ui/exploration.js')) + '\n' + strip(rd('src/ui/graph-viewport.js'))
   + '\n' + strip(rd('src/ui/drawing-layout.js')) + '\n' + strip(rd('src/ui/graph-details.js'))
+  + '\n' + strip(rd('src/ui/degree-layout.js'))
   + '\n' + strip(rd('src/ui/neighbourhood-colours.js'))
   + '\n' + strip(rd('src/ui/visual-explainer.js')) + '\n' + strip(rd('src/ui/intro-guide.js'))
   + '\n' + strip(rd('src/ui/tour-adapter.js')) + '\n' + strip(rd('src/ui/live-tour.js'))

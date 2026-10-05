@@ -1,0 +1,509 @@
+TAP version 13
+# Subtest: fixture path3
+ok 1 - fixture path3
+  ---
+  duration_ms: 7.3372
+  type: 'test'
+  ...
+# Subtest: fixture square_diagonal
+ok 2 - fixture square_diagonal
+  ---
+  duration_ms: 1.0198
+  type: 'test'
+  ...
+# Subtest: fixture crown7
+ok 3 - fixture crown7
+  ---
+  duration_ms: 1.2193
+  type: 'test'
+  ...
+# Subtest: fixture isolated3
+ok 4 - fixture isolated3
+  ---
+  duration_ms: 0.9879
+  type: 'test'
+  ...
+# Subtest: fixture cycle4
+ok 5 - fixture cycle4
+  ---
+  duration_ms: 0.7337
+  type: 'test'
+  ...
+# Subtest: fixture konigsberg
+ok 6 - fixture konigsberg
+  ---
+  duration_ms: 1.792
+  type: 'test'
+  ...
+# Subtest: fixture disjoint_triangles
+ok 7 - fixture disjoint_triangles
+  ---
+  duration_ms: 0.7617
+  type: 'test'
+  ...
+# Subtest: fixture triangle3
+ok 8 - fixture triangle3
+  ---
+  duration_ms: 0.4898
+  type: 'test'
+  ...
+# Subtest: fixture edge2
+ok 9 - fixture edge2
+  ---
+  duration_ms: 0.3829
+  type: 'test'
+  ...
+# Subtest: fixture empty0
+ok 10 - fixture empty0
+  ---
+  duration_ms: 0.3633
+  type: 'test'
+  ...
+# Subtest: fixture subspace_intermediate
+ok 11 - fixture subspace_intermediate
+  ---
+  duration_ms: 1.2145
+  type: 'test'
+  ...
+# Subtest: fixture joined_triangles
+ok 12 - fixture joined_triangles
+  ---
+  duration_ms: 0.8907
+  type: 'test'
+  ...
+# Subtest: 39 mode/statistic cases were checked
+ok 13 - 39 mode/statistic cases were checked
+  ---
+  duration_ms: 0.325
+  type: 'test'
+  ...
+# Subtest: subspace comparison path3_ab
+ok 14 - subspace comparison path3_ab
+  ---
+  duration_ms: 0.9397
+  type: 'test'
+  ...
+# Subtest: subspace comparison tree_ac
+ok 15 - subspace comparison tree_ac
+  ---
+  duration_ms: 8.5729
+  type: 'test'
+  ...
+# Subtest: edge text preserves signed IDs: two disjoint edges have four uphill opens
+ok 16 - edge text preserves signed IDs: two disjoint edges have four uphill opens
+  ---
+  duration_ms: 4.6628
+  type: 'test'
+  ...
+# Subtest: edge text preserves leading zeros, Unicode, hyphens in explicit tokens and isolates
+ok 17 - edge text preserves leading zeros, Unicode, hyphens in explicit tokens and isolates
+  ---
+  duration_ms: 1.126
+  type: 'test'
+  ...
+# Subtest: numeric-equal but distinct IDs have deterministic original-string tie breaking
+ok 18 - numeric-equal but distinct IDs have deterministic original-string tie breaking
+  ---
+  duration_ms: 0.2657
+  type: 'test'
+  ...
+# Subtest: graph metadata, literal labels, configured limits and random seed survive a file roundtrip
+ok 19 - graph metadata, literal labels, configured limits and random seed survive a file roundtrip
+  ---
+  duration_ms: 6.0731
+  type: 'test'
+  ...
+# Subtest: malformed complete experiment shapes reject cleanly without mutating their input
+ok 20 - malformed complete experiment shapes reject cleanly without mutating their input
+  ---
+  duration_ms: 8.2048
+  type: 'test'
+  ...
+# Subtest: path subspace comparison preserves ambient A, carriers and the inherited/induced 3/2 counts
+ok 21 - path subspace comparison preserves ambient A, carriers and the inherited/induced 3/2 counts
+  ---
+  duration_ms: 15.2333
+  type: 'test'
+  ...
+# Subtest: tree comparison retains ambient-path 3/4 counts and empty/all/partial-plateau carriers
+ok 22 - tree comparison retains ambient-path 3/4 counts and empty/all/partial-plateau carriers
+  ---
+  duration_ms: 7.4213
+  type: 'test'
+  ...
+# Subtest: legacy v1 subspace imports migrate to explicit comparison with fresh ambient results
+ok 23 - legacy v1 subspace imports migrate to explicit comparison with fresh ambient results
+  ---
+  duration_ms: 0.862
+  type: 'test'
+  ...
+# Subtest: 100 isolates export all 4096 loaded masks, canonical mapping and exact decimal 2^100
+ok 24 - 100 isolates export all 4096 loaded masks, canonical mapping and exact decimal 2^100
+  ---
+  duration_ms: 287.7194
+  type: 'test'
+  ...
+# Subtest: loaded enumeration rejects mismatched mapping, topology, non-open masks and false completeness
+ok 25 - loaded enumeration rejects mismatched mapping, topology, non-open masks and false completeness
+  ---
+  duration_ms: 2.3577
+  type: 'test'
+  ...
+# Subtest: budget and cancellation records retain honest lower bounds and running imports become interrupted
+ok 26 - budget and cancellation records retain honest lower bounds and running imports become interrupted
+  ---
+  duration_ms: 1.2287
+  type: 'test'
+  ...
+# Subtest: effective enumeration budgets and recorded engine survive independently of requested settings
+ok 27 - effective enumeration budgets and recorded engine survive independently of requested settings
+  ---
+  duration_ms: 2.0761
+  type: 'test'
+  ...
+# Subtest: poset malformed arrows reject before destructuring and certificates retain unavailable count status
+ok 28 - poset malformed arrows reject before destructuring and certificates retain unavailable count status
+  ---
+  duration_ms: 24.3026
+  type: 'test'
+  ...
+# Subtest: generator certificates are recomputed from saved input and current graph, never trusted booleans
+ok 29 - generator certificates are recomputed from saved input and current graph, never trusted booleans
+  ---
+  duration_ms: 13.5326
+  type: 'test'
+  ...
+# Subtest: import and graph validation enforce meaningful size and budget limits before model construction
+ok 30 - import and graph validation enforce meaningful size and budget limits before model construction
+  ---
+  duration_ms: 0.9717
+  type: 'test'
+  ...
+# Subtest: manuscript figure 3 preset retains every labelled vertex, edge and drawing position
+ok 31 - manuscript figure 3 preset retains every labelled vertex, edge and drawing position
+  ---
+  duration_ms: 3.5064
+  type: 'test'
+  ...
+# Subtest: karate-club degrees match all 34 independently labelled manuscript degrees
+ok 32 - karate-club degrees match all 34 independently labelled manuscript degrees
+  ---
+  duration_ms: 2.5052
+  type: 'test'
+  ...
+# Subtest: karate-club neighbourhoods match direct adjacency walks in all three modes and both statistics
+ok 33 - karate-club neighbourhoods match direct adjacency walks in all three modes and both statistics
+  ---
+  duration_ms: 6.2509
+  type: 'test'
+  ...
+# Subtest: manuscript figure 3 selected open set reproduces its 26 boundary vertices and seven exterior vertices
+ok 34 - manuscript figure 3 selected open set reproduces its 26 boundary vertices and seven exterior vertices
+  ---
+  duration_ms: 1.5106
+  type: 'test'
+  ...
+# Subtest: one and two starts retain wine/turquoise/purple pair regions
+ok 35 - one and two starts retain wine/turquoise/purple pair regions
+  ---
+  duration_ms: 6.0198
+  type: 'test'
+  ...
+# Subtest: three through six starts keep every set, overlaps and an isolated start
+ok 36 - three through six starts keep every set, overlaps and an isolated start
+  ---
+  duration_ms: 3.7134
+  type: 'test'
+  ...
+# Subtest: removing and readding a middle start recomputes all memberships in selection order
+ok 37 - removing and readding a middle start recomputes all memberships in selection order
+  ---
+  duration_ms: 0.6072
+  type: 'test'
+  ...
+# Subtest: parallel edges and the selected statistic govern every displayed neighbourhood
+ok 38 - parallel edges and the selected statistic govern every displayed neighbourhood
+  ---
+  duration_ms: 1.1004
+  type: 'test'
+  ...
+# Subtest: every four-vertex simple graph and selection matches independent memberships in all modes
+ok 39 - every four-vertex simple graph and selection matches independent memberships in all modes
+  ---
+  duration_ms: 160.9484
+  type: 'test'
+  ...
+# Subtest: large selections receive uncapped distinct keys without enumerating intersections
+ok 40 - large selections receive uncapped distinct keys without enumerating intersections
+  ---
+  duration_ms: 7.2672
+  type: 'test'
+  ...
+# oracle: 1100 graphs, 67734 (graph, rule, subset) triples
+# Subtest: oracle: all 1,100 labelled simple graphs on <= 5 vertices, both rules
+ok 41 - oracle: all 1,100 labelled simple graphs on <= 5 vertices, both rules
+  ---
+  duration_ms: 457.3116
+  type: 'test'
+  ...
+# Subtest: realization: empty
+ok 42 - realization: empty
+  ---
+  duration_ms: 4.6152
+  type: 'test'
+  ...
+# Subtest: realization: one point
+ok 43 - realization: one point
+  ---
+  duration_ms: 2.0457
+  type: 'test'
+  ...
+# Subtest: realization: two-element chain
+ok 44 - realization: two-element chain
+  ---
+  duration_ms: 2.3347
+  type: 'test'
+  ...
+# Subtest: realization: four-point crown
+ok 45 - realization: four-point crown
+  ---
+  duration_ms: 1.5811
+  type: 'test'
+  ...
+# Subtest: realization: one below three
+ok 46 - realization: one below three
+  ---
+  duration_ms: 1.2854
+  type: 'test'
+  ...
+# Subtest: realization: six-element chain
+ok 47 - realization: six-element chain
+  ---
+  duration_ms: 7.449
+  type: 'test'
+  ...
+# Subtest: a redundant transitive arrow gives the same canonical graph
+ok 48 - a redundant transitive arrow gives the same canonical graph
+  ---
+  duration_ms: 1.9448
+  type: 'test'
+  ...
+# Subtest: a directed cycle is rejected; a bad matrix is rejected
+ok 49 - a directed cycle is rejected; a bad matrix is rejected
+  ---
+  duration_ms: 0.3446
+  type: 'test'
+  ...
+# Subtest: antichain, diamond, disconnected, high branching: certificate passes
+ok 50 - antichain, diamond, disconnected, high branching: certificate passes
+  ---
+  duration_ms: 8.4998
+  type: 'test'
+  ...
+# Subtest: random forward DAGs: recovered quotient equals the input order
+ok 51 - random forward DAGs: recovered quotient equals the input order
+  ---
+  duration_ms: 26.2506
+  type: 'test'
+  ...
+# Subtest: oversized request is refused before allocation
+ok 52 - oversized request is refused before allocation
+  ---
+  duration_ms: 0.7478
+  type: 'test'
+  ...
+# Subtest: Claude hard19 finite example retains its independently checked 370 uphill opens
+ok 53 - Claude hard19 finite example retains its independently checked 370 uphill opens
+  ---
+  duration_ms: 19.0664
+  type: 'test'
+  ...
+# Subtest: playground presets extend every original fixture without duplicate IDs
+ok 54 - playground presets extend every original fixture without duplicate IDs
+  ---
+  duration_ms: 1.568
+  type: 'test'
+  ...
+# Subtest: playground hard19: illustrative neighbourhoods in every topology and statistic
+ok 55 - playground hard19: illustrative neighbourhoods in every topology and statistic
+  ---
+  duration_ms: 4.4277
+  type: 'test'
+  ...
+# Subtest: playground clb7: illustrative neighbourhoods in every topology and statistic
+ok 56 - playground clb7: illustrative neighbourhoods in every topology and statistic
+  ---
+  duration_ms: 1.0794
+  type: 'test'
+  ...
+# Subtest: playground cube11: illustrative neighbourhoods in every topology and statistic
+ok 57 - playground cube11: illustrative neighbourhoods in every topology and statistic
+  ---
+  duration_ms: 1.1418
+  type: 'test'
+  ...
+# Subtest: playground overlap5: illustrative neighbourhoods in every topology and statistic
+ok 58 - playground overlap5: illustrative neighbourhoods in every topology and statistic
+  ---
+  duration_ms: 1.0474
+  type: 'test'
+  ...
+# Subtest: playground star5: illustrative neighbourhoods in every topology and statistic
+ok 59 - playground star5: illustrative neighbourhoods in every topology and statistic
+  ---
+  duration_ms: 0.5542
+  type: 'test'
+  ...
+# Subtest: playground path6: illustrative neighbourhoods in every topology and statistic
+ok 60 - playground path6: illustrative neighbourhoods in every topology and statistic
+  ---
+  duration_ms: 1.1248
+  type: 'test'
+  ...
+# Subtest: playground diamond8: illustrative neighbourhoods in every topology and statistic
+ok 61 - playground diamond8: illustrative neighbourhoods in every topology and statistic
+  ---
+  duration_ms: 0.6769
+  type: 'test'
+  ...
+# Subtest: playground disconnected7: illustrative neighbourhoods in every topology and statistic
+ok 62 - playground disconnected7: illustrative neighbourhoods in every topology and statistic
+  ---
+  duration_ms: 0.6052
+  type: 'test'
+  ...
+# Subtest: playground bowtie5: illustrative neighbourhoods in every topology and statistic
+ok 63 - playground bowtie5: illustrative neighbourhoods in every topology and statistic
+  ---
+  duration_ms: 0.4361
+  type: 'test'
+  ...
+# Subtest: Kuratowski laws on random graphs (n = 6..9), all three modes
+ok 64 - Kuratowski laws on random graphs (n = 6..9), all three modes
+  ---
+  duration_ms: 42.4732
+  type: 'test'
+  ...
+# Subtest: uphill in strict and in weak patch; neighbourhood test = family inclusion
+ok 65 - uphill in strict and in weak patch; neighbourhood test = family inclusion
+  ---
+  duration_ms: 24.4554
+  type: 'test'
+  ...
+# Subtest: square: strict and weak patch are incomparable, witnesses {a} and {b}
+ok 66 - square: strict and weak patch are incomparable, witnesses {a} and {b}
+  ---
+  duration_ms: 0.9415
+  type: 'test'
+  ...
+# Subtest: square, A = {a}: witness arc a->c, O(A) = {a,c}, closure V
+ok 67 - square, A = {a}: witness arc a->c, O(A) = {a,c}, closure V
+  ---
+  duration_ms: 1.9046
+  type: 'test'
+  ...
+# Subtest: disjoint union: open counts multiply; relabelling permutes nothing essential
+ok 68 - disjoint union: open counts multiply; relabelling permutes nothing essential
+  ---
+  duration_ms: 35.9368
+  type: 'test'
+  ...
+# Subtest: connected regular graphs: base and weak patch indiscrete, strict discrete
+ok 69 - connected regular graphs: base and weak patch indiscrete, strict discrete
+  ---
+  duration_ms: 0.5103
+  type: 'test'
+  ...
+# Subtest: 100 isolated vertices: exact 2^100 without listing, capped list labelled incomplete
+ok 70 - 100 isolated vertices: exact 2^100 without listing, capped list labelled incomplete
+  ---
+  duration_ms: 88.2453
+  type: 'test'
+  ...
+# Subtest: budget interruption is a lower bound, never an exact total
+ok 71 - budget interruption is a lower bound, never an exact total
+  ---
+  duration_ms: 1.5444
+  type: 'test'
+  ...
+# Subtest: cancellation stops enumeration
+ok 72 - cancellation stops enumeration
+  ---
+  duration_ms: 6.7166
+  type: 'test'
+  ...
+# Subtest: validation: loops, unknown endpoints, repeated IDs, duplicates, malformed, directed
+ok 73 - validation: loops, unknown endpoints, repeated IDs, duplicates, malformed, directed
+  ---
+  duration_ms: 1.1998
+  type: 'test'
+  ...
+# Subtest: Unicode / HTML-like labels survive a round trip as data
+ok 74 - Unicode / HTML-like labels survive a round trip as data
+  ---
+  duration_ms: 0.297
+  type: 'test'
+  ...
+# Subtest: experiment export / reimport reproduces the results
+ok 75 - experiment export / reimport reproduces the results
+  ---
+  duration_ms: 7.2378
+  type: 'test'
+  ...
+# Subtest: inherited subspace: S = empty, S = V, partial plateau; restricted family = {U cap S}
+ok 76 - inherited subspace: S = empty, S = V, partial plateau; restricted family = {U cap S}
+  ---
+  duration_ms: 25.0504
+  type: 'test'
+  ...
+# Subtest: build preserves an openable old page before replacing current and leaves user backups untouched
+ok 77 - build preserves an openable old page before replacing current and leaves user backups untouched
+  ---
+  duration_ms: 8.7847
+  type: 'test'
+  ...
+# Subtest: same-version variants retain both copies and repeated identical builds are no-ops
+ok 78 - same-version variants retain both copies and repeated identical builds are no-ops
+  ---
+  duration_ms: 16.7368
+  type: 'test'
+  ...
+# Subtest: an archive collision fails before replacing the current page
+ok 79 - an archive collision fails before replacing the current page
+  ---
+  duration_ms: 6.8269
+  type: 'test'
+  ...
+# Subtest: unrecognised embedded version cannot escape the history folder
+ok 80 - unrecognised embedded version cannot escape the history folder
+  ---
+  duration_ms: 5.5846
+  type: 'test'
+  ...
+# Subtest: the complex preset starts with three distinct overlapping neighbourhoods instead of the isolated vertex
+ok 81 - the complex preset starts with three distinct overlapping neighbourhoods instead of the isolated vertex
+  ---
+  duration_ms: 5.7054
+  type: 'test'
+  ...
+# Subtest: intro anchors are existing unique vertices in every finite mode, including equal and disjoint neighbourhoods
+ok 82 - intro anchors are existing unique vertices in every finite mode, including equal and disjoint neighbourhoods
+  ---
+  duration_ms: 1.6713
+  type: 'test'
+  ...
+# Subtest: small and empty graphs keep valid introductory choices
+ok 83 - small and empty graphs keep valid introductory choices
+  ---
+  duration_ms: 0.6647
+  type: 'test'
+  ...
+1..83
+# tests 83
+# suites 0
+# pass 83
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 950.0067

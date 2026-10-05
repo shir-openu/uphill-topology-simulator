@@ -1,7 +1,11 @@
 // A continuous introduction on the real interface with reversible preview edits.
 export function installLiveTour(api) {
   const defaultSpeed = 1;
-  const helpReadingDuration = 4000;
+  const manualHelpReadingDuration = 4000;
+  // Short tour sentences get a short reading beat; explicit question help keeps
+  // its complete explanation and four-second interval.
+  const automaticReadingTime = item => item.helpMs ?? (item.key === 'welcome' ? 2400 : item.menuBrowse ? 450
+    : Math.max(1200,Math.min(2200,(item.text||'').trim().split(/\s+/).length*140)));
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const style = document.createElement('style');
   style.id = 'live-tour-style';
@@ -52,7 +56,7 @@ export function installLiveTour(api) {
   Object.assign(root.dataset, { active:'false', playing:'false', step:'-1', target:'', chapter:'', speed:String(defaultSpeed), covered:'[]', skipped:'[]' });
   root.innerHTML = `<svg class="live-tour-layer" aria-hidden="true"><defs><marker id="live-tour-arrowhead" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 L10 6 L1 11" fill="none" stroke="#c6a2ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs><rect class="live-tour-halo" rx="11"/><path class="live-tour-arrow"/><circle class="live-tour-click"/></svg>
     <svg class="live-tour-cursor" viewBox="0 0 33 43" aria-hidden="true"><path d="M4 2 L4 31 L12 24 L19 39 L26 35 L18 21 L30 20 Z" fill="#d4b3ff" stroke="#24162f" stroke-width="2"/></svg>
-    <section class="live-tour-bar" aria-label="Automatic introduction"><div class="live-tour-heading"><span>Watch the real controls</span><span class="live-tour-count"></span></div><nav class="live-tour-chapters" aria-label="Introduction chapters">${['Basics','Edit','View','Workbench'].map(name=>`<button type="button" data-live-chapter="${name.toLowerCase()}">${name}</button>`).join('')}</nav><p class="live-tour-caption" role="status" aria-live="polite"></p><div class="live-tour-actions"><button id="live-tour-back" type="button" aria-label="Previous demonstration">‹</button><button id="live-tour-pause" type="button">Ⅱ Pause</button><button id="live-tour-next" type="button" aria-label="Next demonstration">›</button><label class="live-tour-speed">Speed<select id="live-tour-speed" aria-label="Introduction speed"><option value="0.25">0.25×</option><option value="0.4">0.4× slow</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label><button id="live-tour-replay" type="button" aria-label="Replay introduction">↻</button><button id="live-tour-skip" type="button" class="live-tour-skip">Explore</button></div><div class="live-tour-progress" aria-hidden="true"><span></span></div></section>`;
+    <section class="live-tour-bar" aria-label="Automatic introduction"><div class="live-tour-heading"><span>Watch the real controls</span><span class="live-tour-count"></span></div><nav class="live-tour-chapters" aria-label="Introduction chapters">${['Basics','Edit','View','Workbench'].map(name=>`<button type="button" data-live-chapter="${name.toLowerCase()}">${name}</button>`).join('')}</nav><p class="live-tour-caption" role="status" aria-live="polite"></p><div class="live-tour-actions"><button id="live-tour-back" type="button" aria-label="Previous demonstration">‹</button><button id="live-tour-pause" type="button">Ⅱ Pause</button><button id="live-tour-next" type="button" aria-label="Next demonstration">›</button><label class="live-tour-speed">Speed<select id="live-tour-speed" aria-label="Introduction speed"><option value="0.25">0.25×</option><option value="0.4">0.4× slow</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label><button id="live-tour-replay" type="button" aria-label="Replay introduction">↻</button><button id="live-tour-skip" type="button" class="live-tour-skip">■ Stop intro</button></div><div class="live-tour-progress" aria-hidden="true"><span></span></div></section>`;
   document.body.append(root);
   const $=selector=>root.querySelector(selector);
   const bar=$('.live-tour-bar'),halo=$('.live-tour-halo'),arrow=$('.live-tour-arrow');
@@ -71,6 +75,8 @@ export function installLiveTour(api) {
   let steps=[],index=-1,segment=-1,elapsed=0,segmentStart=0,previousTime=0,clockTime=0;
   let activeCue=null,cursorAt=null,cursorFrom=null,scrollTrack=null,innerScrollTracks=[],scrollDirty=false,focusElement=null;
   let helpReadingRemaining=0,helpReadingDone=false,helpReadingIdentity=null;
+  let readHelpKeys=new Set();
+  let manualHelpRemaining=0,manualHelpIdentity=null;
   let originalScroll=null,coverage=new Set(),skipped=[],context={},motionData=null,actionDone=false,visibleActionFrames=0,visibleActionSince=null,actionAt=null,segmentReplaying=false;
   function cue(key,target,text,duration=1400,action=null,enter=null,motion=null){return{key,target:typeof target==='string'?query(target):target,text,duration,action,enter,motion};}
   function group(key,text,duration,targets,enter=null){return{key,text,duration,targets,enter};}
@@ -80,7 +86,7 @@ export function installLiveTour(api) {
   function edgePoint(){const positions=Object.values(api.getState().graph.layout),xs=positions.map(p=>p.x),ys=positions.map(p=>p.y);return{x:(Math.min(...xs)+Math.max(...xs))/2,y:Math.max(...ys)+115};}
   function buildSteps() {
     context={extra:'d',addPoint:null};
-    const initial=[...new Set(api.demoAnchors?.()||[])].filter(id=>vertex(id)).slice(0,3),a=initial[0],b=initial[1],third=initial[2];
+    const initial=[...new Set(api.demoAnchors?.()||[])].filter(id=>vertex(id)).slice(0,2),a=initial[0],b=initial[1];
     const chapters={basics:[],edit:[],view:[],workbench:[]};
     const add=(chapter,...items)=>chapters[chapter].push(...items);
     const normal=(name,args)=>()=>act(name,args);
@@ -88,40 +94,58 @@ export function installLiveTour(api) {
     const family=(key,selector,text,action=null,enter=null)=>cue(key,selector,text,0,action,enter);
     const setField=(selector,value,event='input')=>()=>{const el=document.querySelector(selector);if(el){el.value=value;el.dispatchEvent(new Event(event,{bubbles:true}));}};
     const seedPath=()=>{act('preset',{id:'path3'});act('mode',{value:'strict'});};
-    const primaryPreset=api.getState().presetId;
+    const primaryPreset='hard19';
     const primaryCard=primaryPreset?document.querySelector(`[data-playground="${CSS.escape(primaryPreset)}"]`):null;
-    const pictureSelector=primaryCard?`[data-playground="${CSS.escape(primaryPreset)}"]`:'#preset-fan-list .preset-card';
     const primaryName=primaryCard?.querySelector('.preset-name')?.textContent||'your current graph';
+    const picturePick=(key,id,text)=>({...cue(key,`[data-playground="${id}"]`,text,1200,
+      clickDemo(`[data-playground="${id}"]`)),requireVisible:true,helpMs:1000});
+    const pictureResult=(key,text)=>({...cue(key,'#graph',text,2200,null,()=>{api.fan('close');api.viewport('fit');}),
+      requireVisible:true,pictureResult:true,helpMs:0});
     const pairOverlaps=b!==undefined&&api.getState().model.topo.N[api.getState().graph.index.get(a)]
       .some((bit,index)=>bit&&api.getState().model.topo.N[api.getState().graph.index.get(b)][index]);
     const blinkCue=(...args)=>({...cue(...args),waitForBlink:true});
-    add('basics',cue('welcome','#watch-guide','Watch a short demonstration. Touch to take over.',1300),
-      cue('picture-presets','#preset-fan-toggle','Hover to open the picture presets.',2000,()=>api.fan('open')),
-      cue('picture-presets-preview',pictureSelector,'Move over a picture to see its graph and explanation.',1600),
-      cue('picture-presets-close','#graph','Move away and the picture fan closes.',1600,()=>api.fan('close')),
-      cue('picture-presets-reopen','#preset-fan-toggle','Return to the stack to open the pictures again.',1600,()=>api.fan('open')),
-      primaryCard
-        ? cue('picture-preset-current',pictureSelector,`Choose ${primaryName}. We will explore this graph together.`,1800,clickDemo(pictureSelector))
-        : cue('picture-preset-current','#graph','We will keep your current graph for the demonstration.',1800,()=>api.fan('close')),
-      cue('preset-chooser','#preset','Choose a graph.',1500),
-      cue('topology','#mode','Choose the topology.',1500),
+    const degreeCue=(key)=>cue(key,'#graph','Higher degree goes higher on the screen. Watch the same coloured sets move.',4400,null,()=>{
+      context.degreeFrom=capturePositions();context.degreeTo=api.degreePositions();context.degreeCameraFrom=api.viewport('capture');
+      // Ask the normal fit controller for its toolbar-aware final camera, then
+      // restore the initial drawing synchronously before the first visible frame.
+      api.drawPositions(context.degreeTo);api.viewport('fit');context.degreeCameraTo=api.viewport('capture');
+      api.drawPositions(context.degreeFrom);api.viewport('set',{box:context.degreeCameraFrom});
+    },'degree-layout');
+    add('basics',cue('welcome','#watch-guide','Stop intro ends this tour. Other taps leave it running.',1400),
+      cue('simple-example','#graph','Start with just three vertices: a—b—c.',2400),
       cue('undirected-edges','#graph','Edges are undirected. Arrows show allowed uphill steps.',3000),
       cue('select','[data-tool="select"]','Click a vertex to show its set.',1500,()=>api.setTool('select')));
     if(a!==undefined){
       add('basics',blinkCue(`vertex:${a}`,vertexTarget(a),`Click ${label(a)}. Its complete neighbourhood blinks three times, then stays coloured.`,3800,()=>{act('details',{id:a});api.select([a]);},()=>api.select([])));
-      if(b!==undefined)add('basics',blinkCue(`vertex:${b}`,vertexTarget(b),`Click ${label(b)} too. Its new neighbourhood blinks. ${pairOverlaps?'Purple marks their overlap.':'These two sets are disjoint.'}`,3800,()=>{act('details',{id:b});api.select([a,b]);}),
-        cue('colour-key','.story-region-key',pairOverlaps?'One colour per set; purple means both.':'One colour per set. There is no overlap in this pair.',3000));
-      if(third!==undefined)add('basics',
-        blinkCue(`vertex:${third}:third`,vertexTarget(third),`Click ${label(third)} too. Its neighbourhood blinks, then shared colours show every overlap.`,3800,()=>{act('details',{id:third});api.select([a,b,third]);}),
-        cue('many-set-key','.story-region-key','Divided vertices belong to several sets.',2600),
-        cue(`vertex:${third}:remove`,vertexTarget(third),`Click ${label(third)} again to remove only its set.`,2200,()=>api.select([a,b])));
+      if(b!==undefined)add('basics',blinkCue(`vertex:${b}`,vertexTarget(b),`Click ${label(b)} too. Its new neighbourhood blinks. ${pairOverlaps?'Wine and turquoise rings mark their overlap.':'These two sets are disjoint.'}`,3800,()=>{act('details',{id:b});api.select([a,b]);}),
+        cue('colour-key','.story-region-key',pairOverlaps?'One colour per set. Two rings mean this vertex belongs to both.':'One colour per set. There is no overlap in this pair.',3000));
+      add('basics',degreeCue('degree-layout-simple'),
+        cue('degree-result-simple','#graph','Degree 2 is above degree 1. The edges, open sets and their membership rings are unchanged.',3000));
       if(b!==undefined)add('basics',cue(`vertex:${b}`,vertexTarget(b),`Click ${label(b)} again. Only that choice is removed.`,2000,()=>api.select([a])));
       add('basics',cue('vertex-details','#vertex-detail-panel','Vertex details appear here, outside the graph.',1900,normal('details',{id:a})),
         cue('story-replay','#story-replay','Optional: press Show construction steps to illustrate this finite example. The complete open set is already shown.',4800,clickDemo('#story-replay')),
         cue('exact-sets','#sets-drawer > summary','Open this drawer to read the exact sets.',1400,normal('drawer',{id:'sets-drawer',open:true})),
         cue('complete','#story-complete','Complete selects every point required to make A open.',1900,normal('complete')));
     }
-    add('basics',cue('clear-selection','[data-act="clearA"]','Clear selection removes your choices, keeping the graph.',1400,()=>act('clear')));
+    add('basics',cue('clear-simple-selection','[data-act="clearA"]','Clear selection removes your choices, keeping the graph.',1400,()=>act('clear')),
+      cue('picture-presets','#preset-fan-toggle','Now try a richer graph. Hover to open the picture presets.',2000,()=>api.fan('open')),
+      picturePick('picture-presets-preview','cycle4','Choose Equal degrees. Its graph appears in the main view.'),
+      pictureResult('picture-presets-close','Equal degrees: the chosen four-cycle is now in the main view. The fan closes to reveal it.'),
+      cue('picture-presets-reopen','#preset-fan-toggle','Return to the stack to open the pictures again.',1600,()=>api.fan('open')),
+      picturePick('picture-preset-cube11','cube11','Choose Cube + 3 vertices. Watch the main graph change.'),
+      pictureResult('picture-result-cube11','The cube and its three added vertices are now loaded.'),
+      cue('picture-presets-final-open','#preset-fan-toggle','Open the pictures once more.',1200,()=>api.fan('open')),
+      picturePick('picture-preset-current',primaryPreset,`Choose ${primaryName}.`),
+      pictureResult('picture-result-hard19','Cube, branches & islands is now loaded. Compare three neighbourhoods here.'),
+      blinkCue('large-vertex:i',vertexTarget('i'),'Select i. Its whole neighbourhood blinks three times in wine.',3800,()=>{act('details',{id:'i'});api.select(['i']);}),
+      blinkCue('large-vertex:a',vertexTarget('a'),'Add a. Its complete neighbourhood blinks turquoise before the shared vertices show both colour rings.',3800,()=>{act('details',{id:'a'});api.select(['i','a']);}),
+      blinkCue('large-vertex:n:third',vertexTarget('n'),'Add n. Its whole set blinks bright blue first; shared colours then show every overlap.',3800,()=>{act('details',{id:'n'});api.select(['i','a','n']);}),
+      cue('many-set-key','.story-region-key','Count the coloured rings: one per neighbourhood containing the vertex.',2600),
+      degreeCue('degree-layout-large'),
+      cue('degree-result-large','#graph','Higher degrees are higher; equal degrees share a row. This is the same graph with the same coloured open sets.',3000),
+      cue('preset-chooser','#preset','Choose a graph.',1500),
+      cue('topology','#mode','Choose the topology.',1500),
+      cue('clear-selection','[data-act="clearA"]','Clear selection removes your choices, keeping the graph.',1400,()=>act('clear')));
     add('edit',cue('preset-menu','#preset','The menu contains more graphs. Keep this one while we try the editing controls.',1600),
       cue('add-vertex','[data-tool="add-vertex"]','Add vertex: choose the tool, then an empty place.',1400,normal('tool',{value:'add-vertex'})),
       cue('new-vertex',pointTarget(()=>context.addPoint),'A click here creates a new isolated vertex.',2000,()=>{context.extra=act('add-vertex',{id:'d',...context.addPoint})||'d';},()=>{context.addPoint=edgePoint();}),
@@ -255,12 +279,12 @@ export function installLiveTour(api) {
       cue('lesson-reopen','#open-lessons','Reopen the lessons and jump directly to a scene.',1300,()=>api.openLessons()),
       group('lesson-scenes','Each dot jumps to its illustrated scene.',6000,Array.from({length:6},(_,i)=>family(`lesson-scene-${i+1}`,`.intro-progress button:nth-child(${i+1})`,`Open illustrated scene ${i+1}.`,clickDemo(`.intro-progress button:nth-child(${i+1})`)))),
       cue('lesson-try','#intro-try','Try this graph loads the illustrated example into the main view.',1700,clickDemo('#intro-try')),
-      cue('ready','#watch-guide','Your original graph returns now. Replay any chapter whenever you like.',1700));
+      cue('ready','#watch-guide','Your original graph returns when the demonstration finishes. Replay the intro whenever you like.',1700));
     // Match the Direction Field demonstration: briefly identify a control,
     // act, then move on. Only an actual graph demonstration gets a longer beat.
     const demonstrations=new Set(['undirected-edges','colour-key','many-set-key','vertex-details',
-      'story-replay','complete','new-vertex','edge-second:new','delete-vertex','picture-presets','picture-preset-current','workbench-example','generated-result']);
-    const values={'preset-menu':primaryPreset||'',strict:'strict','weak-patch':'weak-patch',uphill:'uphill',statistic:'distinct-neighbours','colour-mode':'analysis','quotient-view':'condensation',layout:'circle'};
+      'welcome','simple-example','degree-result-simple','degree-result-large','story-replay','complete','new-vertex','edge-second:new','delete-vertex','picture-presets','picture-preset-current','workbench-example','generated-result']);
+    const values={'preset-menu':primaryPreset,'preset-chooser':primaryPreset,strict:'strict','weak-patch':'weak-patch',uphill:'uphill',statistic:'distinct-neighbours','colour-mode':'analysis','quotient-view':'condensation',layout:'circle'};
     const menuNames={preset:'graph',mode:'topology',stat:'degree statistic','layout-choice':'layout','colour-mode':'colour meaning',qview:'quotient view'};
     const browsedMenus=new Set();
     const menuSteps=step=>{
@@ -270,7 +294,7 @@ export function installLiveTour(api) {
       const target=()=>{const option=api.menu('option',id,value);return option?.getClientRects().length&&!option.closest('[hidden]')?option:api.menu('button',id);};
       target.selector=()=>target()?.id?`#${target().id}`:`#${id}-menu-button`;
       const open={...cue(`${step.key}:menu-open`,button,`Open the ${menuNames[id]} list.`,1500,()=>api.menu('open',id),()=>{api.menu('close');api.fan('close');}),menuOpen:true};
-      const choose={...step,target,action:()=>{step.action?.();api.menu('close');}};
+      const choose={...step,target,action:()=>{if(id==='preset')api.menu('option',id,value)?.click();else step.action?.();api.menu('close');}};
       // Walk down the real opened list rather than parking on its button.
       // Do the complete preset catalogue in Edit, after the first vertex demo.
       const shouldBrowse=!browsedMenus.has(id)&&(id!=='preset'||step.key==='preset-menu');
@@ -281,7 +305,7 @@ export function installLiveTour(api) {
         for(const option of options){
           const optionTarget=()=>api.menu('option',id,option.value);
           optionTarget.selector=()=>optionTarget()?.id?`#${optionTarget().id}`:'';
-          browse.push({...cue(`${step.key}:menu-option:${option.value}`,optionTarget,option.textContent.trim(),1400,null,()=>{
+          browse.push({...cue(`${step.key}:menu-option:${option.value}`,optionTarget,`Browse: ${option.textContent.trim()}`,1000,null,()=>{
             const element=optionTarget();element?.dispatchEvent(new PointerEvent('pointermove',{bubbles:true,pointerType:'mouse'}));
           }),menuBrowse:true});
         }
@@ -289,11 +313,11 @@ export function installLiveTour(api) {
       return[open,...browse,choose];
     };
     return Object.entries(chapters).flatMap(([chapter,list])=>list.flatMap(menuSteps).map(step=>{
-      const duration=step.targets ? step.targets.length*(['set-operations','files'].includes(step.key)?2300:1500)
-        : step.menuOpen ? 1500
-        : step.menuBrowse ? 1400
-        : step.motion || demonstrations.has(step.key) || step.key.startsWith('vertex:') ? step.duration
-        : Math.max(1300,Math.min(1700,step.duration));
+      const duration=step.targets ? step.targets.length*(['set-operations','files'].includes(step.key)?1600:1000)
+        : step.menuOpen ? 900
+        : step.menuBrowse ? 850
+        : step.motion || step.waitForBlink || step.pictureResult || demonstrations.has(step.key) || step.key.startsWith('vertex:') ? step.duration
+        : Math.max(900,Math.min(1200,step.duration));
       return{...step,chapter,duration};
     }));
   }
@@ -321,6 +345,8 @@ export function installLiveTour(api) {
     root.dataset.playing=String(playing);root.dataset.speed=String(speed);
     pauseButton.textContent=playing?'Ⅱ Pause':'▶ Continue';pauseButton.setAttribute('aria-label',playing?'Pause introduction':'Continue introduction');
     $('#live-tour-back').disabled=index<=0;$('#live-tour-next').disabled=index>=steps.length-1;
+    const introButton=document.getElementById('watch-guide');
+    if(introButton){introButton.textContent=running?'■ Stop intro':'▶ Replay intro';introButton.dataset.introActive=String(running);introButton.setAttribute('aria-pressed',String(running));}
   }
   function geometry(element,point=null){
     if(!element||!element.isConnected||!element.getClientRects().length)return null;
@@ -399,7 +425,7 @@ export function installLiveTour(api) {
     segmentStart=step.duration/entries.length*next;actionDone=false;visibleActionFrames=0;visibleActionSince=null;actionAt=null;segmentReplaying=replaying;motionData=null;cursorFrom=cursorAt;blinkSettledAt=null;clearFocus();
     root.dataset.target=activeCue.key;root.dataset.targetSelector=selectorOf(activeCue);root.dataset.segment=String(segment);root.dataset.targetVisible='false';
     clearFilePreview();api.help?.('hide');
-    helpReadingRemaining=0;helpReadingDone=false;helpReadingIdentity=null;syncReading();
+    helpReadingRemaining=0;helpReadingDone=false;helpReadingIdentity=null;manualHelpRemaining=0;manualHelpIdentity=null;syncReading();
     caption.textContent=activeCue.text||step.text;activeCue.enter?.();
     const motion=activeCue.motion?.replace('quot-','');
     if(motion?.startsWith('zoom')||motion==='pan'){
@@ -413,7 +439,11 @@ export function installLiveTour(api) {
     if(!replaying)scrollDirty=true;
   }
   function sampleMotion(item,fraction){
-    if(item.motion==='vertex-drag'&&context.dragFrom){const p=pointMix(context.dragFrom,context.dragTo,fraction);api.dragVertex(context.extra,p.x,p.y);api.viewport('set',{box:context.dragBox});}
+    if(item.motion==='degree-layout'&&context.degreeFrom){
+      api.drawPositions(Object.fromEntries(Object.entries(context.degreeFrom).map(([id,from])=>[id,pointMix(from,context.degreeTo[id]||from,fraction)])));
+      if(context.degreeCameraFrom&&context.degreeCameraTo)api.viewport('set',{box:Object.fromEntries(['x','y','width','height'].map(key=>[key,mix(context.degreeCameraFrom[key],context.degreeCameraTo[key],fraction)]))});
+    }
+    else if(item.motion==='vertex-drag'&&context.dragFrom){const p=pointMix(context.dragFrom,context.dragTo,fraction);api.dragVertex(context.extra,p.x,p.y);api.viewport('set',{box:context.dragBox});}
     else if(item.motion==='layout'&&context.layoutFrom){
       for(const[id,from]of Object.entries(context.layoutFrom)){const to=context.layoutTo[id];if(!to)continue;const p=pointMix(from,to,fraction);api.dragVertex(id,p.x,p.y);}api.viewport('set',{box:context.layoutBox});
     }else if(motionData?.from){const box=Object.fromEntries(['x','y','width','height'].map(key=>[key,mix(motionData.from[key],motionData.to[key],fraction)]));api.viewport('set',{id:motionData.id,box});}
@@ -438,7 +468,7 @@ export function installLiveTour(api) {
     if(!running)return;const wanted=clamp(next,0,steps.length-1),priorPlaying=playing;
     api.stopWave();clearFocus();scrollTrack=null;innerScrollTracks=[];api.resetDemo();context={extra:'d',addPoint:null};
     // Reconstruct only the temporary preview. The original capture is retained
-    // by the adapter until completion or the user's first real gesture.
+    // by the adapter until completion or an explicit Stop intro.
     for(let n=0;n<wanted;n++){enterStep(n,true);finishCurrent();}
     enterStep(wanted);playing=priorPlaying;previousTime=performance.now();syncPlayback();
   }
@@ -448,7 +478,7 @@ export function installLiveTour(api) {
     root.dataset.progress=String(progress);
     // Duration is an upper estimate in speed-scaled milliseconds. Reading
     // pauses use real foreground time, including when playback is faster.
-    const readingBudget=steps.reduce((sum,item)=>sum+(item.targets?.length||1),0)*helpReadingDuration;
+    const readingBudget=steps.reduce((sum,item)=>sum+(item.targets||[item]).reduce((value,target)=>value+automaticReadingTime(target),0),0);
     root.dataset.duration=String(total+readingBudget*speed);root.dataset.readingBudgetMs=String(readingBudget);
     $('.live-tour-progress span').style.width=`${progress*100}%`;
     const box=currentBox();
@@ -462,12 +492,12 @@ export function installLiveTour(api) {
     halo.style.display=box.vertex?'none':'';arrow.style.display='';cursor.style.display='';const pad=6;
     // Point once, then let the viewer watch the result. Keep a held cursor
     // visible during real drag/zoom/layout motion; never fake movement to fill time.
-    if(age>=approach&&element&&!box.vertex&&root.dataset.targetVisible==='true'){
-      api.help?.('show',element);
+    if(!manualHelpRemaining&&age>=approach&&element&&!box.vertex&&root.dataset.targetVisible==='true'){
+      api.help?.('show',element,element.dataset.controlHelp?activeCue.text:undefined);
       const popup=readingPopup();
       if(popup&&!helpReadingDone&&!segmentReplaying){
         const identity=popup.dataset.helpKey+'\n'+popup.textContent;
-        if(identity!==helpReadingIdentity){helpReadingIdentity=identity;helpReadingRemaining=helpReadingDuration;syncReading();}
+        if(identity!==helpReadingIdentity){helpReadingIdentity=identity;helpReadingRemaining=readHelpKeys.has(popup.dataset.helpKey)?0:automaticReadingTime(activeCue);helpReadingDone=helpReadingRemaining===0;syncReading();}
       }
     }
     const pointerAge=activeCue.requireVisible&&actionAt!==null?age-actionAt+700:age;
@@ -513,17 +543,36 @@ export function installLiveTour(api) {
     return rect.width>0&&rect.height>0&&root.dataset.targetVisible==='true'?popup:null;
   }
   function syncReading(){
-    root.dataset.reading=String(helpReadingRemaining>0);
-    root.dataset.readingRemainingMs=String(helpReadingRemaining);
+    root.dataset.reading=String(helpReadingRemaining>0||manualHelpRemaining>0);
+    root.dataset.readingRemainingMs=String(manualHelpRemaining||helpReadingRemaining);
+    root.dataset.manualHelp=String(manualHelpRemaining>0);
   }
   function tick(now,token){
     if(!running||token!==generation)return;
     const foregroundDelta=playing&&!document.hidden?Math.min(80,Math.max(0,now-previousTime)):0;previousTime=now;
-    const reading=helpReadingRemaining>0;
+    // Observe the actual popup after its event handlers run. This covers mouse,
+    // touch, keyboard focus and F1 without relying on event-listener ordering.
+    const shownHelp=document.getElementById('control-help-popover');
+    if(shownHelp&&!shownHelp.hidden&&shownHelp.dataset.source==='question'){
+      const identity=shownHelp.dataset.helpFor+'\n'+shownHelp.textContent;
+      if(!manualHelpRemaining||manualHelpIdentity!==identity){manualHelpIdentity=identity;manualHelpRemaining=manualHelpReadingDuration;api.pauseWave?.();syncReading();}
+    }
+    const manualReading=manualHelpRemaining>0;
+    if(manualReading){
+      const popup=document.getElementById('control-help-popover');
+      if(!popup||popup.hidden||popup.dataset.source!=='question')manualHelpRemaining=0;
+      else manualHelpRemaining=Math.max(0,manualHelpRemaining-foregroundDelta);
+      if(!manualHelpRemaining){api.help?.('hide');if(playing)api.resumeWave?.();}
+      syncReading();
+    }
+    const reading=helpReadingRemaining>0||manualReading;
+    // Browser scrollbar/focus scrolling can bypass pointer and wheel guards.
+    // Recover a displaced explained control instead of waiting offscreen.
+    if(reading&&!manualReading&&!readingPopup()&&!scrollTrack&&!innerScrollTracks.length&&currentBox())scrollDirty=true;
     const repositioning=reading&&(scrollDirty||scrollTrack||innerScrollTracks.length>0);
-    if(reading&&!repositioning&&readingPopup()){
+    if(reading&&!manualReading&&!repositioning&&readingPopup()){
       helpReadingRemaining=Math.max(0,helpReadingRemaining-foregroundDelta);
-      if(helpReadingRemaining===0)helpReadingDone=true;
+      if(helpReadingRemaining===0){helpReadingDone=true;const popup=readingPopup();if(popup)readHelpKeys.add(popup.dataset.helpKey);}
       syncReading();
     }
     // Freeze the cue, camera, cursor, action and grouped-control transitions
@@ -552,43 +601,40 @@ export function installLiveTour(api) {
   function stop(reason='skip'){
     clearTimeout(autoStart);autoStart=null;if(!running)return;
     running=playing=false;generation++;cancelAnimationFrame(frame);frame=null;clearFocus();clearFilePreview();api.help?.('hide');api.closeLessons?.();scrollTrack=null;innerScrollTracks=[];
-    helpReadingRemaining=0;helpReadingDone=false;helpReadingIdentity=null;syncReading();
+    helpReadingRemaining=0;helpReadingDone=false;helpReadingIdentity=null;manualHelpRemaining=0;manualHelpIdentity=null;syncReading();syncPlayback();
     root.hidden=true;root.dataset.active='false';root.dataset.playing='false';root.dataset.stopReason=reason;root.dataset.target='';
     api.stopWave();api.restore();
     if(originalScroll&&reason!=='user-input'&&reason!=='escape')window.scrollTo({left:originalScroll.x,top:originalScroll.y,behavior:'instant'});originalScroll=null;
   }
   function start(){
     stop('replay');clearTimeout(autoStart);originalScroll={x:window.scrollX,y:window.scrollY};api.begin();
-    running=playing=true;generation++;coverage=new Set();skipped=[];root.dataset.covered='[]';root.dataset.skipped='[]';steps=buildSteps();
+    running=playing=true;generation++;coverage=new Set();readHelpKeys=new Set();skipped=[];root.dataset.covered='[]';root.dataset.skipped='[]';steps=buildSteps();
     cursorAt=cursorFrom=null;scrollTrack=null;innerScrollTracks=[];clockTime=0;bar.dataset.dock='bottom';root.hidden=false;root.dataset.active='true';delete root.dataset.stopReason;
     enterStep(0);previousTime=performance.now();draw(0);const token=generation;frame=requestAnimationFrame(time=>tick(time,token));
   }
   function interrupt(event){
+    if(!event.isTrusted)return; // Scripted demonstrations use the same real controls.
     const targetElement=event.target instanceof Element?event.target:null;
-    if(targetElement?.closest('[data-control-help-trigger],#control-help-popover')){
-      const question=targetElement.closest('[data-control-help-trigger]');
-      const asking=event.isTrusted&&question&&(event.type==='pointerdown'||event.type==='keydown'&&['Enter',' '].includes(event.key));
-      // A real request for help needs reading time. Freeze the same preview
-      // just as Pause does; Continue resumes this cue without restarting it.
-      if(asking&&running&&playing){
-        playing=false;if(api.pauseWave)api.pauseWave();else api.stopWave();
-        previousTime=performance.now();syncPlayback();
-      }
+    if(!running){
+      // A deliberate interaction before autoplay begins keeps the idle app usable.
+      if(['pointerdown','keydown','wheel','touchstart'].includes(event.type)){clearTimeout(autoStart);autoStart=null;}
       return;
     }
-    if(targetElement?.closest('#live-tour .live-tour-bar')){if(event.type==='keydown'&&event.key==='Escape')stop('escape');return;}
-    // Window capture runs before viewport document handlers, including Pan and
-    // expanded-view Escape handlers that stop event propagation.
-    const button=targetElement?.closest('button');
-    if(running&&event.type==='pointerdown'&&button&&event.button===0){try{button.setPointerCapture(event.pointerId);}catch{/* Unsupported capture still permits interruption. */}}
-    const menuId=event.type==='pointerdown'?targetElement?.closest('[data-menu-id][data-menu-value]')?.dataset.menuId:null;
-    clearTimeout(autoStart);autoStart=null;if(running){stop(event.type==='keydown'&&event.key==='Escape'?'escape':'user-input');if(menuId)api.menu('open',menuId);}
+    if(targetElement?.closest('#watch-guide,#live-tour .live-tour-bar'))return;
+    if(targetElement?.closest('[data-control-help-trigger],#control-help-popover')){
+      return;
+    }
+    if(event.type==='keydown'||event.type==='keyup'){
+      if(event.key==='Tab'||event.key==='F5'||(event.key==='F1'&&targetElement?.closest('[data-control-help]'))||((event.ctrlKey||event.metaKey)&&['l','r','t','w','n','f'].includes(event.key.toLowerCase())))return;
+    }
+    // Accidental gestures do not end or edit the temporary demonstration.
+    // Stop intro is always available, along with playback and question help.
+    if(event.cancelable)event.preventDefault();event.stopImmediatePropagation();
   }
-  window.addEventListener('pointerdown',interrupt,true);window.addEventListener('keydown',interrupt,true);
-  window.addEventListener('wheel',interrupt,{capture:true,passive:true});window.addEventListener('touchstart',interrupt,{capture:true,passive:true});
+  for(const type of ['pointerdown','pointerup','pointermove','pointerover','pointerout','pointerenter','pointerleave','click','dblclick','contextmenu','keydown','keyup','wheel','touchstart','touchmove','touchend','beforeinput','paste','drop'])window.addEventListener(type,interrupt,{capture:true,passive:false});
   pauseButton.addEventListener('click',()=>{
     if(!running)return;playing=!playing;
-    if(playing&&document.getElementById('control-help-popover')?.dataset.source==='question')api.help?.('hide');
+    if(playing&&document.getElementById('control-help-popover')?.dataset.source==='question'){manualHelpRemaining=0;api.help?.('hide');syncReading();}
     if(playing)api.resumeWave?.();else if(api.pauseWave)api.pauseWave();else api.stopWave();
     previousTime=performance.now();syncPlayback();
   });
@@ -596,6 +642,6 @@ export function installLiveTour(api) {
   $('#live-tour-speed').addEventListener('change',event=>{speed=Number(event.target.value)||defaultSpeed;previousTime=performance.now();syncPlayback();});
   $('#live-tour-replay').addEventListener('click',start);$('#live-tour-skip').addEventListener('click',()=>stop('skip'));
   for(const button of chapterButtons)button.addEventListener('click',()=>seek(steps.findIndex(step=>step.chapter===button.dataset.liveChapter)));
-  document.querySelector('#watch-guide')?.addEventListener('click',start);window.addEventListener('resize',()=>{if(running)scrollDirty=true;});
+  document.querySelector('#watch-guide')?.addEventListener('click',()=>running?stop('intro-button'):start());window.addEventListener('resize',()=>{if(running)scrollDirty=true;});
   autoStart=window.setTimeout(start,700);return{start,stop,isRunning:()=>running};
 }

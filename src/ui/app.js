@@ -160,6 +160,14 @@ function applyDrawingLayout(choice) {
 // ------------------------------------------------------------ graph SVG
 const COL = { interior: '#7544a4', boundary: '#c44591', exterior: '#faf3f8', teal: '#147f87', wine: '#76234b', ink: '#332338', grey: '#b6a9b5' };
 
+// A shared vertex keeps one complete circumference per containing set.
+// Reserve its centre for the label and its outside edge for the selection ring.
+function neighbourhoodRingMarkup(starts, colours) {
+  const band = (0.86 - 0.45) / starts.length;
+  return '<circle cx="0" cy="0" r="1" fill="#332338"/>'
+    + starts.map((start, part) => `<circle data-neighbourhood-ring="${start}" cx="0" cy="0" r="${0.86 - (part + 0.5) * band}" fill="none" stroke="${colours[start]}" stroke-width="${band * 0.9}"/>`).join('');
+}
+
 function graphSVG(opts = {}) {
   const g = S.graph, M = S.model, T = M.topo, a = S.analysis;
   const comparison = S.neighbourhoods, showNeighbourhoods = S.colourMode === 'neighbourhoods';
@@ -167,9 +175,9 @@ function graphSVG(opts = {}) {
   const simple = !opts.static && S.workspace === 'explore';
   const fillDescription = showNeighbourhoods
     ? manyNeighbourhoods
-      ? 'Every selected start has its own neighbourhood colour. A solid vertex belongs to one selected neighbourhood; coloured sectors show every selected neighbourhood containing a shared vertex. Numbered starts match the colour key. Light vertices are outside all selected neighbourhoods. Interior, boundary and exterior of A are reported separately in the inspector.'
-      : 'Fill: wine is N(v1) only, turquoise is N(v2) only, purple is their intersection, light is outside both. Numbered badges identify the selected starts. With one selection its entire least open neighbourhood is wine. Interior, boundary and exterior of A are reported separately in the inspector.'
-    : 'Fill: interior of A purple, boundary pink (hatched), exterior light.';
+      ? 'Every selected start has its own neighbourhood colour. A solid vertex belongs to one selected neighbourhood; a shared vertex has one concentric coloured ring for every selected neighbourhood containing it, earliest selected on the outside. Its dark centre is a label background, not another set. Numbered starts match the colour key. Light vertices are outside all selected neighbourhoods. Interior, boundary and exterior of A are reported separately in the inspector.'
+      : 'Fill: wine is N(v1) only, turquoise is N(v2) only, wine and turquoise concentric rings show their intersection, light is outside both. The dark centre of a shared vertex is a label background, not another set. Numbered badges identify the selected starts. With one selection its entire least open neighbourhood is wine. Interior, boundary and exterior of A are reported separately in the inspector.'
+    : 'Fill: interior of A purple, boundary pink (hatched), exterior neutral.';
   const trace = !opts.static && S.trace;
   const showArcs = S.showArcs && (opts.static || S.workspace === 'workbench' || S.mode !== 'weak-patch');
   const traceArcs = new Set(trace ? trace.arcs.map(([u, v]) => `${u}>${v}`) : []);
@@ -198,12 +206,9 @@ function graphSVG(opts = {}) {
     + '<path d="M0,0 L10,5 L0,10 z" fill="#776575"/></marker>'
     + `<marker id="trace-arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${COL.teal}"/></marker>`
     + `<pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fbe3f7"/><line x1="0" y1="0" x2="0" y2="6" stroke="${COL.boundary}" stroke-width="2.5"/></pattern>`
-    + (showNeighbourhoods && manyNeighbourhoods ? comparison.memberships.map((starts, vertex) => starts.length < 2 ? ''
-      : `<pattern id="neighbourhood-sectors-${vertex}" patternUnits="objectBoundingBox" width="1" height="1" viewBox="-1 -1 2 2">`
-        + starts.map((start, part) => {
-          const from = -Math.PI / 2 + 2 * Math.PI * part / starts.length, to = from + 2 * Math.PI / starts.length;
-          return `<path data-neighbourhood-sector="${start}" d="M0,0 L${Math.cos(from)},${Math.sin(from)} A1,1 0 ${starts.length === 2 ? 1 : 0},1 ${Math.cos(to)},${Math.sin(to)} Z" fill="${comparison.colours[start]}"/>`;
-        }).join('') + '</pattern>').join('') : '') + '</defs>'];
+    + (showNeighbourhoods ? comparison.memberships.map((starts, vertex) => starts.length < 2 ? ''
+      : `<pattern id="neighbourhood-rings-${vertex}" patternUnits="objectBoundingBox" width="1" height="1" viewBox="-1 -1 2 2">`
+        + neighbourhoodRingMarkup(starts, comparison.colours) + '</pattern>').join('') : '') + '</defs>'];
   // edges, parallel instances offset
   const groups = new Map();
   g.edges.forEach(e => { const k = e.u < e.v ? `${e.u}|${e.v}` : `${e.v}|${e.u}`; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(e); });
@@ -241,24 +246,24 @@ function graphSVG(opts = {}) {
     const q = pos[i];
     const region = comparison.regions[i], anchor = comparison.anchors.indexOf(i) + 1;
     const memberships = comparison.memberships[i];
-    const neighbourhoodFill = manyNeighbourhoods && memberships.length
-      ? memberships.length > 1 ? `url(#neighbourhood-sectors-${i})` : comparison.colours[memberships[0]]
-      : NEIGHBOURHOOD_COLOURS[region];
+    const neighbourhoodFill = memberships.length > 1 ? `url(#neighbourhood-rings-${i})`
+      : memberships.length ? comparison.colours[memberships[0]] : NEIGHBOURHOOD_COLOURS.outside;
     const fill = showNeighbourhoods ? neighbourhoodFill : a.interior[i] ? COL.interior : a.boundary[i] ? 'url(#hatch)' : COL.exterior;
     const inA = S.A[i], inPrev = !opts.static && S.preview && S.preview[i];
     const marked = trace && trace.mask[i], origin = marked && trace.origin === i;
     const focusRing = !opts.static && !simple && !trace && ((focusCls !== null && focusCls !== undefined && T.pointToClass[i] === focusCls) || hlNodes.has(i));
     const txt = (showNeighbourhoods ? region !== 'outside' : a.interior[i]) ? '#fff' : COL.ink;
-    const regionDescription = manyNeighbourhoods
-      ? memberships.length ? 'in ' + memberships.map(start => `N(${label(comparison.anchors[start])}), Start ${start + 1}`).join('; ') : 'outside all selected neighbourhoods'
-      : { first: 'in N(v1) only', second: 'in N(v2) only', intersection: 'in both neighbourhoods', outside: 'outside the compared neighbourhoods' }[region];
+    const regionDescription = memberships.length
+      ? 'in ' + memberships.map(start => `N(${label(comparison.anchors[start])}), Start ${start + 1}`).join('; ')
+        + (memberships.length > 1 ? `; ${memberships.length} concentric membership rings, earliest selected on the outside` : '; solid neighbourhood colour')
+      : 'outside all selected neighbourhoods';
     out.push(`<g class="vtx${marked ? ' trace-node' : ''}${origin ? ' trace-origin' : ''}" data-v="${esc(p.id)}" data-neighbourhood-region="${region}" data-neighbourhood-memberships="${esc(JSON.stringify(memberships))}" data-neighbourhood-start-ids="${esc(JSON.stringify(memberships.map(start => g.nodes[comparison.anchors[start]].id)))}"${anchor ? ` data-neighbourhood-anchor="${anchor}"` : ''} tabindex="0" role="button" aria-pressed="${Boolean(inA)}" aria-label="vertex ${esc(p.label)}, ${S.statistic === 'incident-edges' ? 'degree' : 'neighbours'} ${M.degree[i]}${inA ? ', in A' : ''}${a.interior[i] ? ', interior of A' : a.boundary[i] ? ', boundary of A' : ', exterior of A'}${showNeighbourhoods ? ', ' + esc(regionDescription) : ''}${anchor ? ', comparison vertex ' + anchor : ''}${marked ? origin ? ', exploration origin' : ', highlighted in exploration' : ''}">`);
     if (marked) out.push(`<circle class="trace-ring" cx="${q.x}" cy="${q.y}" r="28" fill="${origin ? '#76234b12' : '#147f8714'}" stroke="${origin ? COL.wine : COL.teal}" stroke-width="${origin ? 4 : 3}"${origin ? '' : ' stroke-dasharray="5 3"'}/>`);
     if (focusRing) out.push(`<circle cx="${q.x}" cy="${q.y}" r="27" fill="none" stroke="${COL.teal}" stroke-width="4"/>`);
     if (!opts.static && S.pendingConnect === p.id) out.push(`<circle cx="${q.x}" cy="${q.y}" r="30" fill="none" stroke="${COL.wine}" stroke-width="3"/>`);
     if (inPrev) out.push(`<circle cx="${q.x}" cy="${q.y}" r="24" fill="none" stroke="${COL.wine}" stroke-width="3" stroke-dasharray="4 3"/>`);
     out.push(`<circle class="vertex-fill" data-selected="${Boolean(inA)}" cx="${q.x}" cy="${q.y}" r="${simple ? 22 : 19}" fill="${fill}" stroke="${inA ? simple ? '#f2bddb' : COL.ink : '#888'}" stroke-width="${inA ? 4.5 : 1.2}"/>`);
-    out.push(`<text x="${q.x}" y="${q.y + 4}" text-anchor="middle" class="vl" fill="${txt}"${showNeighbourhoods && manyNeighbourhoods && memberships.length > 1 ? ' stroke="#38253f" stroke-width="2" stroke-linejoin="round" paint-order="stroke"' : ''}>${esc(p.label)}</text>`);
+    out.push(`<text x="${q.x}" y="${q.y + 4}" text-anchor="middle" class="vl" fill="${txt}"${showNeighbourhoods && memberships.length > 1 ? ' stroke="#332338" stroke-width="2" stroke-linejoin="round" paint-order="stroke"' : ''}>${esc(p.label)}</text>`);
     if (showNeighbourhoods && anchor) out.push(simple
       ? `<g class="neighbourhood-anchor named-anchor"><rect x="${q.x - 38}" y="${q.y - 52}" width="76" height="24" rx="9" fill="${comparison.colours[anchor - 1]}"/><text x="${q.x}" y="${q.y - 35}" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">Start ${anchor}</text></g>`
       : `<g class="neighbourhood-anchor"><circle cx="${q.x + 18}" cy="${q.y - 19}" r="8" fill="#fff" stroke="${comparison.colours[anchor - 1]}" stroke-width="2"/><text x="${q.x + 18}" y="${q.y - 16}" text-anchor="middle" fill="${COL.ink}" font-size="9" font-weight="bold">${anchor}</text></g>`);
@@ -268,14 +273,17 @@ function graphSVG(opts = {}) {
   if (opts.legend && showNeighbourhoods) {
     const entries = manyNeighbourhoods ? comparison.anchors.map((origin, start) => [comparison.colours[start], `Start ${start + 1}: ${label(origin)}`]).concat([[NEIGHBOURHOOD_COLOURS.outside, 'Outside all']]) : (comparison.anchors.length > 1
       ? [['first', 'N(v1) only'], ['second', 'N(v2) only'], ['intersection', 'Intersection'], ['outside', 'Outside']]
-      : [['first', 'N(v1)'], ['outside', 'Outside']]).map(([key, name]) => [NEIGHBOURHOOD_COLOURS[key], name]);
+      : [['first', 'N(v1)'], ['outside', 'Outside']]).map(([key, name]) => [NEIGHBOURHOOD_COLOURS[key], name, key]);
     out.push(`<g transform="translate(${minX + 8},${maxY - 30 - (legendRows - 1) * 20})" class="leg neighbourhood-legend">`
-      + entries.map(([colour, name], i) => {
+      + entries.map(([colour, name, key], i) => {
         const x = manyNeighbourhoods ? i % legendColumns * 125 : i * 95, y = manyNeighbourhoods ? Math.floor(i / legendColumns) * 20 : 0;
         const shown = name.length > 19 ? name.slice(0, 17) + '…' : name;
-        return `<g transform="translate(${x},${y})"><title>${esc(name)}</title><rect width="12" height="12" fill="${colour}" stroke="#888"/><text x="16" y="10">${esc(shown)}</text></g>`;
+        const glyph = key === 'intersection'
+          ? `<g transform="translate(6,6) scale(7)">${neighbourhoodRingMarkup([0, 1], comparison.colours)}</g>`
+          : `<rect width="12" height="12" fill="${colour}" stroke="#888"/>`;
+        return `<g transform="translate(${x},${y})"><title>${esc(name)}${key === 'intersection' ? ': wine and turquoise rings' : ''}</title>${glyph}<text x="16" y="10">${esc(shown)}</text></g>`;
       }).join('')
-      + `<text x="0" y="-8">${manyNeighbourhoods ? 'Coloured sectors show membership in every matching set' : 'Smallest open neighbourhoods · badges identify the starts'}</text>`
+      + `<text x="0" y="-8">${comparison.anchors.length > 1 ? 'Shared vertex: one coloured ring per neighbourhood' : 'Smallest open neighbourhoods · badges identify the starts'}</text>`
       + `<text x="0" y="${legendRows * 20 + 7}">${comparison.anchors.length ? 'Thick outline: in A' : 'Select vertices to colour their neighbourhoods'}${S.mode === 'weak-patch' && showArcs ? ' · Arrows: reference only' : ''}</text></g>`);
   } else if (opts.legend) {
     out.push(`<g transform="translate(${minX + 8},${maxY - 30})" class="leg"><rect width="12" height="12" fill="${COL.interior}"/><text x="16" y="10">interior</text>`
@@ -537,14 +545,18 @@ function renderSelectionSummary() {
 function neighbourhoodSummaryHTML() {
   const c = S.neighbourhoods, T = S.model.topo;
   if (!c.anchors.length) return '<p class="neighbourhood-instruction">Click vertices to add their smallest open neighbourhoods. Every selected start keeps its full set coloured; click it again to remove that set.</p>';
-  if (c.anchors.length > 2) return '<p class="neighbourhood-instruction">Each start has its own colour. A shared vertex shows a sector for every neighbourhood containing it. Expand a row for its complete set.</p>'
+  if (c.anchors.length > 2) return '<p class="neighbourhood-instruction">Each start has its own colour. A shared vertex shows one concentric ring for every neighbourhood containing it, earliest selected on the outside. Expand a row for its complete set.</p>'
     + c.anchors.map((origin, start) => `<details class="neighbourhood-set" data-neighbourhood-set="start-${start + 1}" data-neighbourhood-start-id="${esc(S.graph.nodes[origin].id)}" data-neighbourhood-colour="${c.colours[start]}" data-member-ids="${esc(JSON.stringify(setIds(c.masks[start])))}" style="border-color:${c.colours[start]}"><summary><i aria-hidden="true" style="display:inline-block;width:14px;height:14px;border-radius:3px;background:${c.colours[start]}"></i> Start ${start + 1}: N(${esc(label(origin))}) · ${c.masks[start].reduce((n, bit) => n + bit, 0)} vertices</summary><span class="neighbourhood-members">${fmtSet(T, c.masks[start])}</span></details>`).join('');
-  const card = (key, title, mask, detail) => `<div class="neighbourhood-set" data-neighbourhood-set="${key}" data-member-ids="${esc(JSON.stringify(setIds(mask)))}" style="border-color:${NEIGHBOURHOOD_COLOURS[key]}"><strong style="color:${NEIGHBOURHOOD_COLOURS[key]}">${title}</strong><span class="neighbourhood-members">${fmtSet(T, mask)}</span>${detail ? `<small>${detail}</small>` : ''}</div>`;
+  const card = (key, title, mask, detail) => {
+    const shared = key === 'intersection';
+    const glyph = shared ? `<svg aria-hidden="true" width="26" height="26" viewBox="-1 -1 2 2" style="display:inline-block;vertical-align:middle;margin:0 6px 0 0">${neighbourhoodRingMarkup([0, 1], c.colours)}</svg>` : '';
+    return `<div class="neighbourhood-set" data-neighbourhood-set="${key}" data-member-ids="${esc(JSON.stringify(setIds(mask)))}" style="border-color:${shared ? '#888' : NEIGHBOURHOOD_COLOURS[key]}"><strong style="color:${shared ? 'inherit' : NEIGHBOURHOOD_COLOURS[key]}">${glyph}${title}</strong><span class="neighbourhood-members">${fmtSet(T, mask)}</span>${detail ? `<small>${detail}</small>` : ''}</div>`;
+  };
   let html = card('first', `v1 = ${esc(label(c.anchors[0]))} · N(v1)`, c.first,
     c.anchors.length > 1 ? `Wine only: ${fmtSet(T, c.firstOnly)}` : 'Wine: the entire neighbourhood');
   if (c.anchors.length > 1) {
     html += card('second', `v2 = ${esc(label(c.anchors[1]))} · N(v2)`, c.second, `Turquoise only: ${fmtSet(T, c.secondOnly)}`)
-      + card('intersection', 'N(v1) ∩ N(v2)', c.intersection, 'Purple: belongs to both neighbourhoods');
+      + card('intersection', 'N(v1) ∩ N(v2)', c.intersection, 'Wine and turquoise rings: belongs to both neighbourhoods');
   }
   return html;
 }
@@ -557,8 +569,8 @@ function renderNeighbourhoodSummary() {
   $('#neighbourhood-summary').innerHTML = neighbourhoodSummaryHTML();
   $('#neighbourhood-display-note').textContent = S.colourMode === 'neighbourhoods'
     ? S.neighbourhoods.anchors.length > 2
-      ? 'Every selected start has a colour. Shared vertices contain coloured sectors for every set they belong to; the numbered starts match the key.'
-      : 'Colours show set membership. With two starts the shared part is purple; numbered badges identify the starts.'
+      ? 'Every selected start has a colour. A shared vertex has one concentric ring per containing neighbourhood; the numbered starts match the key.'
+      : 'Colours show set membership. With two starts a shared vertex has wine and turquoise rings; numbered badges identify the starts.'
     : 'Graph colours show interior / boundary / exterior of A. The neighbourhood sets below are still current.';
 }
 
@@ -711,7 +723,7 @@ function galleryHTML() {
 }
 
 function helpHTML() {
-  return '<div class="rules"><p><b>Neighbourhood colours.</b> Every selected vertex adds its full smallest open neighbourhood. Click a selected start again to remove its set. With one start its set is wine; with two, wine and turquoise mark the exclusive parts and purple marks their intersection. With three or more starts each has a distinct colour, and a shared vertex has one coloured sector for every containing neighbourhood. The key and expandable exact-set rows identify all starts. Colours follow the current selection order. N(v) is the smallest open set containing v; the largest is always the whole vertex set. Graph colours can also show interior / boundary / exterior of A. The quotient always keeps its A-analysis colours. Colour mode is a drawing preference, not a saved mathematical input.</p>'
+  return '<div class="rules"><p><b>Neighbourhood colours.</b> Every selected vertex adds its full smallest open neighbourhood. Click a selected start again to remove its set. With one start its set is wine; with two, wine and turquoise mark the exclusive parts, and shared vertices have both wine and turquoise rings. The third start is bright blue. A shared vertex has one complete coloured circumference for every containing neighbourhood, in selection order from outside to inside. Its dark centre is a label background, not another set. With many overlaps the rings become finer; zoom in or inspect the exact-set rows. The key and expandable exact-set rows identify all starts. Colours follow the current selection order. N(v) is the smallest open set containing v; the largest is always the whole vertex set. Graph colours can also show interior / boundary / exterior of A. The quotient always keeps its A-analysis colours. Colour mode is a drawing preference, not a saved mathematical input.</p>'
     + '<p><b>Undirected graph and step arrows.</b> Input edges are undirected. The arrowheads are a derived overlay showing which direction permits a step under the active topology and degree statistic. They do not turn the input into a directed graph. Weak-patch reference arrows are described below.</p>'
     + '<p><b>Linked exploration.</b> Select a neighbourhood, quotient up-set, cover, arc or matrix cell to see it in the drawings. Explore neighbourhoods lets you start from a graph vertex; clicking a quotient point explores its up-set. Wine rings mark the origin and turquoise rings mark the exploration; fills follow Graph colours. These highlights do not change A. A direct graph step may appear as several covers in the Hasse drawing.</p>'
     + '<p><b>Drawing controls.</b> Use +/− or Ctrl + wheel to zoom, Pan or middle drag to move the view, Fit to show the whole drawing, and Expand for more room (Escape closes). Hover or focus a node for its details. Relaxed network, Degree levels and Circle arrange vertex positions only. JSON retains positions; live zoom, pan, tooltips, table-exploration rings and witness highlights are not exported. Graph SVG and HTML reports retain the chosen neighbourhood colours and numbered origins.</p>'
@@ -887,7 +899,7 @@ function reportHTML() {
     + `<h2>Assumptions</h2><p>Finite ${esc(g.kind)} graph; mode <b>${esc(t(S.mode))}</b>; statistic <b>${esc(t(S.statistic))}</b>; primary carrier: ambient vertices V. ${assumptions}</p>`
     + '<p>These are finite calculations. They do not prove the manuscript’s general or infinite theorems.</p>'
     + `<h2>Selected set on V</h2>${inspectorHTML().replace(/<button[^>]*>.*?<\/button>/g, '')}`
-    + `<h2>Smallest open neighbourhoods</h2><p>The largest open set containing any vertex is V. The sets below are the smallest open neighbourhoods, using the active topology. Graph fills: ${S.colourMode === 'neighbourhoods' ? S.neighbourhoods.anchors.length > 2 ? 'one colour per selected start; shared vertices show every containing set as coloured sectors' : 'wine N(v1) only, turquoise N(v2) only, purple intersection' : 'interior / boundary / exterior of A'}.</p><div class="neighbourhood-summary">${neighbourhoodSummaryHTML()}</div>`
+    + `<h2>Smallest open neighbourhoods</h2><p>The largest open set containing any vertex is V. The sets below are the smallest open neighbourhoods, using the active topology. Graph fills: ${S.colourMode === 'neighbourhoods' ? S.neighbourhoods.anchors.length > 2 ? 'one colour per selected start; a shared vertex has one concentric coloured ring for every containing set, earliest selected on the outside' : 'wine N(v1) only, turquoise N(v2) only, wine and turquoise rings at the intersection' : 'interior / boundary / exterior of A'}.</p><div class="neighbourhood-summary">${neighbourhoodSummaryHTML()}</div>`
     + `<h2>Figures</h2><div class="figures"><div>${staticSVG(graphSVG({ legend: true, static: true }))}</div><div>${staticSVG(quotientSVG({ static: true }), true)}</div></div>`
     + '<h2>Subspace comparison</h2>' + subspaceReport(ex)
     + '<h2>Loaded open sets on V</h2>' + loadedSetsReport(ex)
@@ -1078,7 +1090,7 @@ function vertexKey(id) {
 }
 
 const TOOL_HINT = {
-  select: 'Click one vertex for its smallest open neighbourhood; click a second for wine / turquoise / purple overlap. Click again to deselect. Selected vertices also form A. Drag a vertex to move it; drag empty space to add a box to A (Alt removes).',
+  select: 'Click vertices to show their smallest open neighbourhoods. Wine, turquoise and bright blue identify the first three starts; a shared vertex has one concentric coloured ring per containing set. Click again to deselect. Selected vertices also form A. Drag a vertex to move it; drag empty space to add a box to A (Alt removes).',
   'add-vertex': 'Click on empty space to add a vertex there. Drag from one vertex to another to add an edge.',
   'add-edge': 'Drag from one vertex to another, or click the first vertex and then the second, to add an edge.',
   move: 'Drag a vertex to move it. Moving changes the drawing only, never the topology.',
@@ -1386,8 +1398,8 @@ function boot() {
   let theme = 'dark';
   try { if (localStorage.getItem('uphill-theme') === 'light') theme = 'light'; } catch { /* No persistence required. */ }
   setTheme(theme);
-  // The user's saved example invites exploration without preselected vertices.
-  loadPreset('hard19');
+  // Begin with three vertices; the introduction brings in richer graphs later.
+  loadPreset('path3');
   S.undo = [];
   render(); setTool('select');
   installGraphViewports();

@@ -1,8 +1,8 @@
 cff-version: 1.2.0
-message: "If you use this supplementary simulator, please cite this exact software version."
+message: "Cite the exact software version used. The independently reviewed paper supplement is separately preserved as version 1.11.2."
 type: software
-title: "Uphill Topology Explorer — Supplement S1"
-version: 1.11.2
+title: "Uphill Topology Explorer"
+version: 1.12.1
 date-released: 2026-10-03
 authors:
   - family-names: Sivroni
@@ -10,8 +10,8 @@ authors:
     affiliation: "Department of Mathematics and Computer Science, The Open University of Israel"
     email: shirsivroni@gmail.com
 repository-code: "https://github.com/shir-openu/uphill-topology-simulator"
-url: "https://shir-openu.github.io/uphill-topology-simulator/v1.11.2/"
-abstract: "Frozen, independently reviewed finite graph-to-topology simulator accompanying the manuscript Uphill graph topologies and degree-constrained realizations of posets. Supplementary computations illustrate finite examples and do not prove the manuscript's theorems."
+url: "https://shir-openu.github.io/uphill-topology-simulator/v1.12.1/"
+abstract: "Finite graph-to-topology simulator associated with Uphill graph topologies and degree-constrained realizations of posets. Version 1.12.1 provides the newer interface; the independently reviewed paper supplement remains version 1.11.2. Finite computations illustrate examples and do not prove manuscript theorems."
 keywords:
   - graph topology
   - finite topology

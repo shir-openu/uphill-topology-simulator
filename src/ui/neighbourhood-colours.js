@@ -22,9 +22,9 @@ export function neighbourhoodComparison(graph, topology, selectedIds) {
     first, second, intersection, firstOnly, secondOnly, regions };
 }
 
-// Keep the familiar wine/turquoise pair; additional starts use shades from
-// the user's report61 palette, including its purple, pink and cyan families.
-const START_COLOURS = ['#86264f', '#147f87', '#c2185b', '#7b1fa2', '#e151a9', '#00acc1',
+// Keep the familiar wine/turquoise pair. The third start uses bright blue
+// to stay distinct from wine/pink; later starts retain report61 palette shades.
+const START_COLOURS = ['#86264f', '#147f87', '#2563eb', '#7b1fa2', '#e151a9', '#00acc1',
   '#ae96d8', '#9d1b6b', '#bb7be6', '#6a1b9a', '#0aeaff', '#b5179e'];
 
 export function neighbourhoodColour(index) {

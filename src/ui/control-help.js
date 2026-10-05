@@ -5,7 +5,7 @@ const HELP_CONTROL_SELECTOR = 'button,input:not([type="hidden"]),select,textarea
 const HELP_CHROME_SELECTOR = '[data-control-help-trigger],#control-help-popover,#control-help-triggers';
 
 const HELP_IDS = {
-  'watch-guide': ['Replay intro', 'Watch the real controls in action. Pause, change speed, or choose Explore whenever you are ready.'],
+  'watch-guide': ['Replay intro', 'Begin with a simple three-vertex graph, then explore richer examples. During the demonstration this button becomes Stop intro.'],
   'open-lessons': ['Visual lessons', 'Open six illustrated lessons about degrees, neighbourhoods and overlaps.'],
   'workspace-toggle': ['Full workbench', 'Show or hide the quotient, inspector, tables and graph editor. Your graph and selection stay the same.'],
   'theme-toggle': ['Bright or dark view', 'Switch the colour theme. The graph and all its sets stay the same.'],
@@ -42,7 +42,7 @@ const HELP_IDS = {
   'live-tour-pause': ['Pause or resume', 'Pause the introduction so you can read the help and inspect the example. Press again to continue.'],
   'live-tour-speed': ['Introduction speed', 'Choose a slower or faster pace. All the same controls and examples are demonstrated.'],
   'live-tour-replay': ['Replay introduction', 'Restart the introduction from the beginning.'],
-  'live-tour-skip': ['Explore', 'Finish the introduction and return to your own graph and selection.'],
+  'live-tour-skip': ['Stop intro', 'End the demonstration and return to your own graph and selection. Touching other app controls does not end it.'],
   'intro-close': ['Close visual lessons', 'Return to your graph without changing it.'],
   'intro-play': ['Pause or resume lesson', 'Pause the illustrated lesson, or resume its animation.'],
   'intro-replay': ['Replay lessons', 'Start the illustrated lessons again from the first scene.'],
@@ -180,6 +180,7 @@ const helpRecord = (key, pair) => pair ? { key, title: pair[0], text: pair[1] } 
 export function describeControlHelp(el) {
   if (!el?.matches || el.closest(HELP_CHROME_SELECTOR) || el.matches('.control-menu-native')) return null;
   const d = el.dataset, id = el.id || '', label = helpPlainLabel(el);
+  if (id === 'watch-guide' && d.introActive === 'true') return helpRecord(id, ['Stop intro', 'Press this button to end the introduction and use your graph. Other app touches do not stop or edit the demonstration. Pause, Next and the chapter buttons remain available.']);
   if (d.menuId && d.menuValue !== undefined) {
     const text = d.menuId === 'preset' ? HELP_PRESETS[d.menuValue] : HELP_MENU_CHOICES[d.menuId]?.[d.menuValue];
     return text ? { key: `menu:${d.menuId}:${d.menuValue}`, title: label, text } : null;
