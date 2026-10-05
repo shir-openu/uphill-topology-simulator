@@ -1,0 +1,4781 @@
+{
+ "schemaVersion": "uphill-acceptance/1",
+ "source": "UPHILL-v11-2026-09-30",
+ "note": "Expected values verified by exhaustive subset enumeration using one-step openness and topological definitions of interior and closure. weak-patch always means patch of NON-STRICT uphill with the selected statistic. Arrays representing sets are unordered.",
+ "fixtures": [
+  {
+   "id": "path3",
+   "graph": {
+    "schemaVersion": "uphill-graph/1",
+    "kind": "simple-undirected",
+    "nodes": [
+     {
+      "id": "a",
+      "label": "a"
+     },
+     {
+      "id": "b",
+      "label": "b"
+     },
+     {
+      "id": "c",
+      "label": "c"
+     }
+    ],
+    "edges": [
+     {
+      "id": "e1",
+      "source": "a",
+      "target": "b"
+     },
+     {
+      "id": "e2",
+      "source": "b",
+      "target": "c"
+     }
+    ]
+   },
+   "expected": [
+    {
+     "mode": "uphill",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 1,
+      "b": 2,
+      "c": 1
+     },
+     "classes": [
+      [
+       "a"
+      ],
+      [
+       "b"
+      ],
+      [
+       "c"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "b"
+      ],
+      "b": [
+       "b"
+      ],
+      "c": [
+       "b",
+       "c"
+      ]
+     },
+     "openCount": "5",
+     "selections": [
+      {
+       "selected": [
+        "b"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "b"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c"
+       ],
+       "boundary": [
+        "a",
+        "c"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "a",
+        "b"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "a",
+        "b"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c"
+       ],
+       "boundary": [
+        "c"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "a",
+        "c"
+       ],
+       "open": false,
+       "closed": true,
+       "interior": [],
+       "closure": [
+        "a",
+        "c"
+       ],
+       "boundary": [
+        "a",
+        "c"
+       ],
+       "exterior": [
+        "b"
+       ]
+      },
+      {
+       "selected": [
+        "a"
+       ],
+       "open": false,
+       "closed": true,
+       "interior": [],
+       "closure": [
+        "a"
+       ],
+       "boundary": [
+        "a"
+       ],
+       "exterior": [
+        "b",
+        "c"
+       ]
+      }
+     ]
+    },
+    {
+     "mode": "weak-patch",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 1,
+      "b": 2,
+      "c": 1
+     },
+     "classes": [
+      [
+       "a"
+      ],
+      [
+       "b"
+      ],
+      [
+       "c"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a"
+      ],
+      "b": [
+       "b"
+      ],
+      "c": [
+       "c"
+      ]
+     },
+     "openCount": "8",
+     "selections": [
+      {
+       "selected": [
+        "b"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "b"
+       ],
+       "closure": [
+        "b"
+       ],
+       "boundary": [],
+       "exterior": [
+        "a",
+        "c"
+       ]
+      },
+      {
+       "selected": [
+        "a",
+        "b"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "b"
+       ],
+       "closure": [
+        "a",
+        "b"
+       ],
+       "boundary": [],
+       "exterior": [
+        "c"
+       ]
+      },
+      {
+       "selected": [
+        "a",
+        "c"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "c"
+       ],
+       "closure": [
+        "a",
+        "c"
+       ],
+       "boundary": [],
+       "exterior": [
+        "b"
+       ]
+      },
+      {
+       "selected": [
+        "a"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a"
+       ],
+       "closure": [
+        "a"
+       ],
+       "boundary": [],
+       "exterior": [
+        "b",
+        "c"
+       ]
+      }
+     ]
+    },
+    {
+     "mode": "strict",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 1,
+      "b": 2,
+      "c": 1
+     },
+     "classes": [
+      [
+       "a"
+      ],
+      [
+       "b"
+      ],
+      [
+       "c"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "b"
+      ],
+      "b": [
+       "b"
+      ],
+      "c": [
+       "b",
+       "c"
+      ]
+     },
+     "openCount": "5",
+     "selections": [
+      {
+       "selected": [
+        "b"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "b"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c"
+       ],
+       "boundary": [
+        "a",
+        "c"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "a",
+        "b"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "a",
+        "b"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c"
+       ],
+       "boundary": [
+        "c"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "a",
+        "c"
+       ],
+       "open": false,
+       "closed": true,
+       "interior": [],
+       "closure": [
+        "a",
+        "c"
+       ],
+       "boundary": [
+        "a",
+        "c"
+       ],
+       "exterior": [
+        "b"
+       ]
+      },
+      {
+       "selected": [
+        "a"
+       ],
+       "open": false,
+       "closed": true,
+       "interior": [],
+       "closure": [
+        "a"
+       ],
+       "boundary": [
+        "a"
+       ],
+       "exterior": [
+        "b",
+        "c"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "square_diagonal",
+   "graph": {
+    "schemaVersion": "uphill-graph/1",
+    "kind": "simple-undirected",
+    "nodes": [
+     {
+      "id": "a",
+      "label": "a"
+     },
+     {
+      "id": "b",
+      "label": "b"
+     },
+     {
+      "id": "c",
+      "label": "c"
+     },
+     {
+      "id": "d",
+      "label": "d"
+     }
+    ],
+    "edges": [
+     {
+      "id": "e1",
+      "source": "a",
+      "target": "b"
+     },
+     {
+      "id": "e2",
+      "source": "b",
+      "target": "c"
+     },
+     {
+      "id": "e3",
+      "source": "c",
+      "target": "d"
+     },
+     {
+      "id": "e4",
+      "source": "d",
+      "target": "a"
+     },
+     {
+      "id": "e5",
+      "source": "a",
+      "target": "c"
+     }
+    ]
+   },
+   "expected": [
+    {
+     "mode": "uphill",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 3,
+      "b": 2,
+      "c": 3,
+      "d": 2
+     },
+     "classes": [
+      [
+       "a",
+       "c"
+      ],
+      [
+       "b"
+      ],
+      [
+       "d"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "c"
+      ],
+      "b": [
+       "a",
+       "b",
+       "c"
+      ],
+      "c": [
+       "a",
+       "c"
+      ],
+      "d": [
+       "a",
+       "c",
+       "d"
+      ]
+     },
+     "openCount": "5",
+     "selections": [
+      {
+       "selected": [
+        "a",
+        "c"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "a",
+        "c"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "boundary": [
+        "b",
+        "d"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "a"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "boundary": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "b",
+        "d"
+       ],
+       "open": false,
+       "closed": true,
+       "interior": [],
+       "closure": [
+        "b",
+        "d"
+       ],
+       "boundary": [
+        "b",
+        "d"
+       ],
+       "exterior": [
+        "a",
+        "c"
+       ]
+      }
+     ]
+    },
+    {
+     "mode": "weak-patch",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 3,
+      "b": 2,
+      "c": 3,
+      "d": 2
+     },
+     "classes": [
+      [
+       "a",
+       "c"
+      ],
+      [
+       "b"
+      ],
+      [
+       "d"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "c"
+      ],
+      "b": [
+       "b"
+      ],
+      "c": [
+       "a",
+       "c"
+      ],
+      "d": [
+       "d"
+      ]
+     },
+     "openCount": "8",
+     "selections": [
+      {
+       "selected": [
+        "a",
+        "c"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "c"
+       ],
+       "closure": [
+        "a",
+        "c"
+       ],
+       "boundary": [],
+       "exterior": [
+        "b",
+        "d"
+       ]
+      },
+      {
+       "selected": [
+        "a"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "a",
+        "c"
+       ],
+       "boundary": [
+        "a",
+        "c"
+       ],
+       "exterior": [
+        "b",
+        "d"
+       ]
+      },
+      {
+       "selected": [
+        "b",
+        "d"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "b",
+        "d"
+       ],
+       "closure": [
+        "b",
+        "d"
+       ],
+       "boundary": [],
+       "exterior": [
+        "a",
+        "c"
+       ]
+      }
+     ]
+    },
+    {
+     "mode": "strict",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 3,
+      "b": 2,
+      "c": 3,
+      "d": 2
+     },
+     "classes": [
+      [
+       "a"
+      ],
+      [
+       "b"
+      ],
+      [
+       "c"
+      ],
+      [
+       "d"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a"
+      ],
+      "b": [
+       "a",
+       "b",
+       "c"
+      ],
+      "c": [
+       "c"
+      ],
+      "d": [
+       "a",
+       "c",
+       "d"
+      ]
+     },
+     "openCount": "7",
+     "selections": [
+      {
+       "selected": [
+        "a",
+        "c"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "a",
+        "c"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "boundary": [
+        "b",
+        "d"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "a"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "a"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "d"
+       ],
+       "boundary": [
+        "b",
+        "d"
+       ],
+       "exterior": [
+        "c"
+       ]
+      },
+      {
+       "selected": [
+        "b",
+        "d"
+       ],
+       "open": false,
+       "closed": true,
+       "interior": [],
+       "closure": [
+        "b",
+        "d"
+       ],
+       "boundary": [
+        "b",
+        "d"
+       ],
+       "exterior": [
+        "a",
+        "c"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "crown7",
+   "graph": {
+    "schemaVersion": "uphill-graph/1",
+    "kind": "simple-undirected",
+    "nodes": [
+     {
+      "id": "0",
+      "label": "0"
+     },
+     {
+      "id": "1",
+      "label": "1"
+     },
+     {
+      "id": "2",
+      "label": "2"
+     },
+     {
+      "id": "3",
+      "label": "3"
+     },
+     {
+      "id": "4",
+      "label": "4"
+     },
+     {
+      "id": "5",
+      "label": "5"
+     },
+     {
+      "id": "6",
+      "label": "6"
+     }
+    ],
+    "edges": [
+     {
+      "id": "e1",
+      "source": "4",
+      "target": "1"
+     },
+     {
+      "id": "e2",
+      "source": "4",
+      "target": "2"
+     },
+     {
+      "id": "e3",
+      "source": "4",
+      "target": "3"
+     },
+     {
+      "id": "e4",
+      "source": "5",
+      "target": "0"
+     },
+     {
+      "id": "e5",
+      "source": "5",
+      "target": "1"
+     },
+     {
+      "id": "e6",
+      "source": "5",
+      "target": "2"
+     },
+     {
+      "id": "e7",
+      "source": "5",
+      "target": "3"
+     },
+     {
+      "id": "e8",
+      "source": "6",
+      "target": "0"
+     },
+     {
+      "id": "e9",
+      "source": "6",
+      "target": "1"
+     },
+     {
+      "id": "e10",
+      "source": "6",
+      "target": "2"
+     },
+     {
+      "id": "e11",
+      "source": "6",
+      "target": "3"
+     }
+    ]
+   },
+   "expected": [
+    {
+     "mode": "uphill",
+     "statistic": "incident-edges",
+     "degrees": {
+      "0": 2,
+      "1": 3,
+      "2": 3,
+      "3": 3,
+      "4": 3,
+      "5": 4,
+      "6": 4
+     },
+     "classes": [
+      [
+       "0"
+      ],
+      [
+       "1",
+       "2",
+       "3",
+       "4"
+      ],
+      [
+       "5"
+      ],
+      [
+       "6"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "0": [
+       "0",
+       "5",
+       "6"
+      ],
+      "1": [
+       "1",
+       "2",
+       "3",
+       "4",
+       "5",
+       "6"
+      ],
+      "2": [
+       "1",
+       "2",
+       "3",
+       "4",
+       "5",
+       "6"
+      ],
+      "3": [
+       "1",
+       "2",
+       "3",
+       "4",
+       "5",
+       "6"
+      ],
+      "4": [
+       "1",
+       "2",
+       "3",
+       "4",
+       "5",
+       "6"
+      ],
+      "5": [
+       "5"
+      ],
+      "6": [
+       "6"
+      ]
+     },
+     "openCount": "7",
+     "selections": [
+      {
+       "selected": [
+        "5"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "5"
+       ],
+       "closure": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+       ],
+       "boundary": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4"
+       ],
+       "exterior": [
+        "6"
+       ]
+      },
+      {
+       "selected": [
+        "5",
+        "6"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "5",
+        "6"
+       ],
+       "closure": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+       ],
+       "boundary": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "4"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "1",
+        "2",
+        "3",
+        "4"
+       ],
+       "boundary": [
+        "1",
+        "2",
+        "3",
+        "4"
+       ],
+       "exterior": [
+        "0",
+        "5",
+        "6"
+       ]
+      },
+      {
+       "selected": [
+        "1",
+        "2",
+        "3",
+        "4"
+       ],
+       "open": false,
+       "closed": true,
+       "interior": [],
+       "closure": [
+        "1",
+        "2",
+        "3",
+        "4"
+       ],
+       "boundary": [
+        "1",
+        "2",
+        "3",
+        "4"
+       ],
+       "exterior": [
+        "0",
+        "5",
+        "6"
+       ]
+      },
+      {
+       "selected": [
+        "0",
+        "5",
+        "6"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "0",
+        "5",
+        "6"
+       ],
+       "closure": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+       ],
+       "boundary": [
+        "1",
+        "2",
+        "3",
+        "4"
+       ],
+       "exterior": []
+      }
+     ]
+    },
+    {
+     "mode": "weak-patch",
+     "statistic": "incident-edges",
+     "degrees": {
+      "0": 2,
+      "1": 3,
+      "2": 3,
+      "3": 3,
+      "4": 3,
+      "5": 4,
+      "6": 4
+     },
+     "classes": [
+      [
+       "0"
+      ],
+      [
+       "1",
+       "2",
+       "3",
+       "4"
+      ],
+      [
+       "5"
+      ],
+      [
+       "6"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "0": [
+       "0"
+      ],
+      "1": [
+       "1",
+       "2",
+       "3",
+       "4"
+      ],
+      "2": [
+       "1",
+       "2",
+       "3",
+       "4"
+      ],
+      "3": [
+       "1",
+       "2",
+       "3",
+       "4"
+      ],
+      "4": [
+       "1",
+       "2",
+       "3",
+       "4"
+      ],
+      "5": [
+       "5"
+      ],
+      "6": [
+       "6"
+      ]
+     },
+     "openCount": "16",
+     "selections": [
+      {
+       "selected": [
+        "5"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "5"
+       ],
+       "closure": [
+        "5"
+       ],
+       "boundary": [],
+       "exterior": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "6"
+       ]
+      },
+      {
+       "selected": [
+        "5",
+        "6"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "5",
+        "6"
+       ],
+       "closure": [
+        "5",
+        "6"
+       ],
+       "boundary": [],
+       "exterior": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4"
+       ]
+      },
+      {
+       "selected": [
+        "4"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "1",
+        "2",
+        "3",
+        "4"
+       ],
+       "boundary": [
+        "1",
+        "2",
+        "3",
+        "4"
+       ],
+       "exterior": [
+        "0",
+        "5",
+        "6"
+       ]
+      },
+      {
+       "selected": [
+        "1",
+        "2",
+        "3",
+        "4"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "1",
+        "2",
+        "3",
+        "4"
+       ],
+       "closure": [
+        "1",
+        "2",
+        "3",
+        "4"
+       ],
+       "boundary": [],
+       "exterior": [
+        "0",
+        "5",
+        "6"
+       ]
+      },
+      {
+       "selected": [
+        "0",
+        "5",
+        "6"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "0",
+        "5",
+        "6"
+       ],
+       "closure": [
+        "0",
+        "5",
+        "6"
+       ],
+       "boundary": [],
+       "exterior": [
+        "1",
+        "2",
+        "3",
+        "4"
+       ]
+      }
+     ]
+    },
+    {
+     "mode": "strict",
+     "statistic": "incident-edges",
+     "degrees": {
+      "0": 2,
+      "1": 3,
+      "2": 3,
+      "3": 3,
+      "4": 3,
+      "5": 4,
+      "6": 4
+     },
+     "classes": [
+      [
+       "0"
+      ],
+      [
+       "1"
+      ],
+      [
+       "2"
+      ],
+      [
+       "3"
+      ],
+      [
+       "4"
+      ],
+      [
+       "5"
+      ],
+      [
+       "6"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "0": [
+       "0",
+       "5",
+       "6"
+      ],
+      "1": [
+       "1",
+       "5",
+       "6"
+      ],
+      "2": [
+       "2",
+       "5",
+       "6"
+      ],
+      "3": [
+       "3",
+       "5",
+       "6"
+      ],
+      "4": [
+       "4"
+      ],
+      "5": [
+       "5"
+      ],
+      "6": [
+       "6"
+      ]
+     },
+     "openCount": "38",
+     "selections": [
+      {
+       "selected": [
+        "5"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "5"
+       ],
+       "closure": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "5"
+       ],
+       "boundary": [
+        "0",
+        "1",
+        "2",
+        "3"
+       ],
+       "exterior": [
+        "4",
+        "6"
+       ]
+      },
+      {
+       "selected": [
+        "5",
+        "6"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "5",
+        "6"
+       ],
+       "closure": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "5",
+        "6"
+       ],
+       "boundary": [
+        "0",
+        "1",
+        "2",
+        "3"
+       ],
+       "exterior": [
+        "4"
+       ]
+      },
+      {
+       "selected": [
+        "4"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "4"
+       ],
+       "closure": [
+        "4"
+       ],
+       "boundary": [],
+       "exterior": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "5",
+        "6"
+       ]
+      },
+      {
+       "selected": [
+        "1",
+        "2",
+        "3",
+        "4"
+       ],
+       "open": false,
+       "closed": true,
+       "interior": [
+        "4"
+       ],
+       "closure": [
+        "1",
+        "2",
+        "3",
+        "4"
+       ],
+       "boundary": [
+        "1",
+        "2",
+        "3"
+       ],
+       "exterior": [
+        "0",
+        "5",
+        "6"
+       ]
+      },
+      {
+       "selected": [
+        "0",
+        "5",
+        "6"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "0",
+        "5",
+        "6"
+       ],
+       "closure": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "5",
+        "6"
+       ],
+       "boundary": [
+        "1",
+        "2",
+        "3"
+       ],
+       "exterior": [
+        "4"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "isolated3",
+   "graph": {
+    "schemaVersion": "uphill-graph/1",
+    "kind": "simple-undirected",
+    "nodes": [
+     {
+      "id": "x",
+      "label": "x"
+     },
+     {
+      "id": "y",
+      "label": "y"
+     },
+     {
+      "id": "z",
+      "label": "z"
+     }
+    ],
+    "edges": []
+   },
+   "expected": [
+    {
+     "mode": "uphill",
+     "statistic": "incident-edges",
+     "degrees": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "classes": [
+      [
+       "x"
+      ],
+      [
+       "y"
+      ],
+      [
+       "z"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "x": [
+       "x"
+      ],
+      "y": [
+       "y"
+      ],
+      "z": [
+       "z"
+      ]
+     },
+     "openCount": "8",
+     "selections": [
+      {
+       "selected": [
+        "x"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "x"
+       ],
+       "closure": [
+        "x"
+       ],
+       "boundary": [],
+       "exterior": [
+        "y",
+        "z"
+       ]
+      },
+      {
+       "selected": [],
+       "open": true,
+       "closed": true,
+       "interior": [],
+       "closure": [],
+       "boundary": [],
+       "exterior": [
+        "x",
+        "y",
+        "z"
+       ]
+      },
+      {
+       "selected": [
+        "x",
+        "y",
+        "z"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "x",
+        "y",
+        "z"
+       ],
+       "closure": [
+        "x",
+        "y",
+        "z"
+       ],
+       "boundary": [],
+       "exterior": []
+      }
+     ]
+    },
+    {
+     "mode": "weak-patch",
+     "statistic": "incident-edges",
+     "degrees": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "classes": [
+      [
+       "x"
+      ],
+      [
+       "y"
+      ],
+      [
+       "z"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "x": [
+       "x"
+      ],
+      "y": [
+       "y"
+      ],
+      "z": [
+       "z"
+      ]
+     },
+     "openCount": "8",
+     "selections": [
+      {
+       "selected": [
+        "x"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "x"
+       ],
+       "closure": [
+        "x"
+       ],
+       "boundary": [],
+       "exterior": [
+        "y",
+        "z"
+       ]
+      },
+      {
+       "selected": [],
+       "open": true,
+       "closed": true,
+       "interior": [],
+       "closure": [],
+       "boundary": [],
+       "exterior": [
+        "x",
+        "y",
+        "z"
+       ]
+      },
+      {
+       "selected": [
+        "x",
+        "y",
+        "z"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "x",
+        "y",
+        "z"
+       ],
+       "closure": [
+        "x",
+        "y",
+        "z"
+       ],
+       "boundary": [],
+       "exterior": []
+      }
+     ]
+    },
+    {
+     "mode": "strict",
+     "statistic": "incident-edges",
+     "degrees": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "classes": [
+      [
+       "x"
+      ],
+      [
+       "y"
+      ],
+      [
+       "z"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "x": [
+       "x"
+      ],
+      "y": [
+       "y"
+      ],
+      "z": [
+       "z"
+      ]
+     },
+     "openCount": "8",
+     "selections": [
+      {
+       "selected": [
+        "x"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "x"
+       ],
+       "closure": [
+        "x"
+       ],
+       "boundary": [],
+       "exterior": [
+        "y",
+        "z"
+       ]
+      },
+      {
+       "selected": [],
+       "open": true,
+       "closed": true,
+       "interior": [],
+       "closure": [],
+       "boundary": [],
+       "exterior": [
+        "x",
+        "y",
+        "z"
+       ]
+      },
+      {
+       "selected": [
+        "x",
+        "y",
+        "z"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "x",
+        "y",
+        "z"
+       ],
+       "closure": [
+        "x",
+        "y",
+        "z"
+       ],
+       "boundary": [],
+       "exterior": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "cycle4",
+   "graph": {
+    "schemaVersion": "uphill-graph/1",
+    "kind": "simple-undirected",
+    "nodes": [
+     {
+      "id": "a",
+      "label": "a"
+     },
+     {
+      "id": "b",
+      "label": "b"
+     },
+     {
+      "id": "c",
+      "label": "c"
+     },
+     {
+      "id": "d",
+      "label": "d"
+     }
+    ],
+    "edges": [
+     {
+      "id": "e1",
+      "source": "a",
+      "target": "b"
+     },
+     {
+      "id": "e2",
+      "source": "b",
+      "target": "c"
+     },
+     {
+      "id": "e3",
+      "source": "c",
+      "target": "d"
+     },
+     {
+      "id": "e4",
+      "source": "d",
+      "target": "a"
+     }
+    ]
+   },
+   "expected": [
+    {
+     "mode": "uphill",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 2,
+      "b": 2,
+      "c": 2,
+      "d": 2
+     },
+     "classes": [
+      [
+       "a",
+       "b",
+       "c",
+       "d"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "b",
+       "c",
+       "d"
+      ],
+      "b": [
+       "a",
+       "b",
+       "c",
+       "d"
+      ],
+      "c": [
+       "a",
+       "b",
+       "c",
+       "d"
+      ],
+      "d": [
+       "a",
+       "b",
+       "c",
+       "d"
+      ]
+     },
+     "openCount": "2",
+     "selections": [
+      {
+       "selected": [
+        "a"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "boundary": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "boundary": [],
+       "exterior": []
+      }
+     ]
+    },
+    {
+     "mode": "weak-patch",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 2,
+      "b": 2,
+      "c": 2,
+      "d": 2
+     },
+     "classes": [
+      [
+       "a",
+       "b",
+       "c",
+       "d"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "b",
+       "c",
+       "d"
+      ],
+      "b": [
+       "a",
+       "b",
+       "c",
+       "d"
+      ],
+      "c": [
+       "a",
+       "b",
+       "c",
+       "d"
+      ],
+      "d": [
+       "a",
+       "b",
+       "c",
+       "d"
+      ]
+     },
+     "openCount": "2",
+     "selections": [
+      {
+       "selected": [
+        "a"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "boundary": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "boundary": [],
+       "exterior": []
+      }
+     ]
+    },
+    {
+     "mode": "strict",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 2,
+      "b": 2,
+      "c": 2,
+      "d": 2
+     },
+     "classes": [
+      [
+       "a"
+      ],
+      [
+       "b"
+      ],
+      [
+       "c"
+      ],
+      [
+       "d"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a"
+      ],
+      "b": [
+       "b"
+      ],
+      "c": [
+       "c"
+      ],
+      "d": [
+       "d"
+      ]
+     },
+     "openCount": "16",
+     "selections": [
+      {
+       "selected": [
+        "a"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a"
+       ],
+       "closure": [
+        "a"
+       ],
+       "boundary": [],
+       "exterior": [
+        "b",
+        "c",
+        "d"
+       ]
+      },
+      {
+       "selected": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c",
+        "d"
+       ],
+       "boundary": [],
+       "exterior": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "konigsberg",
+   "graph": {
+    "schemaVersion": "uphill-graph/1",
+    "kind": "loopless-multigraph",
+    "nodes": [
+     {
+      "id": "A",
+      "label": "A"
+     },
+     {
+      "id": "B",
+      "label": "B"
+     },
+     {
+      "id": "C",
+      "label": "C"
+     },
+     {
+      "id": "D",
+      "label": "D"
+     }
+    ],
+    "edges": [
+     {
+      "id": "e1",
+      "source": "A",
+      "target": "B"
+     },
+     {
+      "id": "e2",
+      "source": "A",
+      "target": "B"
+     },
+     {
+      "id": "e3",
+      "source": "A",
+      "target": "C"
+     },
+     {
+      "id": "e4",
+      "source": "A",
+      "target": "C"
+     },
+     {
+      "id": "e5",
+      "source": "A",
+      "target": "D"
+     },
+     {
+      "id": "e6",
+      "source": "B",
+      "target": "D"
+     },
+     {
+      "id": "e7",
+      "source": "C",
+      "target": "D"
+     }
+    ]
+   },
+   "expected": [
+    {
+     "mode": "uphill",
+     "statistic": "incident-edges",
+     "degrees": {
+      "A": 5,
+      "B": 3,
+      "C": 3,
+      "D": 3
+     },
+     "classes": [
+      [
+       "A"
+      ],
+      [
+       "B",
+       "C",
+       "D"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "A": [
+       "A"
+      ],
+      "B": [
+       "A",
+       "B",
+       "C",
+       "D"
+      ],
+      "C": [
+       "A",
+       "B",
+       "C",
+       "D"
+      ],
+      "D": [
+       "A",
+       "B",
+       "C",
+       "D"
+      ]
+     },
+     "openCount": "3",
+     "selections": [
+      {
+       "selected": [
+        "A"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "A"
+       ],
+       "closure": [
+        "A",
+        "B",
+        "C",
+        "D"
+       ],
+       "boundary": [
+        "B",
+        "C",
+        "D"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "A",
+        "D"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [
+        "A"
+       ],
+       "closure": [
+        "A",
+        "B",
+        "C",
+        "D"
+       ],
+       "boundary": [
+        "B",
+        "C",
+        "D"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "A",
+        "B"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [
+        "A"
+       ],
+       "closure": [
+        "A",
+        "B",
+        "C",
+        "D"
+       ],
+       "boundary": [
+        "B",
+        "C",
+        "D"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "D"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "B",
+        "C",
+        "D"
+       ],
+       "boundary": [
+        "B",
+        "C",
+        "D"
+       ],
+       "exterior": [
+        "A"
+       ]
+      }
+     ]
+    },
+    {
+     "mode": "weak-patch",
+     "statistic": "incident-edges",
+     "degrees": {
+      "A": 5,
+      "B": 3,
+      "C": 3,
+      "D": 3
+     },
+     "classes": [
+      [
+       "A"
+      ],
+      [
+       "B",
+       "C",
+       "D"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "A": [
+       "A"
+      ],
+      "B": [
+       "B",
+       "C",
+       "D"
+      ],
+      "C": [
+       "B",
+       "C",
+       "D"
+      ],
+      "D": [
+       "B",
+       "C",
+       "D"
+      ]
+     },
+     "openCount": "4",
+     "selections": [
+      {
+       "selected": [
+        "A"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "A"
+       ],
+       "closure": [
+        "A"
+       ],
+       "boundary": [],
+       "exterior": [
+        "B",
+        "C",
+        "D"
+       ]
+      },
+      {
+       "selected": [
+        "A",
+        "D"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [
+        "A"
+       ],
+       "closure": [
+        "A",
+        "B",
+        "C",
+        "D"
+       ],
+       "boundary": [
+        "B",
+        "C",
+        "D"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "A",
+        "B"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [
+        "A"
+       ],
+       "closure": [
+        "A",
+        "B",
+        "C",
+        "D"
+       ],
+       "boundary": [
+        "B",
+        "C",
+        "D"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "D"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "B",
+        "C",
+        "D"
+       ],
+       "boundary": [
+        "B",
+        "C",
+        "D"
+       ],
+       "exterior": [
+        "A"
+       ]
+      }
+     ]
+    },
+    {
+     "mode": "strict",
+     "statistic": "incident-edges",
+     "degrees": {
+      "A": 5,
+      "B": 3,
+      "C": 3,
+      "D": 3
+     },
+     "classes": [
+      [
+       "A"
+      ],
+      [
+       "B"
+      ],
+      [
+       "C"
+      ],
+      [
+       "D"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "A": [
+       "A"
+      ],
+      "B": [
+       "A",
+       "B"
+      ],
+      "C": [
+       "A",
+       "C"
+      ],
+      "D": [
+       "A",
+       "D"
+      ]
+     },
+     "openCount": "9",
+     "selections": [
+      {
+       "selected": [
+        "A"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "A"
+       ],
+       "closure": [
+        "A",
+        "B",
+        "C",
+        "D"
+       ],
+       "boundary": [
+        "B",
+        "C",
+        "D"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "A",
+        "D"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "A",
+        "D"
+       ],
+       "closure": [
+        "A",
+        "B",
+        "C",
+        "D"
+       ],
+       "boundary": [
+        "B",
+        "C"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "A",
+        "B"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "A",
+        "B"
+       ],
+       "closure": [
+        "A",
+        "B",
+        "C",
+        "D"
+       ],
+       "boundary": [
+        "C",
+        "D"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "D"
+       ],
+       "open": false,
+       "closed": true,
+       "interior": [],
+       "closure": [
+        "D"
+       ],
+       "boundary": [
+        "D"
+       ],
+       "exterior": [
+        "A",
+        "B",
+        "C"
+       ]
+      }
+     ]
+    },
+    {
+     "mode": "uphill",
+     "statistic": "distinct-neighbours",
+     "degrees": {
+      "A": 3,
+      "B": 2,
+      "C": 2,
+      "D": 3
+     },
+     "classes": [
+      [
+       "A",
+       "D"
+      ],
+      [
+       "B"
+      ],
+      [
+       "C"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "A": [
+       "A",
+       "D"
+      ],
+      "B": [
+       "A",
+       "B",
+       "D"
+      ],
+      "C": [
+       "A",
+       "C",
+       "D"
+      ],
+      "D": [
+       "A",
+       "D"
+      ]
+     },
+     "openCount": "5",
+     "selections": [
+      {
+       "selected": [
+        "A"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "A",
+        "B",
+        "C",
+        "D"
+       ],
+       "boundary": [
+        "A",
+        "B",
+        "C",
+        "D"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "A",
+        "D"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "A",
+        "D"
+       ],
+       "closure": [
+        "A",
+        "B",
+        "C",
+        "D"
+       ],
+       "boundary": [
+        "B",
+        "C"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "A",
+        "B"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "A",
+        "B",
+        "C",
+        "D"
+       ],
+       "boundary": [
+        "A",
+        "B",
+        "C",
+        "D"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "D"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "A",
+        "B",
+        "C",
+        "D"
+       ],
+       "boundary": [
+        "A",
+        "B",
+        "C",
+        "D"
+       ],
+       "exterior": []
+      }
+     ]
+    },
+    {
+     "mode": "weak-patch",
+     "statistic": "distinct-neighbours",
+     "degrees": {
+      "A": 3,
+      "B": 2,
+      "C": 2,
+      "D": 3
+     },
+     "classes": [
+      [
+       "A",
+       "D"
+      ],
+      [
+       "B"
+      ],
+      [
+       "C"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "A": [
+       "A",
+       "D"
+      ],
+      "B": [
+       "B"
+      ],
+      "C": [
+       "C"
+      ],
+      "D": [
+       "A",
+       "D"
+      ]
+     },
+     "openCount": "8",
+     "selections": [
+      {
+       "selected": [
+        "A"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "A",
+        "D"
+       ],
+       "boundary": [
+        "A",
+        "D"
+       ],
+       "exterior": [
+        "B",
+        "C"
+       ]
+      },
+      {
+       "selected": [
+        "A",
+        "D"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "A",
+        "D"
+       ],
+       "closure": [
+        "A",
+        "D"
+       ],
+       "boundary": [],
+       "exterior": [
+        "B",
+        "C"
+       ]
+      },
+      {
+       "selected": [
+        "A",
+        "B"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [
+        "B"
+       ],
+       "closure": [
+        "A",
+        "B",
+        "D"
+       ],
+       "boundary": [
+        "A",
+        "D"
+       ],
+       "exterior": [
+        "C"
+       ]
+      },
+      {
+       "selected": [
+        "D"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "A",
+        "D"
+       ],
+       "boundary": [
+        "A",
+        "D"
+       ],
+       "exterior": [
+        "B",
+        "C"
+       ]
+      }
+     ]
+    },
+    {
+     "mode": "strict",
+     "statistic": "distinct-neighbours",
+     "degrees": {
+      "A": 3,
+      "B": 2,
+      "C": 2,
+      "D": 3
+     },
+     "classes": [
+      [
+       "A"
+      ],
+      [
+       "B"
+      ],
+      [
+       "C"
+      ],
+      [
+       "D"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "A": [
+       "A"
+      ],
+      "B": [
+       "A",
+       "B",
+       "D"
+      ],
+      "C": [
+       "A",
+       "C",
+       "D"
+      ],
+      "D": [
+       "D"
+      ]
+     },
+     "openCount": "7",
+     "selections": [
+      {
+       "selected": [
+        "A"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "A"
+       ],
+       "closure": [
+        "A",
+        "B",
+        "C"
+       ],
+       "boundary": [
+        "B",
+        "C"
+       ],
+       "exterior": [
+        "D"
+       ]
+      },
+      {
+       "selected": [
+        "A",
+        "D"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "A",
+        "D"
+       ],
+       "closure": [
+        "A",
+        "B",
+        "C",
+        "D"
+       ],
+       "boundary": [
+        "B",
+        "C"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "A",
+        "B"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [
+        "A"
+       ],
+       "closure": [
+        "A",
+        "B",
+        "C"
+       ],
+       "boundary": [
+        "B",
+        "C"
+       ],
+       "exterior": [
+        "D"
+       ]
+      },
+      {
+       "selected": [
+        "D"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "D"
+       ],
+       "closure": [
+        "B",
+        "C",
+        "D"
+       ],
+       "boundary": [
+        "B",
+        "C"
+       ],
+       "exterior": [
+        "A"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "disjoint_triangles",
+   "graph": {
+    "schemaVersion": "uphill-graph/1",
+    "kind": "simple-undirected",
+    "nodes": [
+     {
+      "id": "a",
+      "label": "a"
+     },
+     {
+      "id": "b",
+      "label": "b"
+     },
+     {
+      "id": "c",
+      "label": "c"
+     },
+     {
+      "id": "d",
+      "label": "d"
+     },
+     {
+      "id": "e",
+      "label": "e"
+     },
+     {
+      "id": "f",
+      "label": "f"
+     }
+    ],
+    "edges": [
+     {
+      "id": "e1",
+      "source": "a",
+      "target": "b"
+     },
+     {
+      "id": "e2",
+      "source": "b",
+      "target": "c"
+     },
+     {
+      "id": "e3",
+      "source": "c",
+      "target": "a"
+     },
+     {
+      "id": "e4",
+      "source": "d",
+      "target": "e"
+     },
+     {
+      "id": "e5",
+      "source": "e",
+      "target": "f"
+     },
+     {
+      "id": "e6",
+      "source": "f",
+      "target": "d"
+     }
+    ]
+   },
+   "expected": [
+    {
+     "mode": "uphill",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 2,
+      "b": 2,
+      "c": 2,
+      "d": 2,
+      "e": 2,
+      "f": 2
+     },
+     "classes": [
+      [
+       "a",
+       "b",
+       "c"
+      ],
+      [
+       "d",
+       "e",
+       "f"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "b",
+       "c"
+      ],
+      "b": [
+       "a",
+       "b",
+       "c"
+      ],
+      "c": [
+       "a",
+       "b",
+       "c"
+      ],
+      "d": [
+       "d",
+       "e",
+       "f"
+      ],
+      "e": [
+       "d",
+       "e",
+       "f"
+      ],
+      "f": [
+       "d",
+       "e",
+       "f"
+      ]
+     },
+     "openCount": "4",
+     "selections": [
+      {
+       "selected": [
+        "a",
+        "b",
+        "c"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "b",
+        "c"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c"
+       ],
+       "boundary": [],
+       "exterior": [
+        "d",
+        "e",
+        "f"
+       ]
+      },
+      {
+       "selected": [
+        "a"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "a",
+        "b",
+        "c"
+       ],
+       "boundary": [
+        "a",
+        "b",
+        "c"
+       ],
+       "exterior": [
+        "d",
+        "e",
+        "f"
+       ]
+      }
+     ]
+    },
+    {
+     "mode": "weak-patch",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 2,
+      "b": 2,
+      "c": 2,
+      "d": 2,
+      "e": 2,
+      "f": 2
+     },
+     "classes": [
+      [
+       "a",
+       "b",
+       "c"
+      ],
+      [
+       "d",
+       "e",
+       "f"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "b",
+       "c"
+      ],
+      "b": [
+       "a",
+       "b",
+       "c"
+      ],
+      "c": [
+       "a",
+       "b",
+       "c"
+      ],
+      "d": [
+       "d",
+       "e",
+       "f"
+      ],
+      "e": [
+       "d",
+       "e",
+       "f"
+      ],
+      "f": [
+       "d",
+       "e",
+       "f"
+      ]
+     },
+     "openCount": "4",
+     "selections": [
+      {
+       "selected": [
+        "a",
+        "b",
+        "c"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "b",
+        "c"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c"
+       ],
+       "boundary": [],
+       "exterior": [
+        "d",
+        "e",
+        "f"
+       ]
+      },
+      {
+       "selected": [
+        "a"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "a",
+        "b",
+        "c"
+       ],
+       "boundary": [
+        "a",
+        "b",
+        "c"
+       ],
+       "exterior": [
+        "d",
+        "e",
+        "f"
+       ]
+      }
+     ]
+    },
+    {
+     "mode": "strict",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 2,
+      "b": 2,
+      "c": 2,
+      "d": 2,
+      "e": 2,
+      "f": 2
+     },
+     "classes": [
+      [
+       "a"
+      ],
+      [
+       "b"
+      ],
+      [
+       "c"
+      ],
+      [
+       "d"
+      ],
+      [
+       "e"
+      ],
+      [
+       "f"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a"
+      ],
+      "b": [
+       "b"
+      ],
+      "c": [
+       "c"
+      ],
+      "d": [
+       "d"
+      ],
+      "e": [
+       "e"
+      ],
+      "f": [
+       "f"
+      ]
+     },
+     "openCount": "64",
+     "selections": [
+      {
+       "selected": [
+        "a",
+        "b",
+        "c"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "b",
+        "c"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c"
+       ],
+       "boundary": [],
+       "exterior": [
+        "d",
+        "e",
+        "f"
+       ]
+      },
+      {
+       "selected": [
+        "a"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a"
+       ],
+       "closure": [
+        "a"
+       ],
+       "boundary": [],
+       "exterior": [
+        "b",
+        "c",
+        "d",
+        "e",
+        "f"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "triangle3",
+   "graph": {
+    "schemaVersion": "uphill-graph/1",
+    "kind": "simple-undirected",
+    "nodes": [
+     {
+      "id": "a",
+      "label": "a"
+     },
+     {
+      "id": "b",
+      "label": "b"
+     },
+     {
+      "id": "c",
+      "label": "c"
+     }
+    ],
+    "edges": [
+     {
+      "id": "e1",
+      "source": "a",
+      "target": "b"
+     },
+     {
+      "id": "e2",
+      "source": "b",
+      "target": "c"
+     },
+     {
+      "id": "e3",
+      "source": "c",
+      "target": "a"
+     }
+    ]
+   },
+   "expected": [
+    {
+     "mode": "uphill",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 2,
+      "b": 2,
+      "c": 2
+     },
+     "classes": [
+      [
+       "a",
+       "b",
+       "c"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "b",
+       "c"
+      ],
+      "b": [
+       "a",
+       "b",
+       "c"
+      ],
+      "c": [
+       "a",
+       "b",
+       "c"
+      ]
+     },
+     "openCount": "2",
+     "selections": [
+      {
+       "selected": [
+        "a"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "a",
+        "b",
+        "c"
+       ],
+       "boundary": [
+        "a",
+        "b",
+        "c"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "a",
+        "b",
+        "c"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "b",
+        "c"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c"
+       ],
+       "boundary": [],
+       "exterior": []
+      }
+     ]
+    },
+    {
+     "mode": "weak-patch",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 2,
+      "b": 2,
+      "c": 2
+     },
+     "classes": [
+      [
+       "a",
+       "b",
+       "c"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "b",
+       "c"
+      ],
+      "b": [
+       "a",
+       "b",
+       "c"
+      ],
+      "c": [
+       "a",
+       "b",
+       "c"
+      ]
+     },
+     "openCount": "2",
+     "selections": [
+      {
+       "selected": [
+        "a"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "a",
+        "b",
+        "c"
+       ],
+       "boundary": [
+        "a",
+        "b",
+        "c"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "a",
+        "b",
+        "c"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "b",
+        "c"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c"
+       ],
+       "boundary": [],
+       "exterior": []
+      }
+     ]
+    },
+    {
+     "mode": "strict",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 2,
+      "b": 2,
+      "c": 2
+     },
+     "classes": [
+      [
+       "a"
+      ],
+      [
+       "b"
+      ],
+      [
+       "c"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a"
+      ],
+      "b": [
+       "b"
+      ],
+      "c": [
+       "c"
+      ]
+     },
+     "openCount": "8",
+     "selections": [
+      {
+       "selected": [
+        "a"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a"
+       ],
+       "closure": [
+        "a"
+       ],
+       "boundary": [],
+       "exterior": [
+        "b",
+        "c"
+       ]
+      },
+      {
+       "selected": [
+        "a",
+        "b",
+        "c"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "b",
+        "c"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c"
+       ],
+       "boundary": [],
+       "exterior": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "edge2",
+   "graph": {
+    "schemaVersion": "uphill-graph/1",
+    "kind": "simple-undirected",
+    "nodes": [
+     {
+      "id": "a",
+      "label": "a"
+     },
+     {
+      "id": "b",
+      "label": "b"
+     }
+    ],
+    "edges": [
+     {
+      "id": "e1",
+      "source": "a",
+      "target": "b"
+     }
+    ]
+   },
+   "expected": [
+    {
+     "mode": "uphill",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 1,
+      "b": 1
+     },
+     "classes": [
+      [
+       "a",
+       "b"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "b"
+      ],
+      "b": [
+       "a",
+       "b"
+      ]
+     },
+     "openCount": "2",
+     "selections": [
+      {
+       "selected": [
+        "a"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "a",
+        "b"
+       ],
+       "boundary": [
+        "a",
+        "b"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "a",
+        "b"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "b"
+       ],
+       "closure": [
+        "a",
+        "b"
+       ],
+       "boundary": [],
+       "exterior": []
+      }
+     ]
+    },
+    {
+     "mode": "weak-patch",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 1,
+      "b": 1
+     },
+     "classes": [
+      [
+       "a",
+       "b"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "b"
+      ],
+      "b": [
+       "a",
+       "b"
+      ]
+     },
+     "openCount": "2",
+     "selections": [
+      {
+       "selected": [
+        "a"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [],
+       "closure": [
+        "a",
+        "b"
+       ],
+       "boundary": [
+        "a",
+        "b"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "a",
+        "b"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "b"
+       ],
+       "closure": [
+        "a",
+        "b"
+       ],
+       "boundary": [],
+       "exterior": []
+      }
+     ]
+    },
+    {
+     "mode": "strict",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 1,
+      "b": 1
+     },
+     "classes": [
+      [
+       "a"
+      ],
+      [
+       "b"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a"
+      ],
+      "b": [
+       "b"
+      ]
+     },
+     "openCount": "4",
+     "selections": [
+      {
+       "selected": [
+        "a"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a"
+       ],
+       "closure": [
+        "a"
+       ],
+       "boundary": [],
+       "exterior": [
+        "b"
+       ]
+      },
+      {
+       "selected": [
+        "a",
+        "b"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "b"
+       ],
+       "closure": [
+        "a",
+        "b"
+       ],
+       "boundary": [],
+       "exterior": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "empty0",
+   "graph": {
+    "schemaVersion": "uphill-graph/1",
+    "kind": "simple-undirected",
+    "nodes": [],
+    "edges": []
+   },
+   "expected": [
+    {
+     "mode": "uphill",
+     "statistic": "incident-edges",
+     "degrees": {},
+     "classes": [],
+     "leastNeighbourhoods": {},
+     "openCount": "1",
+     "selections": [
+      {
+       "selected": [],
+       "open": true,
+       "closed": true,
+       "interior": [],
+       "closure": [],
+       "boundary": [],
+       "exterior": []
+      }
+     ]
+    },
+    {
+     "mode": "weak-patch",
+     "statistic": "incident-edges",
+     "degrees": {},
+     "classes": [],
+     "leastNeighbourhoods": {},
+     "openCount": "1",
+     "selections": [
+      {
+       "selected": [],
+       "open": true,
+       "closed": true,
+       "interior": [],
+       "closure": [],
+       "boundary": [],
+       "exterior": []
+      }
+     ]
+    },
+    {
+     "mode": "strict",
+     "statistic": "incident-edges",
+     "degrees": {},
+     "classes": [],
+     "leastNeighbourhoods": {},
+     "openCount": "1",
+     "selections": [
+      {
+       "selected": [],
+       "open": true,
+       "closed": true,
+       "interior": [],
+       "closure": [],
+       "boundary": [],
+       "exterior": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "subspace_intermediate",
+   "graph": {
+    "schemaVersion": "uphill-graph/1",
+    "kind": "simple-undirected",
+    "nodes": [
+     {
+      "id": "a",
+      "label": "a"
+     },
+     {
+      "id": "b",
+      "label": "b"
+     },
+     {
+      "id": "c",
+      "label": "c"
+     },
+     {
+      "id": "d",
+      "label": "d"
+     },
+     {
+      "id": "e",
+      "label": "e"
+     }
+    ],
+    "edges": [
+     {
+      "id": "e1",
+      "source": "a",
+      "target": "b"
+     },
+     {
+      "id": "e2",
+      "source": "b",
+      "target": "c"
+     },
+     {
+      "id": "e3",
+      "source": "c",
+      "target": "d"
+     },
+     {
+      "id": "e4",
+      "source": "c",
+      "target": "e"
+     }
+    ]
+   },
+   "expected": [
+    {
+     "mode": "uphill",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 1,
+      "b": 2,
+      "c": 3,
+      "d": 1,
+      "e": 1
+     },
+     "classes": [
+      [
+       "a"
+      ],
+      [
+       "b"
+      ],
+      [
+       "c"
+      ],
+      [
+       "d"
+      ],
+      [
+       "e"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "b",
+       "c"
+      ],
+      "b": [
+       "b",
+       "c"
+      ],
+      "c": [
+       "c"
+      ],
+      "d": [
+       "c",
+       "d"
+      ],
+      "e": [
+       "c",
+       "e"
+      ]
+     },
+     "openCount": "13",
+     "selections": [
+      {
+       "selected": [
+        "a",
+        "c"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [
+        "c"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e"
+       ],
+       "boundary": [
+        "a",
+        "b",
+        "d",
+        "e"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "c"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "c"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e"
+       ],
+       "boundary": [
+        "a",
+        "b",
+        "d",
+        "e"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "a"
+       ],
+       "open": false,
+       "closed": true,
+       "interior": [],
+       "closure": [
+        "a"
+       ],
+       "boundary": [
+        "a"
+       ],
+       "exterior": [
+        "b",
+        "c",
+        "d",
+        "e"
+       ]
+      }
+     ]
+    },
+    {
+     "mode": "weak-patch",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 1,
+      "b": 2,
+      "c": 3,
+      "d": 1,
+      "e": 1
+     },
+     "classes": [
+      [
+       "a"
+      ],
+      [
+       "b"
+      ],
+      [
+       "c"
+      ],
+      [
+       "d"
+      ],
+      [
+       "e"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a"
+      ],
+      "b": [
+       "b"
+      ],
+      "c": [
+       "c"
+      ],
+      "d": [
+       "d"
+      ],
+      "e": [
+       "e"
+      ]
+     },
+     "openCount": "32",
+     "selections": [
+      {
+       "selected": [
+        "a",
+        "c"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "c"
+       ],
+       "closure": [
+        "a",
+        "c"
+       ],
+       "boundary": [],
+       "exterior": [
+        "b",
+        "d",
+        "e"
+       ]
+      },
+      {
+       "selected": [
+        "c"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "c"
+       ],
+       "closure": [
+        "c"
+       ],
+       "boundary": [],
+       "exterior": [
+        "a",
+        "b",
+        "d",
+        "e"
+       ]
+      },
+      {
+       "selected": [
+        "a"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a"
+       ],
+       "closure": [
+        "a"
+       ],
+       "boundary": [],
+       "exterior": [
+        "b",
+        "c",
+        "d",
+        "e"
+       ]
+      }
+     ]
+    },
+    {
+     "mode": "strict",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 1,
+      "b": 2,
+      "c": 3,
+      "d": 1,
+      "e": 1
+     },
+     "classes": [
+      [
+       "a"
+      ],
+      [
+       "b"
+      ],
+      [
+       "c"
+      ],
+      [
+       "d"
+      ],
+      [
+       "e"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "b",
+       "c"
+      ],
+      "b": [
+       "b",
+       "c"
+      ],
+      "c": [
+       "c"
+      ],
+      "d": [
+       "c",
+       "d"
+      ],
+      "e": [
+       "c",
+       "e"
+      ]
+     },
+     "openCount": "13",
+     "selections": [
+      {
+       "selected": [
+        "a",
+        "c"
+       ],
+       "open": false,
+       "closed": false,
+       "interior": [
+        "c"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e"
+       ],
+       "boundary": [
+        "a",
+        "b",
+        "d",
+        "e"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "c"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "c"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e"
+       ],
+       "boundary": [
+        "a",
+        "b",
+        "d",
+        "e"
+       ],
+       "exterior": []
+      },
+      {
+       "selected": [
+        "a"
+       ],
+       "open": false,
+       "closed": true,
+       "interior": [],
+       "closure": [
+        "a"
+       ],
+       "boundary": [
+        "a"
+       ],
+       "exterior": [
+        "b",
+        "c",
+        "d",
+        "e"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "joined_triangles",
+   "graph": {
+    "schemaVersion": "uphill-graph/1",
+    "kind": "simple-undirected",
+    "nodes": [
+     {
+      "id": "a",
+      "label": "a"
+     },
+     {
+      "id": "b",
+      "label": "b"
+     },
+     {
+      "id": "p",
+      "label": "p"
+     },
+     {
+      "id": "v",
+      "label": "v"
+     },
+     {
+      "id": "q",
+      "label": "q"
+     },
+     {
+      "id": "c",
+      "label": "c"
+     },
+     {
+      "id": "d",
+      "label": "d"
+     }
+    ],
+    "edges": [
+     {
+      "id": "e1",
+      "source": "a",
+      "target": "b"
+     },
+     {
+      "id": "e2",
+      "source": "b",
+      "target": "p"
+     },
+     {
+      "id": "e3",
+      "source": "p",
+      "target": "a"
+     },
+     {
+      "id": "e4",
+      "source": "c",
+      "target": "d"
+     },
+     {
+      "id": "e5",
+      "source": "d",
+      "target": "q"
+     },
+     {
+      "id": "e6",
+      "source": "q",
+      "target": "c"
+     },
+     {
+      "id": "e7",
+      "source": "p",
+      "target": "v"
+     },
+     {
+      "id": "e8",
+      "source": "v",
+      "target": "q"
+     }
+    ]
+   },
+   "expected": [
+    {
+     "mode": "uphill",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 2,
+      "b": 2,
+      "p": 3,
+      "v": 2,
+      "q": 3,
+      "c": 2,
+      "d": 2
+     },
+     "classes": [
+      [
+       "a",
+       "b"
+      ],
+      [
+       "p"
+      ],
+      [
+       "v"
+      ],
+      [
+       "q"
+      ],
+      [
+       "c",
+       "d"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "b",
+       "p"
+      ],
+      "b": [
+       "a",
+       "b",
+       "p"
+      ],
+      "p": [
+       "p"
+      ],
+      "v": [
+       "p",
+       "q",
+       "v"
+      ],
+      "q": [
+       "q"
+      ],
+      "c": [
+       "c",
+       "d",
+       "q"
+      ],
+      "d": [
+       "c",
+       "d",
+       "q"
+      ]
+     },
+     "openCount": "13",
+     "selections": [
+      {
+       "selected": [
+        "a",
+        "b",
+        "p"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "a",
+        "b",
+        "p"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "p",
+        "v"
+       ],
+       "boundary": [
+        "v"
+       ],
+       "exterior": [
+        "c",
+        "d",
+        "q"
+       ]
+      }
+     ]
+    },
+    {
+     "mode": "weak-patch",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 2,
+      "b": 2,
+      "p": 3,
+      "v": 2,
+      "q": 3,
+      "c": 2,
+      "d": 2
+     },
+     "classes": [
+      [
+       "a",
+       "b"
+      ],
+      [
+       "p"
+      ],
+      [
+       "v"
+      ],
+      [
+       "q"
+      ],
+      [
+       "c",
+       "d"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "b"
+      ],
+      "b": [
+       "a",
+       "b"
+      ],
+      "p": [
+       "p"
+      ],
+      "v": [
+       "v"
+      ],
+      "q": [
+       "q"
+      ],
+      "c": [
+       "c",
+       "d"
+      ],
+      "d": [
+       "c",
+       "d"
+      ]
+     },
+     "openCount": "32",
+     "selections": [
+      {
+       "selected": [
+        "a",
+        "b",
+        "p"
+       ],
+       "open": true,
+       "closed": true,
+       "interior": [
+        "a",
+        "b",
+        "p"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "p"
+       ],
+       "boundary": [],
+       "exterior": [
+        "c",
+        "d",
+        "q",
+        "v"
+       ]
+      }
+     ]
+    },
+    {
+     "mode": "strict",
+     "statistic": "incident-edges",
+     "degrees": {
+      "a": 2,
+      "b": 2,
+      "p": 3,
+      "v": 2,
+      "q": 3,
+      "c": 2,
+      "d": 2
+     },
+     "classes": [
+      [
+       "a"
+      ],
+      [
+       "b"
+      ],
+      [
+       "p"
+      ],
+      [
+       "v"
+      ],
+      [
+       "q"
+      ],
+      [
+       "c"
+      ],
+      [
+       "d"
+      ]
+     ],
+     "leastNeighbourhoods": {
+      "a": [
+       "a",
+       "p"
+      ],
+      "b": [
+       "b",
+       "p"
+      ],
+      "p": [
+       "p"
+      ],
+      "v": [
+       "p",
+       "q",
+       "v"
+      ],
+      "q": [
+       "q"
+      ],
+      "c": [
+       "c",
+       "q"
+      ],
+      "d": [
+       "d",
+       "q"
+      ]
+     },
+     "openCount": "41",
+     "selections": [
+      {
+       "selected": [
+        "a",
+        "b",
+        "p"
+       ],
+       "open": true,
+       "closed": false,
+       "interior": [
+        "a",
+        "b",
+        "p"
+       ],
+       "closure": [
+        "a",
+        "b",
+        "p",
+        "v"
+       ],
+       "boundary": [
+        "v"
+       ],
+       "exterior": [
+        "c",
+        "d",
+        "q"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "subspaceComparisons": {
+  "path3_ab": {
+   "W": [
+    "a",
+    "b"
+   ],
+   "selected": [
+    "b"
+   ],
+   "ambient_restricted": {
+    "open_count": 3,
+    "opens": [
+     [],
+     [
+      "b"
+     ],
+     [
+      "a",
+      "b"
+     ]
+    ],
+    "interior": [
+     "b"
+    ],
+    "closure": [
+     "a",
+     "b"
+    ],
+    "boundary": [
+     "a"
+    ]
+   },
+   "induced_recomputed": {
+    "degrees": {
+     "a": 1,
+     "b": 1
+    },
+    "open_count": 2,
+    "selection": {
+     "open": false,
+     "closed": false,
+     "interior": [],
+     "closure": [
+      "a",
+      "b"
+     ],
+     "boundary": [
+      "a",
+      "b"
+     ],
+     "exterior": []
+    }
+   },
+   "induced_frozen": {
+    "degrees": {
+     "a": 1,
+     "b": 2
+    },
+    "open_count": 3,
+    "opens": [
+     [],
+     [
+      "b"
+     ],
+     [
+      "a",
+      "b"
+     ]
+    ],
+    "interior": [
+     "b"
+    ],
+    "closure": [
+     "a",
+     "b"
+    ],
+    "boundary": [
+     "a"
+    ]
+   }
+  },
+  "tree_ac": {
+   "W": [
+    "a",
+    "c"
+   ],
+   "selected": [
+    "c"
+   ],
+   "ambient_restricted": {
+    "open_count": 3,
+    "opens": [
+     [],
+     [
+      "c"
+     ],
+     [
+      "a",
+      "c"
+     ]
+    ],
+    "interior": [
+     "c"
+    ],
+    "closure": [
+     "a",
+     "c"
+    ],
+    "boundary": [
+     "a"
+    ]
+   },
+   "induced_recomputed": {
+    "degrees": {
+     "a": 0,
+     "c": 0
+    },
+    "open_count": 4,
+    "selection": {
+     "open": true,
+     "closed": true,
+     "interior": [
+      "c"
+     ],
+     "closure": [
+      "c"
+     ],
+     "boundary": [],
+     "exterior": [
+      "a"
+     ]
+    }
+   },
+   "induced_frozen": {
+    "degrees": {
+     "a": 1,
+     "c": 3
+    },
+    "open_count": 4,
+    "opens": [
+     [],
+     [
+      "a"
+     ],
+     [
+      "c"
+     ],
+     [
+      "a",
+      "c"
+     ]
+    ],
+    "interior": [
+     "c"
+    ],
+    "closure": [
+     "c"
+    ],
+    "boundary": []
+   }
+  }
+ }
+}

@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+versions/
+tests/*_current.json
+tests/shots_current/
+tests/browser_regression_artifacts/
